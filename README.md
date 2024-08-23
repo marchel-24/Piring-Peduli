@@ -4,7 +4,7 @@ Limbah makanan yang berlebihan dari berbagai sumber menjadi salah satu penyumban
 
 ## Kelompok 3
 
-Ketua Kelompok : <br/>
+Ketua Kelompok : Marchel Rianra Glendrikho Simanjuntak - 22/494013/TK/54157<br/>
 Anggota 1 : <br/>
 Anggota 2 : <br/>
 
