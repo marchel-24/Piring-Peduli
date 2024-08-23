@@ -6,5 +6,5 @@ Limbah makanan yang berlebihan dari berbagai sumber menjadi salah satu penyumban
 
 Ketua Kelompok : Marchel Rianra Glendrikho Simanjuntak - 22/494013/TK/54157<br/>
 Anggota 1 : Eduardus Bagus Wicaksono - 22/493128/TK/53996<br/>
-Anggota 2 : <br/>
+Anggota 2 : Moh. Nazril Ilham - 22/493142/TK/54000<br/>
 
