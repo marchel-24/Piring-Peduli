@@ -1,0 +1,62 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.userprefs
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# Including for dotnet core projects
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Auto-generated files
+*.vspscc
+*.vssscc
+*_i.c
+*_p.c
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vsixmanifest
+*.testsettings
+*.build.csdef
+_ReSharper.*
+*.nupkg
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+$RECYCLE.BIN/
+
+# R
+*.Rproj.user
+
+# User-specific files
+*.rsuser
+.idea/
