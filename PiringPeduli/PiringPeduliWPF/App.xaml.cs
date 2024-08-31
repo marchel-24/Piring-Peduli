@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace PiringPeduli
+namespace PiringPeduliWPF
 {
     /// <summary>
     /// Interaction logic for App.xaml

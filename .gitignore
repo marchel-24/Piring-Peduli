@@ -6,20 +6,20 @@
 *.userprefs
 
 # Build results
-[Dd]ebug/
-[Rr]elease/
-x64/
-x86/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
-bld/
-[Bb]in/
-[Oo]bj/
+**/[Dd]ebug/
+**/[Rr]elease/
+**/x64/
+**/x86/
+**/[Aa][Rr][Mm]/
+**/[Aa][Rr][Mm]64/
+**/bld/
+**/[Bb]in/
+**/[Oo]bj/
 
 # Including for dotnet core projects
-project.lock.json
-project.fragment.lock.json
-artifacts/
+**/project.lock.json
+**/project.fragment.lock.json
+**/artifacts/
 
 # Auto-generated files
 *.vspscc
@@ -46,6 +46,7 @@ artifacts/
 *.build.csdef
 _ReSharper.*
 *.nupkg
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
