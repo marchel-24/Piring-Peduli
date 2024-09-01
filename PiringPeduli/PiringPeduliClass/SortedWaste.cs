@@ -1,8 +1,10 @@
 
 namespace PiringPeduliClass
 {
-    public class Class1
+    public class SortedWaste
     {
+        string wasteType;
+        float quantity;
     }
 
 }
