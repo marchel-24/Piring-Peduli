@@ -8,3 +8,8 @@ Ketua Kelompok : Marchel Rianra Glendrikho Simanjuntak - 22/494013/TK/54157<br/>
 Anggota 1 : Eduardus Bagus Wicaksono - 22/493128/TK/53996<br/>
 Anggota 2 : Moh. Nazril Ilham - 22/493142/TK/54000<br/>
 
+
+## Class Diagram
+
+![Class Diagram](https://github.com/user-attachments/assets/5eaccc97-ec65-4294-9c6a-7065d34969e1)
+
