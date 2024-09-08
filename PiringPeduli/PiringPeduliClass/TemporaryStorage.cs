@@ -1,16 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PiringPeduliClass
 {
-    public class TemporaryStorage: Account
+    /// <summary>
+    /// Represents a temporary storage facility for sorted waste.
+    /// Inherits from the Account class.
+    /// </summary>
+    public class TemporaryStorage : Account
     {
-        int storageId;
-        List<SortedWaste> storedWasteType;
-        string storageAddress;
+        private int storageId;
+        private List<SortedWaste> storedWasteType;
+        private string storageAddress;
 
+        /// <summary>
+        /// Gets or sets the storage ID for the temporary storage.
+        /// </summary>
+        public int StorageId
+        {
+            get { return storageId; }
+            set { storageId = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the list of sorted waste types stored in the facility.
+        /// </summary>
+        public List<SortedWaste> StoredWasteType
+        {
+            get { return storedWasteType; }
+            set { storedWasteType = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the address of the temporary storage facility.
+        /// </summary>
+        public string StorageAddress
+        {
+            get { return storageAddress; }
+            set { storageAddress = value; }
+        }
+
+        /// <summary>
+        /// Manages the sorted waste in the storage.
+        /// </summary>
+        public void SortWaste()
+        {
+            // Logic for handling sorted waste
+        }
+
+        /// <summary>
+        /// Updates the sorted waste information in the storage.
+        /// </summary>
+        public void UpdateSortedWaste()
+        {
+            // Logic for updating sorted waste
+        }
     }
 }
