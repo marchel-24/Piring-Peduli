@@ -11,5 +11,6 @@ Anggota 2 : Moh. Nazril Ilham - 22/493142/TK/54000<br/>
 
 ## Class Diagram
 
-![Class Diagram](https://github.com/user-attachments/assets/5eaccc97-ec65-4294-9c6a-7065d34969e1)
+![UML-PiringPeduli-Class Diagram drawio](https://github.com/user-attachments/assets/364ff40f-37c1-43d3-9f23-75cdfdcfba59)
+
 
