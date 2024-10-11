@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PiringPeduliClass
+namespace PiringPeduliClass.Model
 {
     /// <summary>
     /// Represents a recycler that can order and manage sorted waste.

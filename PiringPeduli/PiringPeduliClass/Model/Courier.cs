@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PiringPeduliClass
+namespace PiringPeduliClass.Model
 {
     /// <summary>
     /// Represents a courier responsible for delivering orders.
@@ -46,7 +46,7 @@ namespace PiringPeduliClass
         public void AcceptOrder(Order order)
         {
             // Logic for accepting the order
-            this.assignedOrder = order;
+            assignedOrder = order;
         }
 
         /// <summary>
