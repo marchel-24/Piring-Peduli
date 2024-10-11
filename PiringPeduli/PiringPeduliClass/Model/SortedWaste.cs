@@ -1,4 +1,4 @@
-namespace PiringPeduliClass
+namespace PiringPeduliClass.Model
 {
     /// <summary>
     /// Represents a type of waste that has been sorted.
@@ -33,7 +33,7 @@ namespace PiringPeduliClass
         public void UpdateQuantity(float newQuantity)
         {
             // Logic for updating the quantity
-            this.quantity = newQuantity;
+            quantity = newQuantity;
         }
     }
 }
