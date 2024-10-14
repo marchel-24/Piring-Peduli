@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PiringPeduliClass
+namespace PiringPeduliClass.Model
 {
     /// <summary>
     /// Represents a customer who can request waste pick up.

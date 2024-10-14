@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PiringPeduliClass
+namespace PiringPeduliClass.Model
 {
     /// <summary>
     /// Represents an order in the system.

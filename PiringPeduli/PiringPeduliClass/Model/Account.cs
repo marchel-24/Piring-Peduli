@@ -1,15 +1,28 @@
 ﻿using System;
 
-namespace PiringPeduliClass
+namespace PiringPeduliClass.Model
 {
+    /// <summary>
+    /// Enumeration for types of accounts
+    /// </summary>
+    public enum AccountType
+    {
+        Customer,
+        Courier,
+        Recycler,
+        TemporaryStorage
+    }
+
     /// <summary>
     /// Represents a user account with basic authentication details.
     /// </summary>
+    /// 
     public class Account
     {
         private int accountId;
         private string username;
         private string password;
+        private AccountType type;
 
         /// <summary>
         /// Gets or sets the account's ID.
@@ -39,6 +52,15 @@ namespace PiringPeduliClass
         }
 
         /// <summary>
+        /// Gets or sets for account type
+        /// </summary>
+        public AccountType Type
+        {
+            get { return type; }
+            set { type = value;  }
+        }
+
+        /// <summary>
         /// Updates the profile with a new username and password.
         /// </summary>
         /// <param name="newUsername">The new username to be set.</param>
@@ -46,8 +68,8 @@ namespace PiringPeduliClass
         public void UpdateProfile(string newUsername, string newPassword)
         {
             // Logic for updating profile
-            this.username = newUsername;
-            this.password = newPassword;
+            username = newUsername;
+            password = newPassword;
         }
     }
 }
