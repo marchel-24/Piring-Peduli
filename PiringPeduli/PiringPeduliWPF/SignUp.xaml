@@ -48,41 +48,39 @@
                               FontSize="11"
                               FontWeight="Medium"
                               FontFamily="Gilroy"
-                              BorderThickness="0,0,0,2"
                               Height="30"
                               VerticalContentAlignment="Center"
                               Margin="0,5,0,0"
                               Padding="28,0,0,0"
                              >
-                        <TextBox.Background>
-                            <ImageBrush ImageSource="Username.png"
-                                Stretch="Uniform"
-                                AlignmentX="Left"/>
-                        </TextBox.Background>
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="10"/>
+                            </Style>
+                        </TextBox.Resources>
                     </TextBox>
 
 
-                    <TextBlock Text="Password"
+                    <TextBlock Text="Phone Number"
                                FontFamily="Gilroy"
                                FontWeight="SemiBold"
                                FontSize="13"
                                Margin="0,20,0,0"
                                />
-                    <PasswordBox x:Name="TxtemailPassword"
+                    <TextBox x:Name="Nomor Telepon"
                                  FontSize="11"
                                  FontWeight="Medium"
                                  FontFamily="Gilroy"
-                                 BorderThickness="0,0,0,2"
                                  Height="28"
                                  VerticalContentAlignment="Center"
                                  Margin="0,5,0,0"
                                  Padding="28,0,0,0">
-                        <PasswordBox.Background>
-                            <ImageBrush ImageSource="EmailPassword.png"
-                                Stretch="Uniform"
-                                AlignmentX="Left"/>
-                        </PasswordBox.Background>
-                    </PasswordBox>
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="10"/>
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
 
                     <TextBlock Text="Password"
                                FontFamily="Gilroy"
@@ -94,16 +92,48 @@
                                  FontSize="11"
                                  FontWeight="Medium"
                                  FontFamily="Gilroy"
-                                 BorderThickness="0,0,0,2"
                                  Height="28"
                                  VerticalContentAlignment="Center"
                                  Margin="0,5,0,0"
                                  Padding="28,0,0,0">
-                        <PasswordBox.Background>
-                            <ImageBrush ImageSource="Password.png"
-                                        Stretch="Uniform"
-                                        AlignmentX="Left"/> 
-                        </PasswordBox.Background>
+                        <PasswordBox.Style>
+                            <Style TargetType="{x:Type PasswordBox}">
+                                <Style.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="8" />
+                                    </Style>
+                                </Style.Resources>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type PasswordBox}">
+                                            <Border x:Name="border" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                                <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsEnabled" Value="false">
+                                                    <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="true">
+                                                    <Setter Property="BorderBrush" TargetName="border" Value="#FF7EB4EA"/>
+                                                </Trigger>
+                                                <Trigger Property="IsKeyboardFocused" Value="true">
+                                                    <Setter Property="BorderBrush" TargetName="border" Value="#FF569DE5"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true"/>
+                                            <Condition Property="IsSelectionActive" Value="false"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                                    </MultiTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </PasswordBox.Style>
                     </PasswordBox>
 
                     <TextBlock Text="Confirm Password"
@@ -116,16 +146,48 @@
                                     FontSize="11"
                                     FontWeight="Medium"
                                     FontFamily="Gilroy"
-                                    BorderThickness="0,0,0,2"
                                     Height="28"
                                     VerticalContentAlignment="Center"
                                     Margin="0,5,0,0"
                                     Padding="28,0,0,0">
-                        <PasswordBox.Background>
-                            <ImageBrush ImageSource="Password.png"
-                                        Stretch="Uniform"
-                                        AlignmentX="Left"/>
-                        </PasswordBox.Background>
+                        <PasswordBox.Style>
+                            <Style TargetType="{x:Type PasswordBox}">
+                                <Style.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="8" />
+                                    </Style>
+                                </Style.Resources>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type PasswordBox}">
+                                            <Border x:Name="border" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                                <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsEnabled" Value="false">
+                                                    <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="true">
+                                                    <Setter Property="BorderBrush" TargetName="border" Value="#FF7EB4EA"/>
+                                                </Trigger>
+                                                <Trigger Property="IsKeyboardFocused" Value="true">
+                                                    <Setter Property="BorderBrush" TargetName="border" Value="#FF569DE5"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true"/>
+                                            <Condition Property="IsSelectionActive" Value="false"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                                    </MultiTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </PasswordBox.Style>
                     </PasswordBox>
 
                     
