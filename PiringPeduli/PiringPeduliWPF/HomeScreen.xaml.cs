@@ -14,11 +14,16 @@ namespace PiringPeduliWPF
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class HomeScreen : Window
     {
-        public MainWindow()
+        public HomeScreen()
         {
             InitializeComponent();
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
