@@ -1,0 +1,88 @@
+﻿<Window x:Class="PiringPeduliWPF.HomeScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PiringPeduliWPF"
+        xmlns:materialDesign ="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="HomeScreen" 
+        Height="859" 
+        Width="1200" 
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="None" 
+        ResizeMode="NoResize" 
+        Background="{x:Null}" 
+        AllowsTransparency="True">
+    <Grid>
+        <materialDesign:Card Margin="10" UniformCornerRadius="15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="15*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.Resources>
+                    <Style TargetType="materialDesign:PackIcon">
+                        <Setter Property="Width" Value="50"></Setter>
+                        <Setter Property="Height" Value="50"></Setter>
+                    </Style>
+                </Grid.Resources>
+                <Grid Grid.Column="0" Background="#3B8E45">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.2*"/>
+                        <RowDefinition Height="Auto"/>
+                        <!-- Ikon Account -->
+                        <RowDefinition Height="*"/>
+                        <!-- Ruang Kosong untuk Pusat -->
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="0.1*"/>
+                        <RowDefinition Height="Auto"/>
+                        <!-- MapMarker & Home -->
+                        <RowDefinition Height="*"/>
+                        <!-- Ruang Kosong -->
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="0.2*"/>
+                        <!-- Cog di Bawah -->
+                    </Grid.RowDefinitions>
+
+                    <!-- Ikon Account di Bagian Atas -->
+                    <Button Grid.Row="1" 
+                            Style="{StaticResource MaterilDesignFloatingActionButton}" 
+                            HorizontalAlignment="Center" 
+                            BorderBrush="{x:Null}" 
+                            Background="{x:Null}" 
+                            Foreground="White">
+                        <materialDesign:PackIcon Kind="Account"/>
+                    </Button>
+                    <Button Grid.Row="3"
+                                Style="{StaticResource MaterilDesignFloatingActionButton}" 
+                                HorizontalAlignment="Center" 
+                                BorderBrush="{x:Null}" 
+                                Background="{x:Null}" 
+                                Foreground="White">
+                            <materialDesign:PackIcon Kind="MapMarker"/>
+                        </Button>
+                    <Button Grid.Row="5"
+                                Style="{StaticResource MaterilDesignFloatingActionButton}" 
+                                HorizontalAlignment="Center" 
+                                BorderBrush="{x:Null}" 
+                                Background="{x:Null}" 
+                                Foreground="White">
+                        <materialDesign:PackIcon Kind="Home"/>
+                    </Button>
+
+                    <Button Grid.Row="7" 
+                            Style="{DynamicResource MaterilDesignFloatingActionButton}" 
+                            HorizontalAlignment="Center" 
+                            BorderBrush="{x:Null}" 
+                            Background="{x:Null}" 
+                            Foreground="White">
+                        <materialDesign:PackIcon Kind="Cog"/>
+                    </Button>
+
+
+                </Grid>
+            </Grid>
+        </materialDesign:Card>
+    </Grid>
+</Window>

@@ -1,0 +1,37 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--Background Colors-->
+    <Color x:Key="primaryBackColor1">#FFFF</Color>
+    <Color x:Key="secondaryBackColor1">#D9D9D9</Color>
+    <Color x:Key="primaryBackColor2">#1B6B93</Color>
+    <Color x:Key="secondaryBackColor2">#4FC0D0</Color>
+
+    <!--Font Colors-->
+    <SolidColorBrush x:Key="titleColor1" Color="#FFFF"/>
+    <SolidColorBrush x:Key="titleColor2" Color="#BFBFBF"/>
+    <SolidColorBrush x:Key="textColor1" Color="#ffff"/>
+    <SolidColorBrush x:Key="ButtonContent1" Color="#1b6b93"/>
+    <SolidColorBrush x:Key="ButtonContent1_Hover" Color="#FFFF"/>
+    <SolidColorBrush x:Key="ButtonContent2" Color="#DF3232"/>
+    <SolidColorBrush x:Key="ButtonContent2_Hover" Color="#FFFF"/>
+    <SolidColorBrush x:Key="ButtonContent3" Color="#FFFF"/>
+    <SolidColorBrush x:Key="ButtonContent3_Hover" Color="#1B6B93"/>
+    <SolidColorBrush x:Key="ButtonContent4" Color="#FFFF"/>
+    <SolidColorBrush x:Key="ButtonContent4_Hover" Color="#BFBFBF"/>
+
+    <!--Button Colors-->
+    <SolidColorBrush x:Key="ButtonColor1" Color="#FFFF"/>
+    <SolidColorBrush x:Key="ButtonColor1_Hover" Color="#164B60"/>
+    <SolidColorBrush x:Key="ButtonColor2" Color="#164B60"/>
+    <SolidColorBrush x:Key="ButtonColor2_Hover" Color="#FFFF"/>
+    <SolidColorBrush x:Key="ButtonColor_Click" Color="#0F3240"/>
+    <SolidColorBrush x:Key="ButtonColor2_Click" Color="#4FC0D0"/>
+
+    <!--Object Colors-->
+    <SolidColorBrush x:Key="ObjColor1" Color="LightGray"/>
+
+    <!--Border Colors-->
+    <SolidColorBrush x:Key="BorderColor1" Color="DarkGray"/>
+
+</ResourceDictionary>
