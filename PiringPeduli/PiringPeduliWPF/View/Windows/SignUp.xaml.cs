@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PiringPeduliWPF
+namespace PiringPeduliWPF.View.Windows
 {
     /// <summary>
     /// Interaction logic for SignUp.xaml
@@ -29,6 +29,15 @@ namespace PiringPeduliWPF
             LoginView loginWindow = new LoginView();
             loginWindow.Show();
             this.Close(); // Close the current SignUp window
+        }
+        private void BtnMinimized_click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void BtnClosed_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

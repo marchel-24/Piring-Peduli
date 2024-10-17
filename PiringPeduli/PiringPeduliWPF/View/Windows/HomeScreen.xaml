@@ -1,10 +1,11 @@
-﻿<Window x:Class="PiringPeduliWPF.HomeScreen"
+﻿<Window x:Class="PiringPeduliWPF.View.Windows.HomeScreen"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PiringPeduliWPF"
+        xmlns:local="clr-namespace:PiringPeduliWPF.View.UserControls"
         xmlns:materialDesign ="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:viewModel ="clr-namespace:PiringPeduliWPF.ViewModel"
         mc:Ignorable="d"
         Title="HomeScreen" 
         Height="859" 
@@ -14,6 +15,21 @@
         ResizeMode="NoResize" 
         Background="{x:Null}" 
         AllowsTransparency="True">
+    <Window.DataContext>
+        <viewModel:MainViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:AccountViewModel}">
+            <local:AccountView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:MainScreenViewModel}">
+            <local:MainView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:PickUpViewModel}">
+            <local:PickUp/>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <materialDesign:Card Margin="10" UniformCornerRadius="15">
             <Grid>
@@ -31,43 +47,40 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.2*"/>
                         <RowDefinition Height="Auto"/>
-                        <!-- Ikon Account -->
                         <RowDefinition Height="*"/>
-                        <!-- Ruang Kosong untuk Pusat -->
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="0.1*"/>
                         <RowDefinition Height="Auto"/>
-                        <!-- MapMarker & Home -->
                         <RowDefinition Height="*"/>
-                        <!-- Ruang Kosong -->
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="0.2*"/>
-                        <!-- Cog di Bawah -->
                     </Grid.RowDefinitions>
 
-                    <!-- Ikon Account di Bagian Atas -->
                     <Button Grid.Row="1" 
-                            Style="{StaticResource MaterilDesignFloatingActionButton}" 
+                            Style="{DynamicResource MaterilDesignFloatingActionButton}" 
                             HorizontalAlignment="Center" 
                             BorderBrush="{x:Null}" 
                             Background="{x:Null}" 
-                            Foreground="White">
+                            Foreground="White"
+                            Command="{Binding ShowAccountViewCommand}">
                         <materialDesign:PackIcon Kind="Account"/>
                     </Button>
                     <Button Grid.Row="3"
-                                Style="{StaticResource MaterilDesignFloatingActionButton}" 
-                                HorizontalAlignment="Center" 
-                                BorderBrush="{x:Null}" 
-                                Background="{x:Null}" 
-                                Foreground="White">
+                            Style="{DynamicResource MaterilDesignFloatingActionButton}" 
+                            HorizontalAlignment="Center" 
+                            BorderBrush="{x:Null}" 
+                            Background="{x:Null}" 
+                            Foreground="White"
+                            Command="{Binding ShowPickUpViewCommand}">
                             <materialDesign:PackIcon Kind="MapMarker"/>
                         </Button>
                     <Button Grid.Row="5"
-                                Style="{StaticResource MaterilDesignFloatingActionButton}" 
-                                HorizontalAlignment="Center" 
-                                BorderBrush="{x:Null}" 
-                                Background="{x:Null}" 
-                                Foreground="White">
+                            Style="{DynamicResource MaterilDesignFloatingActionButton}" 
+                            HorizontalAlignment="Center" 
+                            BorderBrush="{x:Null}" 
+                            Background="{x:Null}" 
+                            Foreground="White"
+                            Command="{Binding ShowMainScreenViewCommand}">
                         <materialDesign:PackIcon Kind="Home"/>
                     </Button>
 
@@ -82,6 +95,7 @@
 
 
                 </Grid>
+                <ContentControl Content="{Binding CurrentChildView}" Grid.Column="1"/>
             </Grid>
         </materialDesign:Card>
     </Grid>

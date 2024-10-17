@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PiringPeduliWPF
+namespace PiringPeduliWPF.View.Windows
 {
     /// <summary>
     /// Interaction logic for LoginView.xaml
@@ -34,6 +34,15 @@ namespace PiringPeduliWPF
 
             // Optionally close or hide the current Login window
             this.Close(); // or this.Hide(); if you want to just hide it
+        }
+        private void BtnMinimized_click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void BtnClosed_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }
