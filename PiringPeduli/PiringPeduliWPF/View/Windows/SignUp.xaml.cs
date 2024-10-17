@@ -12,28 +12,23 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PiringPeduliWPF
+namespace PiringPeduliWPF.View.Windows
 {
     /// <summary>
-    /// Interaction logic for LoginView.xaml
+    /// Interaction logic for SignUp.xaml
     /// </summary>
-    public partial class LoginView : Window
+    public partial class SignUp : Window
     {
-        public LoginView()
+        public SignUp()
         {
             InitializeComponent();
         }
 
-        private void LogintoSignUp_Click(object sender, RoutedEventArgs e)
+        private void SignUptoLogin_Click(object sender, RoutedEventArgs e)
         {
-            // Create a new instance of the SignUp window
-            SignUp signUpWindow = new SignUp();
-
-            // Show the SignUp window
-            signUpWindow.Show();
-
-            // Optionally close or hide the current Login window
-            this.Close(); // or this.Hide(); if you want to just hide it
+            LoginView loginWindow = new LoginView();
+            loginWindow.Show();
+            this.Close(); // Close the current SignUp window
         }
         private void BtnMinimized_click(object sender, RoutedEventArgs e)
         {

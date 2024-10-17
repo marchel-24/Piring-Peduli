@@ -1,8 +1,8 @@
-﻿<Window x:Class="PiringPeduliWPF.LoginView"
+﻿<Window x:Class="PiringPeduliWPF.View.Windows.LoginView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:PiringPeduliWPF"
+        xmlns:local="clr-namespace:PiringPeduliWPF.View.Windows"
         Title="MainWindow" Height="450" Width="400"
         WindowStyle="None"
         ResizeMode="NoResize"
@@ -12,7 +12,7 @@
         >
     <Border CornerRadius="10">
         <Border.Background>
-            <ImageBrush ImageSource="Background.png"
+            <ImageBrush ImageSource="../Assets/Background.png"
                         Stretch="None"/>
         </Border.Background>
         <Border CornerRadius="10"
