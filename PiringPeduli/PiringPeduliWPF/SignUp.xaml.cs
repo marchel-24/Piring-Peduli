@@ -30,5 +30,14 @@ namespace PiringPeduliWPF
             loginWindow.Show();
             this.Close(); // Close the current SignUp window
         }
+        private void BtnMinimized_click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void BtnClosed_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }
