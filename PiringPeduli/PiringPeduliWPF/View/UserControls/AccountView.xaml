@@ -5,8 +5,52 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PiringPeduliWPF.View.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="Black">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Height="859" 
+             Background="White">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        
+
+        <!-- User Info Section -->
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10">
+            <!-- Profile Image -->
+            <Image Name="ProfileImage" Width="100" Height="100" Margin="10" Source="/View/Assets/person.png"/>
+            <!-- User Info (Name, Email, Address) -->
+            <TextBlock Name="UserName" Text="Nama" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <TextBlock Name="UserEmail" Text="email" FontSize="14" HorizontalAlignment="Center"/>
+            <TextBlock Name="UserAddress" Text="Address" FontSize="14" HorizontalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Main Content Section -->
+        <Grid Grid.Row="1" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- History Table (Scrollable) -->
+            <DataGrid Name="HistoryTable" Grid.Column="0" AutoGenerateColumns="False" CanUserAddRows="False" Margin="10">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
+                    <DataGridTextColumn Header="Item" Binding="{Binding Item}"/>
+                    <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <!-- Order Table (Scrollable) -->
+                <DataGrid Name="OrderTable" Grid.Column="1" AutoGenerateColumns="False" CanUserAddRows="False" Margin="10" SelectionChanged="OrderTable_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Order ID" Binding="{Binding OrderID}"/>
+                        <DataGridTextColumn Header="Product" Binding="{Binding Product}"/>
+                        <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+
+
+        </Grid>
     </Grid>
 </UserControl>

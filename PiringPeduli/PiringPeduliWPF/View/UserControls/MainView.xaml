@@ -5,8 +5,36 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PiringPeduliWPF.View.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="Green">
+             d:DesignHeight="450" d:DesignWidth="800" Background="White">
     <Grid>
-            
+        <!-- Define grid structure -->
+    <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Welcome to Piring Peduli" FontSize="28" FontWeight="Bold" Margin="20" Grid.Row="0"/>
+
+
+        <!-- Order Block -->
+    <Border Grid.Row="1" Grid.Column="0" Background="LightGray" CornerRadius="10" Margin="10">
+        <TextBlock Text="Order" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+    </Border>
+
+    <!-- No Order in Progress Block -->
+    <Border Grid.Row="1" Grid.Column="1" Background="LightGray" CornerRadius="10" Margin="10">
+        <TextBlock Text="No order in progress" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+    </Border>
+
+    <!-- Request Block -->
+    <Border Grid.Row="2" Grid.ColumnSpan="2" Background="LightGray" CornerRadius="10" Margin="10">
+        <TextBlock Text="Request" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+    </Border>
+
     </Grid>
 </UserControl>

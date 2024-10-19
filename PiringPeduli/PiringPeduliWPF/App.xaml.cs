@@ -17,7 +17,7 @@ namespace PiringPeduliWPF
             base.OnStartup(e);
 
             // Get the connection string from App.config
-            string connectionString = "host=localhost;port=5432;Database=postgres;Username=postgres;Password=lol12345";
+            string connectionString = "host=localhost;port=5432;Database=PiringPeduli;Username=postgres;Password=Nazril0908";
 
             // Pass the connection string to the UserRepository and UserService
             var userRepository = new AccountRepository(connectionString);

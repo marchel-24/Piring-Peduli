@@ -29,6 +29,9 @@
         <DataTemplate DataType="{x:Type viewModel:PickUpViewModel}">
             <local:PickUp/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:SettingViewModel}">
+            <local:Settings/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <materialDesign:Card Margin="10" UniformCornerRadius="15">
@@ -89,7 +92,8 @@
                             HorizontalAlignment="Center" 
                             BorderBrush="{x:Null}" 
                             Background="{x:Null}" 
-                            Foreground="White">
+                            Foreground="White"
+                            Command="{Binding ShowSettingsViewCommand}">
                         <materialDesign:PackIcon Kind="Cog"/>
                     </Button>
 

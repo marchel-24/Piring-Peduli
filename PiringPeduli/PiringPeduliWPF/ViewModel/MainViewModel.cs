@@ -29,11 +29,14 @@ namespace PiringPeduliWPF.ViewModel
         public ICommand ShowAccountViewCommand { get; }
         public ICommand ShowPickUpViewCommand { get; }
 
+        public ICommand ShowSettingsViewCommand { get; }
+
         public MainViewModel()
         {
             ShowMainScreenViewCommand = new ViewModeCommand(ExecuteMainScreenView);
             ShowPickUpViewCommand = new ViewModeCommand(ExecutePickUpView);
             ShowAccountViewCommand = new ViewModeCommand(ExecuteAccountView);
+            ShowSettingsViewCommand = new ViewModeCommand(ExecuteSettingsView);
         }
 
         private void ExecuteMainScreenView(object obj)
@@ -49,6 +52,11 @@ namespace PiringPeduliWPF.ViewModel
         private void ExecuteAccountView(object obj)
         {
             CurrentChildView = new AccountViewModel();
+        }
+
+        private void ExecuteSettingsView(object obj)
+        {
+            CurrentChildView = new SettingViewModel();
         }
     }
 }

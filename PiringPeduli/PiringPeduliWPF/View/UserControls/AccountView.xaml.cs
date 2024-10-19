@@ -24,5 +24,10 @@ namespace PiringPeduliWPF.View.UserControls
         {
             InitializeComponent();
         }
+
+        private void OrderTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
