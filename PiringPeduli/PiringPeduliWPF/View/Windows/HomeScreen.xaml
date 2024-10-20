@@ -107,7 +107,38 @@
 
 
                 </Grid>
-                <ContentControl Content="{Binding CurrentChildView}" Grid.Column="1"/>
+
+                <Grid Grid.Column="1"
+                      Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel x:Name="pnlControl"
+                                FlowDirection="RightToLeft"
+                                Orientation="Horizontal">
+                        <Button x:Name="closewindowButton"
+                                Click="closewindowButton_Click">
+                            <materialDesign:PackIcon Kind="WindowClose"
+                                                     Width="20"
+                                                     Height="20"
+                                                     Foreground="Red"/>
+                        </Button>
+
+                        <Button x:Name="minimizedButton"
+                                Click="minimizedButton_Click">
+                            <materialDesign:PackIcon Kind="WindowMinimize"
+                                                     Width="20"
+                                                     Height="20"
+                                                     Foreground="LightSlateGray"/>
+                        </Button>
+                    </StackPanel>
+
+                    <Border Background="White" Grid.Row="1">
+                        <ContentControl Content="{Binding CurrentChildView}"/>
+                    </Border>
+                </Grid>
             </Grid>
         </materialDesign:Card>
     </Grid>

@@ -26,5 +26,15 @@ namespace PiringPeduliWPF.View.Windows
         {
 
         }
+
+        private void closewindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void minimizedButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
     }
 }
