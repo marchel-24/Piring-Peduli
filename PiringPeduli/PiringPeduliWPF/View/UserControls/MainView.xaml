@@ -18,11 +18,14 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Welcome to Piring Peduli" FontSize="28" FontWeight="Bold" Margin="20" Grid.Row="0"/>
+        <Border Grid.Row="0" Grid.ColumnSpan="2"  CornerRadius="10" Margin="0">
+            <TextBlock Text="Welcome to Piring Peduli" FontSize="28" FontWeight="Bold" Margin="20" />
+        </Border>
+        
 
 
         <!-- Order Block -->
-    <Border Grid.Row="1" Grid.Column="0" Background="LightGray" CornerRadius="10" Margin="10">
+    <Border Grid.Row="1" Grid.ColumnSpan="1" Background="LightGray" CornerRadius="10" Margin="10">
         <TextBlock Text="Order" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
     </Border>
 

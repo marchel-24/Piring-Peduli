@@ -24,5 +24,15 @@ namespace PiringPeduliWPF.View.UserControls
         {
             InitializeComponent();
         }
+
+        private void OrderButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TxtWeight_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
