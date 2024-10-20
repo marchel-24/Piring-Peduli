@@ -8,8 +8,8 @@
         xmlns:viewModel ="clr-namespace:PiringPeduliWPF.ViewModel"
         mc:Ignorable="d"
         Title="HomeScreen" 
-        Height="859" 
-        Width="1200" 
+        Height="600" 
+        Width="800" 
         WindowStartupLocation="CenterScreen" 
         WindowStyle="None" 
         ResizeMode="NoResize" 
@@ -66,7 +66,9 @@
                             Background="{x:Null}" 
                             Foreground="White"
                             Command="{Binding ShowAccountViewCommand}">
-                        <materialDesign:PackIcon Kind="Account"/>
+                        <materialDesign:PackIcon Kind="Account"
+                                                 Width="35"
+                                                 Height="35"/>
                     </Button>
                     <Button Grid.Row="3"
                             Style="{DynamicResource MaterilDesignFloatingActionButton}" 
@@ -75,7 +77,9 @@
                             Background="{x:Null}" 
                             Foreground="White"
                             Command="{Binding ShowPickUpViewCommand}">
-                            <materialDesign:PackIcon Kind="MapMarker"/>
+                            <materialDesign:PackIcon Kind="MapMarker" 
+                                                     Width="35"
+                                                     Height="35"/>
                         </Button>
                     <Button Grid.Row="5"
                             Style="{DynamicResource MaterilDesignFloatingActionButton}" 
@@ -84,7 +88,9 @@
                             Background="{x:Null}" 
                             Foreground="White"
                             Command="{Binding ShowMainScreenViewCommand}">
-                        <materialDesign:PackIcon Kind="Home"/>
+                        <materialDesign:PackIcon Kind="Home"
+                                                 Width="35"
+                                                 Height="35"/>
                     </Button>
 
                     <Button Grid.Row="7" 
@@ -94,7 +100,9 @@
                             Background="{x:Null}" 
                             Foreground="White"
                             Command="{Binding ShowSettingsViewCommand}">
-                        <materialDesign:PackIcon Kind="Cog"/>
+                        <materialDesign:PackIcon Kind="Cog"
+                                                 Width="35"
+                                                 Height="35"/>
                     </Button>
 
 
