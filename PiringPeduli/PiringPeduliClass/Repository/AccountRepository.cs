@@ -1,11 +1,6 @@
 ﻿using Npgsql;
 using PiringPeduliClass.Model;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PiringPeduliClass.Repository
 {
@@ -48,5 +43,73 @@ namespace PiringPeduliClass.Repository
 
             return account;
         }
+
+        public int GetNextAccountId()
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand("SELECT COALESCE(MAX(accountid), 0) + 1 FROM account", connection))
+                {
+                    return Convert.ToInt32(command.ExecuteScalar());
+                }
+            }
+        }
+
+        public void CreateAccount(Account account)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(
+                    "INSERT INTO account (accountid, username, password, type) VALUES (@accountid, @username, @password, @type::account_type)", connection))
+                {
+                    command.Parameters.AddWithValue("@accountid", account.AccountId);
+                    command.Parameters.AddWithValue("@username", account.Username);
+                    command.Parameters.AddWithValue("@password", account.Password);
+                    command.Parameters.AddWithValue("@type", account.Type.ToString());
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void UpdateAccount(Account account)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(
+                    "UPDATE account SET username = @username, password = @password, type = @type::account_type WHERE accountid = @accountid", connection))
+                {
+                    command.Parameters.AddWithValue("@accountid", account.AccountId);
+                    command.Parameters.AddWithValue("@username", account.Username);
+                    command.Parameters.AddWithValue("@password", account.Password);
+                    command.Parameters.AddWithValue("@type", account.Type.ToString());
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void DeleteAccount(int accountId)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(
+                    "DELETE FROM account WHERE accountid = @accountid", connection))
+                {
+                    command.Parameters.AddWithValue("@accountid", accountId);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+
     }
 }
