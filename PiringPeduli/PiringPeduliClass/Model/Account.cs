@@ -65,7 +65,7 @@ namespace PiringPeduliClass.Model
         /// </summary>
         /// <param name="newUsername">The new username to be set.</param>
         /// <param name="newPassword">The new password to be set.</param>
-        public void UpdateProfile(string newUsername, string newPassword)
+        public virtual void UpdateProfile(string newUsername, string newPassword)
         {
             // Logic for updating profile
             username = newUsername;

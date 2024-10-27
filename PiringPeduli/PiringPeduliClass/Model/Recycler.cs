@@ -68,5 +68,19 @@ namespace PiringPeduliClass.Model
         {
             return temporaryStorage.StoredWasteType;
         }
+
+        /// <summary>
+        /// Overloaded method to update profile including customer name, isntance, and address
+        /// </summary>
+        /// <param name="newUsername">The new username to be set.</param>
+        /// <param name="newPassword">The new password to be set.</param>
+        /// <param name="newRecyclerName">The new customer name to be set.</param>
+        /// <param name="newRecylcerAddress">The new customer instance to be set.</param>
+        public void UpdateProfile(string newUsername, string newPassword, string newRecyclerName, string newRecylcerAddress)
+        {
+            base.UpdateProfile(newUsername, newPassword);
+            recyclerName = newRecyclerName;
+            recyclerAddress = newRecylcerAddress;
+        }
     }
 }
