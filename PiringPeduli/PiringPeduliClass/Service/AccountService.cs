@@ -22,6 +22,11 @@ namespace PiringPeduliClass.Service
             return _accountRepository.GetAccountById(id);
         }
 
+        public Account GetUserByUsername(string username)
+        {
+            return _accountRepository.GetAccountByUsername(username);
+        }
+
         public void RegisterNewAccount(string username, string password, AccountType type)
         {
             int newAccountId = _accountRepository.GetNextAccountId();

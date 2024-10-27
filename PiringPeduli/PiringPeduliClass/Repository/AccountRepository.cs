@@ -44,6 +44,36 @@ namespace PiringPeduliClass.Repository
             return account;
         }
 
+        public Account GetAccountByUsername(string username) {
+            Account account = null;
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand("SELECT * FROM account WHERE username = @username", connection))
+                {
+                    command.Parameters.AddWithValue("@username", username);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            account = new Account
+                            {
+                                AccountId = reader.GetInt32(reader.GetOrdinal("accountid")),
+                                Username = reader.GetString(reader.GetOrdinal("username")),
+                                Password = reader.GetString(reader.GetOrdinal("password")),
+                                Type = (AccountType)Enum.Parse(typeof(AccountType), reader.GetString(reader.GetOrdinal("type")))
+                            };
+                        }
+                    }
+                }
+            }
+
+            return account;
+        }
+
         public int GetNextAccountId()
         {
             using (var connection = new NpgsqlConnection(_connectionString))
