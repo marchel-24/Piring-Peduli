@@ -30,7 +30,7 @@
             <local:PickUp/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:SettingViewModel}">
-            <local:Settings/>
+            <local:UpdateProfile/>
         </DataTemplate>
     </Window.Resources>
     <Grid>
