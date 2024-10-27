@@ -34,6 +34,7 @@ namespace PiringPeduliClass.Repository
                                 AccountId = reader.GetInt32(reader.GetOrdinal("accountid")),
                                 Username = reader.GetString(reader.GetOrdinal("username")),
                                 Password = reader.GetString(reader.GetOrdinal("password")),
+                                PhoneNumber = reader.GetString(reader.GetOrdinal("phonenumber")),
                                 Type = (AccountType)Enum.Parse(typeof(AccountType), reader.GetString(reader.GetOrdinal("type")))
                             };
                         }
@@ -64,6 +65,7 @@ namespace PiringPeduliClass.Repository
                                 AccountId = reader.GetInt32(reader.GetOrdinal("accountid")),
                                 Username = reader.GetString(reader.GetOrdinal("username")),
                                 Password = reader.GetString(reader.GetOrdinal("password")),
+                                PhoneNumber = reader.GetString(reader.GetOrdinal("phonenumber")),
                                 Type = (AccountType)Enum.Parse(typeof(AccountType), reader.GetString(reader.GetOrdinal("type")))
                             };
                         }
@@ -94,11 +96,12 @@ namespace PiringPeduliClass.Repository
                 connection.Open();
 
                 using (var command = new NpgsqlCommand(
-                    "INSERT INTO account (accountid, username, password, type) VALUES (@accountid, @username, @password, @type::account_type)", connection))
+                    "INSERT INTO account (accountid, username, password, phonenumber, type) VALUES (@accountid, @username, @password, @phonenumber, @type::account_type)", connection))
                 {
                     command.Parameters.AddWithValue("@accountid", account.AccountId);
                     command.Parameters.AddWithValue("@username", account.Username);
                     command.Parameters.AddWithValue("@password", account.Password);
+                    command.Parameters.AddWithValue("@phonenumber", account.PhoneNumber);
                     command.Parameters.AddWithValue("@type", account.Type.ToString());
 
                     command.ExecuteNonQuery();
@@ -113,11 +116,12 @@ namespace PiringPeduliClass.Repository
                 connection.Open();
 
                 using (var command = new NpgsqlCommand(
-                    "UPDATE account SET username = @username, password = @password, type = @type::account_type WHERE accountid = @accountid", connection))
+                    "UPDATE account SET username = @username, password = @password, phonenumber = @phonenumber, type = @type::account_type WHERE accountid = @accountid", connection))
                 {
                     command.Parameters.AddWithValue("@accountid", account.AccountId);
                     command.Parameters.AddWithValue("@username", account.Username);
                     command.Parameters.AddWithValue("@password", account.Password);
+                    command.Parameters.AddWithValue("@phonenumber", account.PhoneNumber);
                     command.Parameters.AddWithValue("@type", account.Type.ToString());
 
                     command.ExecuteNonQuery();
@@ -125,7 +129,7 @@ namespace PiringPeduliClass.Repository
             }
         }
 
-        public void DeleteAccount(int accountId)
+        public void DeleteAccountById(int accountId)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
@@ -140,6 +144,38 @@ namespace PiringPeduliClass.Repository
             }
         }
 
+        public void DeleteAccountByUsername(string username)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
 
+                using (var command = new NpgsqlCommand(
+                    "DELETE FROM account WHERE username = @username", connection))
+                {
+                    command.Parameters.AddWithValue("@username", username);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public bool ValidateAccount(string username, string password)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(
+                    "SELECT COUNT(1) FROM account WHERE username = @username AND password = @password", connection))
+                {
+                    command.Parameters.AddWithValue("@username", username);
+                    command.Parameters.AddWithValue("@password", password);
+
+                    var result = (long)command.ExecuteScalar();
+
+                    return result > 0;
+                }
+            }
+        }
     }
 }
