@@ -66,5 +66,31 @@ namespace PiringPeduliClass.Model
 
             return order;
         }
+
+        /// <summary>
+        /// Overrides the UpdateProfile method to update the courier's profile,
+        /// including the vehicle type.
+        /// </summary>
+        /// <param name="newUsername">The new username to be set.</param>
+        /// <param name="newPassword">The new password to be set.</param>
+        /// <param name="newVehicleType">The new vehicle type for the courier.</param>
+        public override void UpdateProfile(string newUsername, string newPassword)
+        {
+            // Logic for updating courier's profile
+            base.UpdateProfile(newUsername, newPassword);
+            vehicleType = "New Vehicle Type";
+        }
+
+        /// <summary>
+        /// Overloaded method to update profile including vehicle type.
+        /// </summary>
+        /// <param name="newUsername">The new username to be set.</param>
+        /// <param name="newPassword">The new password to be set.</param>
+        /// <param name="newVehicleType">The new vehicle type to be set.</param>
+        public void UpdateProfile(string newUsername, string newPassword, string newVehicleType)
+        {
+            base.UpdateProfile(newUsername, newPassword);
+            vehicleType = newVehicleType;
+        }
     }
 }

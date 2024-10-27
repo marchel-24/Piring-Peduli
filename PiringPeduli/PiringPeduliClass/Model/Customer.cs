@@ -56,5 +56,21 @@ namespace PiringPeduliClass.Model
         {
             // Logic for requesting waste pick up
         }
+
+        /// <summary>
+        /// Overloaded method to update profile including customer name, isntance, and address
+        /// </summary>
+        /// <param name="newUsername">The new username to be set.</param>
+        /// <param name="newPassword">The new password to be set.</param>
+        /// <param name="newCustomerName">The new customer name to be set.</param>
+        /// <param name="newCustomerInstance">The new customer instance to be set.</param>
+        /// <param name="newCustomerAddress">The new customer address to be set.</param>
+        public void UpdateProfile(string newUsername, string newPassword, string newCustomerName, string newCustomerInstance, string newCustomerAddress)
+        {
+            base.UpdateProfile(newUsername, newPassword);
+            customerAddress = newCustomerAddress;
+            customerName = newCustomerName;
+            customerInstance = newCustomerInstance;
+        }
     }
 }
