@@ -1,5 +1,9 @@
-﻿using System;
+﻿using PiringPeduliClass.Repository;
+using PiringPeduliClass.Service;
+using PiringPeduliWPF.ViewModel;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +26,13 @@ namespace PiringPeduliWPF.View.Windows
         public SignUp()
         {
             InitializeComponent();
+
+            string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
+
+            // Pass the connection string to the UserRepository and UserService
+            var userRepository = new AccountRepository(connectionString);
+            var userService = new AccountService(userRepository);
+            DataContext = new AccountViewModel(userService);
         }
 
         private void SignUptoLogin_Click(object sender, RoutedEventArgs e)
@@ -38,6 +49,14 @@ namespace PiringPeduliWPF.View.Windows
         private void BtnClosed_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = sender as PasswordBox;
+            if (DataContext is AccountViewModel viewModel)
+            {
+                viewModel.Password = passwordBox.Password; // Update the ViewModel
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using PiringPeduliClass.Repository;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,7 +46,13 @@ namespace PiringPeduliClass.Service
 
         public void UpdateAccount(Account account)
         {
-            _accountRepository.UpdateAccount(account);
+            var accountId = _accountRepository.GetIdFromUsername(account.Username);
+            Debug.Print(accountId.ToString());
+            if(accountId != -1)
+            {
+                account.AccountId = accountId;
+                _accountRepository.UpdateAccount(account);
+            }
         }
 
         public void RemoveAccountById(int accountId)

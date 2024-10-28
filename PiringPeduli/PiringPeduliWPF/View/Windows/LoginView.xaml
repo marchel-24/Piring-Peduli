@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:PiringPeduliWPF.View.Windows"
+        xmlns:viewModel="clr-namespace:PiringPeduliWPF.ViewModel"
         Title="MainWindow" 
         Height="450" 
         Width="400"
@@ -12,6 +13,10 @@
         Background="Transparent"
         AllowsTransparency="True"
         >
+    <Window.DataContext>
+        <viewModel:AccountViewModel />
+    </Window.DataContext>
+    
     <Border CornerRadius="10">
         <Border.Background>
             <ImageBrush ImageSource="../Assets/Background.png"
@@ -120,6 +125,7 @@
                               VerticalContentAlignment="Center"
                               Margin="0,5,0,0"
                               Padding="5,0,0,0"
+                              Text="{Binding Username}"
                              >
                         <TextBox.Style>
                             <Style TargetType="{x:Type TextBox}">
@@ -177,7 +183,8 @@
                              Height="28"
                              VerticalContentAlignment="Center"
                              Margin="0,5,0,0"
-                             Padding="5,0,0,0">
+                             Padding="5,0,0,0"
+                             PasswordChanged="PasswordBox_PasswordChanged">
                         <PasswordBox.Style>
                             <Style TargetType="{x:Type PasswordBox}">
                                 <Style.Resources>
@@ -226,7 +233,8 @@
                             Margin="0,15,0,0"
                             FontFamily="Gilroy"
                             FontWeight="Semibold"
-                            Cursor="Hand">
+                            Cursor="Hand"
+                            Command="{Binding LoginCommand}">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Background" Value="#1A5021"/>

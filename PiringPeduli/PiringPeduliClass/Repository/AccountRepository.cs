@@ -89,6 +89,23 @@ namespace PiringPeduliClass.Repository
             }
         }
 
+        public int GetIdFromUsername(string username)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand("SELECT accountid FROM account WHERE username = @username", connection))
+                {
+                    command.Parameters.AddWithValue("@username", username);
+
+                    // Execute the command and convert the result to int
+                    object result = command.ExecuteScalar();
+                    return result != null ? Convert.ToInt32(result) : -1; // Return -1 or another value if the user is not found
+                }
+            }
+        }
+
         public void CreateAccount(Account account)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
