@@ -24,5 +24,24 @@ namespace PiringPeduliWPF.View.UserControls
         {
             InitializeComponent();
         }
+
+        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parent = VisualTreeHelper.GetParent(child);
+            while (parent != null && !(parent is T))
+            {
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+            return parent as T;
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            var parentFrame = FindParent<SettingsFrame>(this);
+            if (parentFrame != null)
+            {
+                parentFrame.ContentControl.Content = new SettingsFrame();
+            }
+        }
     }
 }
