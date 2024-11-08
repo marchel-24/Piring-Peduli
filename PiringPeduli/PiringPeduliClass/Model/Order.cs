@@ -2,15 +2,25 @@
 
 namespace PiringPeduliClass.Model
 {
+
+    public enum StatusType
+    {
+        Confirmed,
+        Processing,
+        Delivered
+    }
+
     /// <summary>
     /// Represents an order in the system.
     /// </summary>
     public class Order
     {
         private int orderId;
-        private string status;
-        private string source;
-        private string destination;
+        private StatusType status;
+        private int sourceAccountId;
+        private int destinationAccountId;
+        private int courierAccountId;
+        private string description;
 
         /// <summary>
         /// Gets or sets the order's ID.
@@ -24,7 +34,7 @@ namespace PiringPeduliClass.Model
         /// <summary>
         /// Gets or sets the status of the order.
         /// </summary>
-        public string Status
+        public StatusType Status
         {
             get { return status; }
             set { status = value; }
@@ -33,19 +43,34 @@ namespace PiringPeduliClass.Model
         /// <summary>
         /// Gets or sets the source location of the order.
         /// </summary>
-        public string Source
+        public int Source
         {
-            get { return source; }
-            set { source = value; }
+            get { return sourceAccountId; }
+            set { sourceAccountId = value; }
         }
 
         /// <summary>
         /// Gets or sets the destination location of the order.
         /// </summary>
-        public string Destination
+        public int Destination
         {
-            get { return destination; }
-            set { destination = value; }
+            get { return destinationAccountId; }
+            set { destinationAccountId = value; }
+        }
+
+        public int Courier
+        {
+            get { return courierAccountId; }
+            set { courierAccountId = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the description of the order.
+        /// </summary>
+        public string Description
+        {
+            get { return description; }
+            set { description = value; }
         }
 
         /// <summary>

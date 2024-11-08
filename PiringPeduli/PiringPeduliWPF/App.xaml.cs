@@ -21,16 +21,22 @@ namespace PiringPeduliWPF
             string connectionString = "host=localhost;port=5432;Database=postgres;Username=postgres;Password=lol12345";
 
             // Pass the connection string to the UserRepository and UserService
-            var userRepository = new AccountRepository(connectionString);
-            var userService = new AccountService(userRepository);
+            var sortRepo = new OrderRepository(connectionString);
+            var AccountRepo = new CourierRepository(connectionString);
+            var AccountService = new CourierService(AccountRepo);
+            var sortService = new OrderService(sortRepo);
 
-            //Debug.WriteLine(userService.GetUserById(1).Username);
-            //Debug.WriteLine(userService.GetUserById(1).Password);
-            //Debug.WriteLine(userService.GetUserById(1).AccountId);
-            //Debug.WriteLine(userService.GetUserById(1).Type);
-
-            userService.RemoveAccount(2);
-            Console.WriteLine("Akun berhasil dihapus.");
+            try
+            {
+                //AccountService.CreateCourier("siappaaa", VehicleType.Motorcycle, 4);
+                //sortService.PublishSortedWaste(1, SortedType.Others, 0.9);
+                sortService.CreateOrder(1, StatusType.Delivered, 1, 3, 1,"Hai hai");
+                Debug.WriteLine("Berhasil");
+            }
+            catch (Exception ex) 
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
     }
 
