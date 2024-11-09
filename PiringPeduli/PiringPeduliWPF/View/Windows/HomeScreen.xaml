@@ -24,7 +24,7 @@
             <local:AccountView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:MainScreenViewModel}">
-            <local:MainView/>
+            <local:PickUpCourier/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:PickUpViewModel}">
             <local:PickUp/>
@@ -51,6 +51,8 @@
                         <RowDefinition Height="0.2*"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="0.1*"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="0.1*"/>
                         <RowDefinition Height="Auto"/>
@@ -93,7 +95,20 @@
                                                  Height="35"/>
                     </Button>
 
-                    <Button Grid.Row="7" 
+                    <Button Grid.Row="7"
+                            Style="{DynamicResource MaterialDesignFloatingButton}"
+                            HorizontalAlignment="Center"
+                            BorderBrush="{x:Null}"
+                            Background="{x:Null}"
+                            Foreground="White"
+                            Command="{Binding}">
+                        <materialDesign:PackIcon Kind="Emoticon"
+                                                 Width="35"
+                                                 Height="35"/>
+
+                    </Button>
+
+                    <Button Grid.Row="9" 
                             Style="{DynamicResource MaterilDesignFloatingActionButton}" 
                             HorizontalAlignment="Center" 
                             BorderBrush="{x:Null}" 

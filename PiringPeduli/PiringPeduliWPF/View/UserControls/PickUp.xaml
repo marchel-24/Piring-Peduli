@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:PiringPeduliWPF.View.UserControls"
+             xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="800" Background="White">
 
@@ -64,9 +65,14 @@
         
         
         <!-- MapView Placeholder -->
-        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Margin="50,50,50,100">
-            <!-- Replace with actual map control if needed -->
-            <Image Source="/View/Assets/maps.png" Stretch="Fill"/>
+        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Margin="20,20,20,20" VerticalAlignment="Top" Height="400">
+            <StackPanel Margin="0">
+                <m:Map x:Name="BingMap" 
+                CredentialsProvider="Ukvn2x9fOIi94SdkUHg3~9wMsqEevY0pBK0FXcu7a4w~AtShfaln4nbX5fauwr5cQq8u2iZVFWj8xGijPvKbetae5Hu0JJEiH_xbFtVROl76"
+                Height="399"
+                Center="-7.771317095452585, 110.37772145337762"
+                ZoomLevel="13"/>
+            </StackPanel>
         </Border>
 
         <!-- Layout with Grid to align TextBox and Button -->
@@ -82,13 +88,13 @@
 
             <!-- TextBox for weight input -->
             <TextBox x:Name="tbPostContent"
-         VerticalScrollBarVisibility="auto"
-         HorizontalAlignment="Stretch"
-         TextWrapping="Wrap"
-         AcceptsReturn="True"
-         Tag="Weight"
-         Style="{StaticResource TextBoxStyle}"
-         Margin="5"/>
+             VerticalScrollBarVisibility="auto"
+             HorizontalAlignment="Stretch"
+             TextWrapping="Wrap"
+             AcceptsReturn="True"
+             Tag="Weight"
+             Style="{StaticResource TextBoxStyle}"
+             Margin="5"/>   
 
             <!-- Button for order submission -->
             <Button Grid.Column="2"
