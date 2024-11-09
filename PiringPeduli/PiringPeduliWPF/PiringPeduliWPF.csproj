@@ -15,6 +15,7 @@
     <Resource Include="View\Assets\maps.png" />
     <PackageReference Include="MaterialDesignColors" Version="3.1.0" />
     <PackageReference Include="MaterialDesignThemes" Version="5.1.0" />
+    <PackageReference Include="Microsoft.Maps.MapControl.WPF" Version="1.0.0.3" />
     <PackageReference Include="Npgsql" Version="8.0.4" />
   </ItemGroup>
 
@@ -27,6 +28,14 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="View\Assets\person.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\KULIAH\Piring Peduli\Piring-Peduli\Piring-Peduli\PiringPeduli\PiringPeduliWPF\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="D:\KULIAH\Piring Peduli\Piring-Peduli\Piring-Peduli\PiringPeduli\PiringPeduliWPF\.editorconfig" />
   </ItemGroup>
 
 </Project>
