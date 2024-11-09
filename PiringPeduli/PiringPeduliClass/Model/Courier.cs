@@ -17,7 +17,6 @@ namespace PiringPeduliClass.Model
         private int courierId;
         private string name;
         private VehicleType vehicleType;
-        private int accountID;
         private Order assignedOrder;
 
         /// <summary>
@@ -44,11 +43,6 @@ namespace PiringPeduliClass.Model
             set { vehicleType = value; }
         }
 
-        public int AccountID
-        {
-            get { return accountID; }
-            set { accountID = value; }
-        }
 
         /// <summary>
         /// Gets or sets the currently assigned order for the courier.

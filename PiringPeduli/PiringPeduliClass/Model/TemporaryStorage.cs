@@ -22,6 +22,14 @@ namespace PiringPeduliClass.Model
             set { storageId = value; }
         }
 
+        public string StorageAddress
+        {
+            get { return storageAddress; }
+            set { storageAddress = value; }
+        }
+
+       
+
         /// <summary>
         /// Gets or sets the list of sorted waste types stored in the facility.
         /// </summary>
@@ -34,11 +42,6 @@ namespace PiringPeduliClass.Model
         /// <summary>
         /// Gets or sets the address of the temporary storage facility.
         /// </summary>
-        public string StorageAddress
-        {
-            get { return storageAddress; }
-            set { storageAddress = value; }
-        }
 
         /// <summary>
         /// Manages the sorted waste in the storage.

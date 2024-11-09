@@ -53,5 +53,10 @@ namespace PiringPeduliClass.Service
             courier.AcceptOrder(order);
             UpdateCourier(courier.CourierId, courier.Name, courier.Vehicle); // Update courier after assigning order
         }
+
+        public Courier GetCourierByName(string courierName)
+        {
+            return _courierRepository.GetCourierByName(courierName);
+        }
     }
 }

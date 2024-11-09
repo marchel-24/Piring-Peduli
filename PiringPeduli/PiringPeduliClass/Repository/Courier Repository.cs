@@ -36,11 +36,11 @@ namespace PiringPeduliClass.Repository
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
-                string query = "SELECT * FROM Couriers WHERE CourierId = @CourierId";
+                string query = "SELECT * FROM courier WHERE courierid = @courierid";
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@CourierId", courierId);
+                    command.Parameters.AddWithValue("@courierid", courierId);
 
                     connection.Open();
                     using (var reader = command.ExecuteReader())
@@ -49,9 +49,40 @@ namespace PiringPeduliClass.Repository
                         {
                             return new Courier
                             {
-                                CourierId = reader.GetInt32(0),
-                                Name = reader.GetString(1),
-                                Vehicle = Enum.Parse<VehicleType>(reader.GetString(2))
+                                CourierId = reader.GetInt32(reader.GetOrdinal("courierid")),
+                                AccountId = reader.GetInt32(reader.GetOrdinal("accountid")),
+                                Name = reader.GetString(reader.GetOrdinal("couriername")),
+                                Vehicle = (VehicleType)Enum.Parse<VehicleType>(reader.GetString(reader.GetOrdinal("vehicletype")))
+                            };
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+
+        public Courier GetCourierByName(string couriername)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                string query = "SELECT * FROM courier WHERE couriername = @couriername";
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@couriername", couriername);
+
+                    connection.Open();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new Courier
+                            {
+                                CourierId = reader.GetInt32(reader.GetOrdinal("courierid")),
+                                AccountId = reader.GetInt32(reader.GetOrdinal("accountid")),
+                                Name = reader.GetString(reader.GetOrdinal("couriername")),
+                                Vehicle = (VehicleType)Enum.Parse<VehicleType>(reader.GetString(reader.GetOrdinal("vehicletype")))
                             };
                         }
                     }
@@ -64,13 +95,13 @@ namespace PiringPeduliClass.Repository
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
-                string query = "UPDATE Couriers SET Name = @Name, VehicleType = @VehicleType WHERE CourierId = @CourierId";
+                string query = "UPDATE courier SET couriername = @couriername, vehicletype = @vehicletype::vehicle_type WHERE courierid = @courierid";
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@CourierId", courier.CourierId);
-                    command.Parameters.AddWithValue("@Name", courier.Name);
-                    command.Parameters.AddWithValue("@VehicleType", courier.Vehicle.ToString());
+                    command.Parameters.AddWithValue("@courierid", courier.CourierId);
+                    command.Parameters.AddWithValue("@couriername", courier.Name);
+                    command.Parameters.AddWithValue("@vehicletype", courier.Vehicle.ToString());
 
                     connection.Open();
                     command.ExecuteNonQuery();
@@ -78,15 +109,16 @@ namespace PiringPeduliClass.Repository
             }
         }
 
+
         public void DeleteCourier(int courierId)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
-                string query = "DELETE FROM Couriers WHERE CourierId = @CourierId";
+                string query = "DELETE FROM courier WHERE courierid = @courierid";
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@CourierId", courierId);
+                    command.Parameters.AddWithValue("@courierid", courierId);
 
                     connection.Open();
                     command.ExecuteNonQuery();

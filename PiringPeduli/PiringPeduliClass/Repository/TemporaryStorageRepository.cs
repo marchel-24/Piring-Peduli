@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Npgsql;
+using PiringPeduliClass.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +15,27 @@ namespace PiringPeduliClass.Repository
         public TemporaryStorageRepository (string connectionString)
         {
             _connectionString = connectionString;
+        }
+
+        public void makeAccount(TemporaryStorage account)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand
+                    (
+                        "INSERT INTO temporarystorage (storageid, storageaddress, accountid) VALUES (@storageid, @storageaddress, @accountid)", connection
+                        )
+                    )
+                {
+                    command.Parameters.AddWithValue("@storageid", account.StorageId);
+                    command.Parameters.AddWithValue("@storageaddress", account.StorageAddress);
+                    command.Parameters.AddWithValue("@accountid", account.AccountId);
+
+                    command.ExecuteNonQuery();
+                }
+            }
         }
     }
 }
