@@ -28,7 +28,6 @@ namespace PiringPeduliWPF.ViewModel
         public ICommand ShowMainScreenViewCommand { get; }
         public ICommand ShowAccountViewCommand { get; }
         public ICommand ShowPickUpViewCommand { get; }
-
         public ICommand ShowSettingsViewCommand { get; }
 
         public MainViewModel()

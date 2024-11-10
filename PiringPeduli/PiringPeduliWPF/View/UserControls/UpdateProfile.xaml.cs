@@ -28,7 +28,7 @@ namespace PiringPeduliWPF.View.UserControls
         {
             InitializeComponent();
 
-            string connectionString = ConfigurationManager.ConnectionStrings["postgres"].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
 
             // Pass the connection string to the UserRepository and UserService
             var userRepository = new AccountRepository(connectionString);

@@ -69,8 +69,8 @@ namespace PiringPeduliWPF.ViewModel
 
         public AccountViewModel()
         {
-            LoginCommand = new RelayCommand(Login);
-            RegisterCommand = new RelayCommand(Register);
+            LoginCommand = new ViewModeCommand(Login);
+            RegisterCommand = new ViewModeCommand(Register);
         }
 
 
@@ -78,17 +78,16 @@ namespace PiringPeduliWPF.ViewModel
         {
             _accountService = accountService;
 
-            LoginCommand = new RelayCommand(Login);
-            RegisterCommand = new RelayCommand(Register);
-            UpdateCommand = new RelayCommand(Update);
-            DeleteCommand = new RelayCommand(Delete);
+            LoginCommand = new ViewModeCommand(Login);
+            RegisterCommand = new ViewModeCommand(Register);
+            UpdateCommand = new ViewModeCommand(Update);
+            DeleteCommand = new ViewModeCommand(Delete);
         }
 
-        private void Login()
+        private void Login(object obj)
         {
             string errorMessage;
             var account = _accountService.Login(Username, Password, out errorMessage);
-            
 
             if (account != null)
             {
@@ -100,18 +99,21 @@ namespace PiringPeduliWPF.ViewModel
             }
             else
             {
-                ErrorMessage = errorMessage; // Show error message to the user
+                // Show error message to the user in a message box
+                MessageBox.Show(errorMessage, "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                ErrorMessage = errorMessage; // Optionally, set the error message to a property if it's bound to the UI
             }
         }
 
-        private void Register()
+
+        private void Register(object obj)
         {
             _accountService.RegisterNewAccount(Username, Password, PhoneNumber, AccountType.Customer);
 
 
         }
 
-        private void Update()
+        private void Update(object obj)
         {
 
             var account = new Account
@@ -125,7 +127,7 @@ namespace PiringPeduliWPF.ViewModel
             _accountService.UpdateAccount(account);
         }
 
-        private void Delete()
+        private void Delete(object obj)
         {
             _accountService.RemoveAccountByUsername(Username);
             LoginView loginScreen = new LoginView();
