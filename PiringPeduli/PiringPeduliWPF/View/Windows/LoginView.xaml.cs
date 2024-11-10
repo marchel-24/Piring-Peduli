@@ -40,7 +40,7 @@ namespace PiringPeduliWPF.View.Windows
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             var passwordBox = sender as PasswordBox;
-            if (DataContext is SignUpViewModel viewModel)
+            if (DataContext is LoginViewModel viewModel)
             {
                 viewModel.Password = passwordBox.Password; // Update the ViewModel
             }
