@@ -23,15 +23,17 @@ namespace PiringPeduliClass.Service
             return _accountRepository.GetAccountById(id);
         }
 
-        public Account GetUserByUsername(string username)
+        public async Task<Account> GetUserByUsernameAsync(string username)
         {
-            return _accountRepository.GetAccountByUsername(username);
+            return await _accountRepository.GetAccountByUsernameAsync(username);
         }
+
 
         public async Task<bool> RegisterNewAccountAsync(string username, string password, string phoneNumber, AccountType type)
         {
             try
             {
+
                 // Get the next Account ID asynchronously
                 int newAccountId = await _accountRepository.GetNextAccountIdAsync();
 
@@ -47,13 +49,18 @@ namespace PiringPeduliClass.Service
                 // Create the account asynchronously
                 bool isCreated = await _accountRepository.CreateAccountAsync(account);
 
-                return isCreated;
+                if (!isCreated)
+                {
+                    throw new Exception("Account creation failed.");
+                }
+
+                return true; // Successfully created the account
             }
             catch (Exception ex)
             {
-                // Log exception or handle it accordingly
-                // Optionally, log or rethrow the exception
-                return false;
+                // Log the exception if necessary
+                // Optionally, rethrow the exception or return false
+                throw new Exception(ex.Message);
             }
         }
 
@@ -79,29 +86,39 @@ namespace PiringPeduliClass.Service
             _accountRepository.DeleteAccountByUsername(username);
         }
 
-        public Account Login(string username, string password, out string errorMessage)
+        public async Task<Account> Login(string username, string password)
         {
-            // Step 1: Validate the username and password
-            bool isValid = _accountRepository.ValidateAccount(username, password);
-
-            if (!isValid)
+            try
             {
-                errorMessage = "Invalid username or password.";
-                return null;
+                // Step 1: Validate the username and password
+                bool isValid = _accountRepository.ValidateAccount(username, password);
+
+                Debug.Print(isValid.ToString());
+                if (!isValid)
+                {
+                    Debug.Print("LSKJFD");
+                    throw new Exception("Invalid username or password.");
+                }
+
+                Debug.Print("lsfjennsln");
+                // Step 2: Retrieve the account details asynchronously
+                var account = await _accountRepository.GetAccountByUsernameAsync(username);
+
+                if (account == null)
+                {
+                    throw new Exception("Account not found.");
+                }
+
+                // Step 3: Return the account for successful login
+                return account;
             }
-
-            // Step 2: Retrieve the account details
-            var account = _accountRepository.GetAccountByUsername(username);
-
-            if (account == null)
+            catch (Exception ex)
             {
-                errorMessage = "Account not found.";
-                return null;
+                // Log the exception or handle it as needed
+                throw new Exception(ex.Message); // Rethrow as a custom exception if desired
             }
-
-            // Step 3: Return the account and set errorMessage to null since it's a successful login
-            errorMessage = null;
-            return account;
         }
+
+
     }
 }

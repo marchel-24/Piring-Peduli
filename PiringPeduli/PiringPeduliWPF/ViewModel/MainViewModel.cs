@@ -51,7 +51,7 @@ namespace PiringPeduliWPF.ViewModel
 
         private void ExecuteAccountView(object obj)
         {
-            CurrentChildView = new SignUpViewModel();
+            CurrentChildView = new AccountViewModel();
         }
 
         private void ExecuteSettingsView(object obj)

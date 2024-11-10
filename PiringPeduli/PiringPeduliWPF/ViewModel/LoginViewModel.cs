@@ -21,7 +21,6 @@ namespace PiringPeduliWPF.ViewModel
 
         private string _username;
         private string _password;
-        private string _errorMessage;
 
         public string Username
         {
@@ -43,30 +42,12 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
-        public string ErrorMessage
-        {
-            get => _errorMessage;
-            private set
-            {
-                _errorMessage = value;
-                OnPropertyChanged(nameof(ErrorMessage));
-            }
-        }
-
         public ICommand LoginCommand { get; }
         public ICommand NavigateSignUpCommand { get; }
 
         public LoginViewModel()
         {
             LoginCommand = new ViewModeCommand(Login);
-        }
-
-        public LoginViewModel(AccountService accountService)
-        {
-            _accountService = accountService;
-
-            LoginCommand = new ViewModeCommand(Login);
-            NavigateSignUpCommand = new ViewModeCommand(NavigateSignUp);
         }
 
         public LoginViewModel(AccountService accountService, NavigationService navigationService)
@@ -78,24 +59,33 @@ namespace PiringPeduliWPF.ViewModel
             NavigateSignUpCommand = new ViewModeCommand(NavigateSignUp);
         }
 
-        private void Login(object obj)
+        private async void Login(object obj)
         {
-            string errorMessage;
-            var account = _accountService.Login(Username, Password, out errorMessage);
+            try
+            {
+                if (string.IsNullOrWhiteSpace(Username))
+                {
+                    throw new Exception("Username is required.");
+                }
 
-            if (account != null)
-            {
-                // Handle successful login (e.g., navigate to a different View)
-                ErrorMessage = null;
-                HomeScreen homeScreen = new HomeScreen();
-                homeScreen.Show();
-                Application.Current.MainWindow.Close();
+                // Validate if the password is provided and meets the length requirement
+                if (string.IsNullOrWhiteSpace(Password))
+                {
+                    throw new Exception("Password is required.");
+                }
+
+                // Attempt login asynchronously
+                var account = await _accountService.Login(Username, Password);
+
+                if (account != null)
+                {
+                    _navigationService.NavigateTo("HomeScreenView");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // Show error message to the user in a message box
-                MessageBox.Show(errorMessage, "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
-                ErrorMessage = errorMessage; // Optionally, set the error message to a property if it's bound to the UI
+                // Catch any unexpected exceptions and display them in a message box
+                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

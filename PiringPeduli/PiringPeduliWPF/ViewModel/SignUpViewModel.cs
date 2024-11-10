@@ -23,7 +23,6 @@ namespace PiringPeduliWPF.ViewModel
         private string _phoneNumber;
         private string _password;
         private string _confirmPassword;
-        private string _errorMessage;
 
         public string Username
         {
@@ -65,67 +64,20 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
-        public string ErrorMessage
-        {
-            get => _errorMessage;
-            private set
-            {
-                _errorMessage = value;
-                OnPropertyChanged(nameof(ErrorMessage));
-            }
-        }
-
-        public ICommand LoginCommand { get; }
         public ICommand RegisterCommand { get; }
-        public ICommand UpdateCommand {  get; }
-        public ICommand DeleteCommand { get; }
 
         public SignUpViewModel()
         {
-            LoginCommand = new ViewModeCommand(Login);
             RegisterCommand = new ViewModeCommand(Register);
         }
 
-        public SignUpViewModel(AccountService accountService)
-        {
-            _accountService = accountService;
-
-            LoginCommand = new ViewModeCommand(Login);
-            RegisterCommand = new ViewModeCommand(Register);
-            UpdateCommand = new ViewModeCommand(Update);
-            DeleteCommand = new ViewModeCommand(Delete);
-        }
 
         public SignUpViewModel(AccountService accountService, NavigationService navigationService)
         {
             _accountService = accountService;
             _navigationService = navigationService;
 
-            LoginCommand = new ViewModeCommand(Login);
             RegisterCommand = new ViewModeCommand(Register);
-            UpdateCommand = new ViewModeCommand(Update);
-            DeleteCommand = new ViewModeCommand(Delete);
-        }
-
-        private void Login(object obj)
-        {
-            string errorMessage;
-            var account = _accountService.Login(Username, Password, out errorMessage);
-
-            if (account != null)
-            {
-                // Handle successful login (e.g., navigate to a different View)
-                ErrorMessage = null;
-                HomeScreen homeScreen = new HomeScreen();
-                homeScreen.Show();
-                Application.Current.MainWindow.Close();
-            }
-            else
-            {
-                // Show error message to the user in a message box
-                MessageBox.Show(errorMessage, "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
-                ErrorMessage = errorMessage; // Optionally, set the error message to a property if it's bound to the UI
-            }
         }
 
 
@@ -133,13 +85,40 @@ namespace PiringPeduliWPF.ViewModel
         {
             try
             {
-                // Validate if the passwords match
-                if (Password != ConfirmPassword)
+                // Validate if the username is provided
+                if (string.IsNullOrWhiteSpace(Username))
                 {
-                    MessageBox.Show("Confirm Password Failed", "Sign Up Failed", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
+                    throw new Exception("Username is required.");
                 }
 
+                // Validate if the phone number is provided
+                if (string.IsNullOrWhiteSpace(PhoneNumber))
+                {
+                    throw new Exception("Phone number is required.");
+                }
+
+                // Validate if the password is provided and meets the length requirement
+                if (string.IsNullOrWhiteSpace(Password))
+                {
+                    throw new Exception("Password is required.");
+                }
+
+                if (Password.Length < 8)
+                {
+                    throw new Exception("Password must be at least 8 characters long.");
+                }
+
+                // Validate if the confirm password matches the password
+                if (Password != ConfirmPassword)
+                {
+                    throw new Exception("Confirm Password Failed");
+                }
+                var account = await _accountService.GetUserByUsernameAsync(Username);
+
+                if (account != null) 
+                {
+                    throw new Exception("Username already exist");
+                }
                 // Proceed with registration logic
                 var success = await _accountService.RegisterNewAccountAsync(Username, Password, PhoneNumber, AccountType.Customer);
 
@@ -150,43 +129,16 @@ namespace PiringPeduliWPF.ViewModel
                 }
                 else
                 {
-                    MessageBox.Show("Registration failed, please try again.", "Sign Up Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                    
+                    throw new Exception("Registration failed, please try again.");
                 }
             }
             catch (Exception ex)
             {
                 // Handle any exceptions that occur during the registration process
-                MessageBox.Show($"An error occurred: {ex.Message}", "Registration Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"An error occurred: {ex.Message}", "Sign Up Failed", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-
-        private void Update(object obj)
-        {
-
-            var account = new Account
-            {
-                Username = Username,
-                Password = Password,
-                PhoneNumber = PhoneNumber,
-                Type = AccountType.Customer
-            };
-
-            _accountService.UpdateAccount(account);
-        }
-
-        private void Delete(object obj)
-        {
-            _accountService.RemoveAccountByUsername(Username);
-            LoginView loginScreen = new LoginView();
-            Application.Current.Windows.Equals(loginScreen);
-            loginScreen.Show();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

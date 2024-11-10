@@ -46,20 +46,21 @@ namespace PiringPeduliClass.Repository
             return account;
         }
 
-        public Account GetAccountByUsername(string username) {
+        public async Task<Account> GetAccountByUsernameAsync(string username)
+        {
             Account account = null;
 
             using (var connection = new NpgsqlConnection(_connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();  // Use async version for opening the connection
 
                 using (var command = new NpgsqlCommand("SELECT * FROM account WHERE username = @username", connection))
                 {
                     command.Parameters.AddWithValue("@username", username);
 
-                    using (var reader = command.ExecuteReader())
+                    using (var reader = await command.ExecuteReaderAsync())  // Use async version for ExecuteReader
                     {
-                        if (reader.Read())
+                        if (await reader.ReadAsync())  // Use async version for Read
                         {
                             account = new Account
                             {
@@ -76,6 +77,7 @@ namespace PiringPeduliClass.Repository
 
             return account;
         }
+
 
         public async Task<int> GetNextAccountIdAsync()
         {
