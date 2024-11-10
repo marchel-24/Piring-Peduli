@@ -10,8 +10,10 @@
 
   <ItemGroup>
     <None Remove="background.png" />
+    <None Remove="View\Assets\LogoPiringPeduli.png" />
     <None Remove="View\Assets\maps.png" />
     <None Remove="View\Assets\person.png" />
+    <Resource Include="View\Assets\LogoPiringPeduli.png" />
     <Resource Include="View\Assets\maps.png" />
     <PackageReference Include="MaterialDesignColors" Version="3.1.0" />
     <PackageReference Include="MaterialDesignThemes" Version="5.1.0" />

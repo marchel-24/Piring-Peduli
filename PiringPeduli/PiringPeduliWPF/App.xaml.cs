@@ -37,11 +37,11 @@ namespace PiringPeduliWPF
             try
             {
                 //AccountService.CreateCourier("siappaaa", VehicleType.Motorcycle, 4);
-                //sortService.PublishSortedWaste(2, SortedType.Others, 0.9);
-                //AccountService.RegisterNewAccount("ilham", "tes123", "1823719283",  AccountType.Courier);
-                //TempoServ.CreateTemporaryStorage(1, "hakdnaksnd", 5);
-                //wasteInStorageService.AddWasteToStorage(2, 1, 15.5);
-                requiredWasteService.AddRequiredWaste(1, 2);
+                //sortService.PublishSortedWaste(SortedType.Others);
+                AccountService.RemoveAccountByUsername("ilham");
+                //TempoServ.CreateTemporaryStorage("Jalan Roma", 1);
+                //wasteInStorageService.DeleteWasteByStorage(1);
+                //requiredWasteService.AddRequiredWaste(1, 2);
 
                 //Debug.WriteLine(AccountService.GetRecyclerByName("ilham").RecyclerId);
                 //Debug.WriteLine(AccountService.GetRecyclerByName("ilham").RecyclerName);

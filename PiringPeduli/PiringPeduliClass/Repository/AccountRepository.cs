@@ -35,7 +35,6 @@ namespace PiringPeduliClass.Repository
                                 AccountId = reader.GetInt32(reader.GetOrdinal("accountid")),
                                 Username = reader.GetString(reader.GetOrdinal("username")),
                                 Password = reader.GetString(reader.GetOrdinal("password")),
-                                PhoneNumber = reader.GetString(reader.GetOrdinal("phonenumber")),
                                 Type = (AccountType)Enum.Parse(typeof(AccountType), reader.GetString(reader.GetOrdinal("type")))
                             };
                         }
@@ -67,7 +66,6 @@ namespace PiringPeduliClass.Repository
                                 AccountId = reader.GetInt32(reader.GetOrdinal("accountid")),
                                 Username = reader.GetString(reader.GetOrdinal("username")),
                                 Password = reader.GetString(reader.GetOrdinal("password")),
-                                PhoneNumber = reader.GetString(reader.GetOrdinal("phonenumber")),
                                 Type = (AccountType)Enum.Parse(typeof(AccountType), reader.GetString(reader.GetOrdinal("type")))
                             };
                         }
@@ -120,12 +118,11 @@ namespace PiringPeduliClass.Repository
                     await connection.OpenAsync();  // Use async version for opening the connection
 
                     using (var command = new NpgsqlCommand(
-                        "INSERT INTO account (accountid, username, password, phonenumber, type) VALUES (@accountid, @username, @password, @phonenumber, @type::account_type)", connection))
+                        "INSERT INTO account (accountid, username, password, type) VALUES (@accountid, @username, @password, @type::account_type)", connection))
                     {
                         command.Parameters.AddWithValue("@accountid", account.AccountId);
                         command.Parameters.AddWithValue("@username", account.Username);
                         command.Parameters.AddWithValue("@password", account.Password);
-                        command.Parameters.AddWithValue("@phonenumber", account.PhoneNumber);
                         command.Parameters.AddWithValue("@type", account.Type.ToString());
 
                         // Use async version of ExecuteNonQuery
@@ -152,12 +149,11 @@ namespace PiringPeduliClass.Repository
                 connection.Open();
 
                 using (var command = new NpgsqlCommand(
-                    "UPDATE account SET username = @username, password = @password, phonenumber = @phonenumber, type = @type::account_type WHERE accountid = @accountid", connection))
+                    "UPDATE account SET username = @username, password = @password, type = @type::account_type WHERE accountid = @accountid", connection))
                 {
                     command.Parameters.AddWithValue("@accountid", account.AccountId);
                     command.Parameters.AddWithValue("@username", account.Username);
                     command.Parameters.AddWithValue("@password", account.Password);
-                    command.Parameters.AddWithValue("@phonenumber", account.PhoneNumber);
                     command.Parameters.AddWithValue("@type", account.Type.ToString());
 
                     command.ExecuteNonQuery();

@@ -25,11 +25,11 @@ namespace PiringPeduliClass.Repository
 
                 using (var command = new NpgsqlCommand
                     (
-                        "INSERT INTO temporarystorage (storageid, storageaddress, accountid) VALUES (@storageid, @storageaddress, @accountid)", connection
+                        "INSERT INTO temporarystorage (storageid, storageaddress, accountid) VALUES (DEFAULT, @storageaddress, @accountid)", connection
                         )
                     )
                 {
-                    command.Parameters.AddWithValue("@storageid", account.StorageId);
+                    //command.Parameters.AddWithValue("@storageid", account.StorageId);
                     command.Parameters.AddWithValue("@storageaddress", account.StorageAddress);
                     command.Parameters.AddWithValue("@accountid", account.AccountId);
 

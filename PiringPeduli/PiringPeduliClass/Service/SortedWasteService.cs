@@ -17,13 +17,13 @@ namespace PiringPeduliClass.Service
             _sortedWasteRepository = sortedWasteRepository;
         }
 
-        public void PublishSortedWaste(int wastedID, SortedType wasteType, double quantity)
+        public void PublishSortedWaste(SortedType wasteType)
         {
             var SortedWaste = new SortedWaste
             {
-                Wasteid = wastedID,
-                WasteType = wasteType,
-                Quantity = quantity
+                //Wasteid = wastedID,
+                WasteType = wasteType
+                //Quantity = quantity
             };
 
             _sortedWasteRepository.CreateSortedWaste(SortedWaste);
@@ -34,13 +34,13 @@ namespace PiringPeduliClass.Service
             return _sortedWasteRepository.GetSortedbyID(id);
         }
 
-        public void UpdateSortedWaste(int wastedID, SortedType wasteType, double quantity)
+        public void UpdateSortedWaste(int wastedID, SortedType wasteType)
         {
             var SortedWaste = new SortedWaste
             {
                 Wasteid = wastedID,
-                WasteType = wasteType,
-                Quantity = quantity
+                WasteType = wasteType
+                //Quantity = quantity
             };
 
             _sortedWasteRepository.UpdateSortedWaste(SortedWaste);

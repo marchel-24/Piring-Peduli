@@ -42,7 +42,6 @@ namespace PiringPeduliClass.Service
                     AccountId = newAccountId,
                     Username = username,
                     Password = password,
-                    PhoneNumber = phoneNumber,
                     Type = type
                 };
 
