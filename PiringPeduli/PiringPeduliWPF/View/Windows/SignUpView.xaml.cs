@@ -16,6 +16,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Diagnostics;
+using PiringPeduliClass.Model;
 
 namespace PiringPeduliWPF.View.Windows
 {
@@ -75,6 +77,10 @@ namespace PiringPeduliWPF.View.Windows
             // Ambil pilihan yang dipilih dari ComboBox
             ComboBoxItem selectedItem = (ComboBoxItem)QuestionComboBox.SelectedItem;
             string selectedOption = selectedItem.Content.ToString();
+            if (DataContext is SignUpViewModel viewModel)
+            {
+                viewModel.AccountTypeStr = selectedOption;
+            }
 
             // Update pertanyaan kedua berdasarkan pilihan
             switch (selectedOption)

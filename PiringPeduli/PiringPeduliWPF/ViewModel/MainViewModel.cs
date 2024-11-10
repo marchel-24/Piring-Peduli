@@ -1,4 +1,5 @@
 ﻿using PiringPeduliWPF.Services;
+using PiringPeduliClass.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace PiringPeduliWPF.ViewModel
     public class MainViewModel:ViewModelBase
     {
         private ViewModelBase _currentChildView;
+        private readonly AccountService _accountService;
 
         public ViewModelBase CurrentChildView
         {

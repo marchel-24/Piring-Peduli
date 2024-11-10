@@ -29,7 +29,7 @@ namespace PiringPeduliClass.Service
         }
 
 
-        public async Task<bool> RegisterNewAccountAsync(string username, string password, string phoneNumber, AccountType type)
+        public async Task<bool> RegisterNewAccountAsync(string username, string password, AccountType type)
         {
             try
             {

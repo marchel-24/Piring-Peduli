@@ -14,7 +14,9 @@
     <None Remove="View\Assets\maps.png" />
     <None Remove="View\Assets\person.png" />
     <Resource Include="View\Assets\LogoPiringPeduli.png" />
-    <Resource Include="View\Assets\maps.png" />
+    <Resource Include="View\Assets\maps.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <PackageReference Include="MaterialDesignColors" Version="3.1.0" />
     <PackageReference Include="MaterialDesignThemes" Version="5.1.0" />
     <PackageReference Include="Microsoft.Maps.MapControl.WPF" Version="1.0.0.3" />
@@ -29,11 +31,19 @@
     <Resource Include="View\Assets\background.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="View\Assets\person.png" />
+    <Resource Include="View\Assets\person.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
     <EditorConfigFiles Remove="D:\KULIAH\Piring Peduli\Piring-Peduli\Piring-Peduli\PiringPeduli\PiringPeduliWPF\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="View\Assets\LogoPiringPeduli.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

@@ -20,9 +20,9 @@ namespace PiringPeduliWPF.ViewModel
         private readonly NavigationService _navigationService;
 
         private string _username;
-        private string _phoneNumber;
         private string _password;
         private string _confirmPassword;
+        private string _accountTypeStr;
 
         public string Username
         {
@@ -31,6 +31,16 @@ namespace PiringPeduliWPF.ViewModel
             {
                 _username = value;
                 OnPropertyChanged(nameof(Username));
+            }
+        }
+
+        public string AccountTypeStr
+        {
+            get => _accountTypeStr;
+            set
+            {
+                _accountTypeStr = value;
+                OnPropertyChanged(nameof(AccountType));
             }
         }
 
@@ -51,16 +61,6 @@ namespace PiringPeduliWPF.ViewModel
             {
                 _confirmPassword = value;
                 OnPropertyChanged(nameof(ConfirmPassword));
-            }
-        }
-
-        public string PhoneNumber
-        {
-            get => _phoneNumber;
-            set
-            {
-                _phoneNumber = value;
-                OnPropertyChanged(nameof(PhoneNumber));
             }
         }
 
@@ -91,16 +91,15 @@ namespace PiringPeduliWPF.ViewModel
                     throw new Exception("Username is required.");
                 }
 
-                // Validate if the phone number is provided
-                if (string.IsNullOrWhiteSpace(PhoneNumber))
-                {
-                    throw new Exception("Phone number is required.");
-                }
-
                 // Validate if the password is provided and meets the length requirement
                 if (string.IsNullOrWhiteSpace(Password))
                 {
                     throw new Exception("Password is required.");
+                }
+
+                if (string.IsNullOrWhiteSpace(AccountTypeStr))
+                {
+                    throw new Exception("Account type is required.");
                 }
 
                 if (Password.Length < 8)
@@ -120,7 +119,14 @@ namespace PiringPeduliWPF.ViewModel
                     throw new Exception("Username already exist");
                 }
                 // Proceed with registration logic
-                var success = await _accountService.RegisterNewAccountAsync(Username, Password, PhoneNumber, AccountType.Customer);
+                if (AccountTypeStr == "Temporary Storage")
+                {
+                    AccountTypeStr = "TemporaryStorage";
+                }
+
+                AccountType AccountType = (AccountType)Enum.Parse(typeof(AccountType), AccountTypeStr);
+                Debug.Print(AccountType.ToString());
+                var success = await _accountService.RegisterNewAccountAsync(Username, Password, AccountType);
 
                 if (success)
                 {
