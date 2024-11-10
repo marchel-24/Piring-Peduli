@@ -61,5 +61,18 @@ namespace PiringPeduliClass.Repository
             }
         }
 
+        public void DeleteWasteByStorage(int storageId)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand("DELETE FROM wasteinstorage WHERE storageid = @storageid", connection))
+                {
+                    command.Parameters.AddWithValue("@storageid", storageId);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

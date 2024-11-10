@@ -14,11 +14,11 @@ namespace PiringPeduliClass.Service
         }
 
         // Method to create a new temporary storage account
-        public void CreateTemporaryStorage(int storageId, string storageAddress, int accountId)
+        public void CreateTemporaryStorage(string storageAddress, int accountId)
         {
             var temporaryStorage = new TemporaryStorage
             {
-                StorageId = storageId,
+                //StorageId = storageId,
                 StorageAddress = storageAddress,
                 AccountId = accountId
             };

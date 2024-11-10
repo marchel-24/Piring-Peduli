@@ -54,11 +54,11 @@ namespace PiringPeduliClass.Repository
                 connection.Open();
 
                 using (var command = new NpgsqlCommand(
-                    "INSERT INTO sortedwaste (wasteid, wastedtype, quantity) VALUES (@wasteid, @wastedtype::wasted_type, @quantity)", connection))
+                    "INSERT INTO sortedwaste (wasteid, wastedtype) VALUES (DEFAULT, @wastedtype::wasted_type)", connection))
                 {
-                    command.Parameters.AddWithValue("@wasteid", sortedWaste.Wasteid);
+                    //command.Parameters.AddWithValue("@wasteid", sortedWaste.Wasteid);
                     command.Parameters.AddWithValue("@wastedtype", sortedWaste.WasteType.ToString());
-                    command.Parameters.AddWithValue("@quantity", sortedWaste.Quantity);
+                    //command.Parameters.AddWithValue("@quantity", sortedWaste.Quantity);
 
                     command.ExecuteNonQuery();
                 }
@@ -72,12 +72,12 @@ namespace PiringPeduliClass.Repository
                 connection.Open();
 
                 using (var command = new NpgsqlCommand(
-                    "UPDATE sortedwaste SET wastedtype = @wastetype::wasted_type, quantity = @quantity WHERE wasteid = @wasteid", connection)
+                    "UPDATE sortedwaste SET wastedtype = @wastetype::wasted_type WHERE wasteid = @wasteid", connection)
                     )
                 {
                     command.Parameters.AddWithValue("@wasteid", sortedwaste.Wasteid);
                     command.Parameters.AddWithValue("@wastetype", sortedwaste.WasteType.ToString());
-                    command.Parameters.AddWithValue("@quantity", sortedwaste.Quantity);
+                    //command.Parameters.AddWithValue("@quantity", sortedwaste.Quantity);
 
                     command.ExecuteNonQuery();
                 }

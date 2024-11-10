@@ -23,5 +23,10 @@ namespace PiringPeduliClass.Service
             var wasteInStorage = new WasteInStorage(wasteId, storageId, quantity);
             _repository.AddWasteToStorage(wasteInStorage);
         }
+
+        public void DeleteWasteByStorage(int storageId)
+        {
+            _repository.DeleteWasteByStorage(storageId);
+        }
     }
 }

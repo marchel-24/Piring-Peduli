@@ -22,7 +22,6 @@ namespace PiringPeduliClass.Model
         private int accountId;
         private string username;
         private string password;
-        private string phoneNumber;
         private AccountType type;
 
         /// <summary>
@@ -50,15 +49,6 @@ namespace PiringPeduliClass.Model
         {
             get { return password; }
             set { password = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the phone number for the account.
-        /// </summary>
-        public string PhoneNumber
-        {
-            get { return phoneNumber; }
-            set { phoneNumber = value; }
         }
 
         /// <summary>
