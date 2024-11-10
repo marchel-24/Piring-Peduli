@@ -104,24 +104,32 @@
                     </Button>
                 </Grid>
                 
-                <StackPanel Width="250"
-                            Grid.Row="1"
+                <StackPanel Grid.Row="1"
                             Orientation="Vertical"
-                            Margin="0,35,0,10">
-                
-                   
+                            Margin="75, 0, 75, 0">
+
+                    <Image Source="../Assets/LogoPiringPeduli.png"
+                           Width="70"
+                           Margin="0, 20, 0, 0 "/>
+                    <TextBlock Text="Piring Peduli"
+                               FontFamily="Gilroy"
+                               FontWeight="DemiBold"
+                               FontSize="24"
+                               HorizontalAlignment="Center"
+                               Foreground="#3B8E45"
+                               Margin="0, 20, 0, 0"/>
                     <TextBlock Text="Username"
                                FontFamily="Gilroy"
-                               FontWeight="SemiBold"
-                               FontSize="13"
-                               Margin="0,20,0,0"
+                               FontWeight="DemiBold"
+                               FontSize="18"
+                               Margin="0,50,0,0"
                                />
                     <TextBox x:Name="TxtUsername"
                               FontSize="11"
                               FontWeight="Medium"
                               BorderThickness="0,0,0,2"
                               FontFamily="Gilroy"
-                              Height="30"
+                              Height="35"
                               VerticalContentAlignment="Center"
                               Margin="0,5,0,0"
                               Padding="5,0,0,0"
@@ -172,7 +180,7 @@
                     <TextBlock Text="Password"
                                FontFamily="Gilroy"
                                FontWeight="SemiBold"
-                               FontSize="13"
+                               FontSize="18"
                                Margin="0,20,0,0"
                                />
                     <PasswordBox x:Name="TxtPassword"
@@ -180,7 +188,7 @@
                              FontWeight="Medium"
                              FontFamily="Gilroy"
                              BorderThickness="0,0,0,2"
-                             Height="28"
+                             Height="35"
                              VerticalContentAlignment="Center"
                              Margin="0,5,0,0"
                              Padding="5,0,0,0"
@@ -228,7 +236,7 @@
                     <Button x:Name="BtnLogin"
                             BorderThickness="0"
                             Content="Sign In"
-                            FontSize="12"
+                            FontSize="18"
                             Grid.Column="2"
                             Margin="0,15,0,0"
                             FontFamily="Gilroy"
@@ -249,8 +257,8 @@
                         </Button.Style>
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
-                                <Border Width="100" 
-                                        Height="25" 
+                                <Border Width="125" 
+                                        Height="35" 
                                         CornerRadius="13" 
                                         Background="{TemplateBinding Background}">
                                     <ContentPresenter VerticalAlignment="Center"
@@ -264,7 +272,7 @@
                     <Button x:Name="BtnSignUp"
                             BorderThickness="0"
                             Content="Sign Up"
-                            FontSize="8"
+                            FontSize="12"
                             Grid.Column="2"
                             Margin="0,5,0,0"
                             FontFamily="Gilroy"
