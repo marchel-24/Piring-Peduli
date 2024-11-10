@@ -9,7 +9,7 @@
              d:DesignHeight="600" d:DesignWidth="800"
              Background="White">
     <UserControl.DataContext>
-        <viewModel:AccountViewModel />
+        <viewModel:SignUpViewModel />
     </UserControl.DataContext>
     <Grid>
         <TextBlock Text="Update Profile" FontSize="28" FontWeight="Bold" Margin="30,30,0,0"/>

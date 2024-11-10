@@ -28,21 +28,35 @@ namespace PiringPeduliClass.Service
             return _accountRepository.GetAccountByUsername(username);
         }
 
-        public void RegisterNewAccount(string username, string password, string phoneNumber, AccountType type)
+        public async Task<bool> RegisterNewAccountAsync(string username, string password, string phoneNumber, AccountType type)
         {
-            int newAccountId = _accountRepository.GetNextAccountId();
-
-            var account = new Account
+            try
             {
-                AccountId = newAccountId,
-                Username = username,
-                Password = password,
-                PhoneNumber = phoneNumber,
-                Type = type
-            };
+                // Get the next Account ID asynchronously
+                int newAccountId = await _accountRepository.GetNextAccountIdAsync();
 
-            _accountRepository.CreateAccount(account);
+                var account = new Account
+                {
+                    AccountId = newAccountId,
+                    Username = username,
+                    Password = password,
+                    PhoneNumber = phoneNumber,
+                    Type = type
+                };
+
+                // Create the account asynchronously
+                bool isCreated = await _accountRepository.CreateAccountAsync(account);
+
+                return isCreated;
+            }
+            catch (Exception ex)
+            {
+                // Log exception or handle it accordingly
+                // Optionally, log or rethrow the exception
+                return false;
+            }
         }
+
 
         public void UpdateAccount(Account account)
         {

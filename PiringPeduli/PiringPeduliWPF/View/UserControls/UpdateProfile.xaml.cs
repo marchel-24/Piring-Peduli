@@ -33,13 +33,13 @@ namespace PiringPeduliWPF.View.UserControls
             // Pass the connection string to the UserRepository and UserService
             var userRepository = new AccountRepository(connectionString);
             var userService = new AccountService(userRepository);
-            DataContext = new AccountViewModel(userService);
+            DataContext = new SignUpViewModel(userService);
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             var passwordBox = sender as PasswordBox;
-            if (DataContext is AccountViewModel viewModel)
+            if (DataContext is SignUpViewModel viewModel)
             {
                 viewModel.Password = passwordBox.Password; // Update the ViewModel
             }

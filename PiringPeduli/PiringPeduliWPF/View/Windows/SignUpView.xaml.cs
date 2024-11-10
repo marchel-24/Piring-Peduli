@@ -1,6 +1,7 @@
 ﻿using PiringPeduliClass.Repository;
 using PiringPeduliClass.Service;
 using PiringPeduliWPF.ViewModel;
+using PiringPeduliWPF.Services;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -21,9 +22,9 @@ namespace PiringPeduliWPF.View.Windows
     /// <summary>
     /// Interaction logic for SignUp.xaml
     /// </summary>
-    public partial class SignUp : Window
+    public partial class SignUpView : Window
     {
-        public SignUp()
+        public SignUpView()
         {
             InitializeComponent();
 
@@ -32,15 +33,10 @@ namespace PiringPeduliWPF.View.Windows
             // Pass the connection string to the UserRepository and UserService
             var userRepository = new AccountRepository(connectionString);
             var userService = new AccountService(userRepository);
-            DataContext = new AccountViewModel(userService);
+            var navigationSercive = new NavigationService(this);
+            DataContext = new SignUpViewModel(userService, navigationSercive);
         }
 
-        private void SignUptoLogin_Click(object sender, RoutedEventArgs e)
-        {
-            LoginView loginWindow = new LoginView();
-            loginWindow.Show();
-            this.Close(); // Close the current SignUp window
-        }
         private void BtnMinimized_click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
@@ -53,9 +49,18 @@ namespace PiringPeduliWPF.View.Windows
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             var passwordBox = sender as PasswordBox;
-            if (DataContext is AccountViewModel viewModel)
+            if (DataContext is SignUpViewModel viewModel)
             {
                 viewModel.Password = passwordBox.Password; // Update the ViewModel
+            }
+        }
+
+        private void ConfirmPasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            var confirmPasswordBox = sender as PasswordBox;
+            if (DataContext is SignUpViewModel viewModel)
+            {
+                viewModel.ConfirmPassword = confirmPasswordBox.Password; // Update the ViewModel
             }
         }
     }

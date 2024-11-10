@@ -1,6 +1,7 @@
 ﻿using Npgsql;
 using PiringPeduliClass.Model;
 using System;
+using System.Diagnostics;
 
 namespace PiringPeduliClass.Repository
 {
@@ -76,15 +77,17 @@ namespace PiringPeduliClass.Repository
             return account;
         }
 
-        public int GetNextAccountId()
+        public async Task<int> GetNextAccountIdAsync()
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();  // Use async version for opening the connection
 
                 using (var command = new NpgsqlCommand("SELECT COALESCE(MAX(accountid), 0) + 1 FROM account", connection))
                 {
-                    return Convert.ToInt32(command.ExecuteScalar());
+                    // Use async version of ExecuteScalar
+                    var result = await command.ExecuteScalarAsync();
+                    return Convert.ToInt32(result);
                 }
             }
         }
@@ -106,25 +109,39 @@ namespace PiringPeduliClass.Repository
             }
         }
 
-        public void CreateAccount(Account account)
+        public async Task<bool> CreateAccountAsync(Account account)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            try
             {
-                connection.Open();
-
-                using (var command = new NpgsqlCommand(
-                    "INSERT INTO account (accountid, username, password, phonenumber, type) VALUES (@accountid, @username, @password, @phonenumber, @type::account_type)", connection))
+                using (var connection = new NpgsqlConnection(_connectionString))
                 {
-                    command.Parameters.AddWithValue("@accountid", account.AccountId);
-                    command.Parameters.AddWithValue("@username", account.Username);
-                    command.Parameters.AddWithValue("@password", account.Password);
-                    command.Parameters.AddWithValue("@phonenumber", account.PhoneNumber);
-                    command.Parameters.AddWithValue("@type", account.Type.ToString());
+                    await connection.OpenAsync();  // Use async version for opening the connection
 
-                    command.ExecuteNonQuery();
+                    using (var command = new NpgsqlCommand(
+                        "INSERT INTO account (accountid, username, password, phonenumber, type) VALUES (@accountid, @username, @password, @phonenumber, @type::account_type)", connection))
+                    {
+                        command.Parameters.AddWithValue("@accountid", account.AccountId);
+                        command.Parameters.AddWithValue("@username", account.Username);
+                        command.Parameters.AddWithValue("@password", account.Password);
+                        command.Parameters.AddWithValue("@phonenumber", account.PhoneNumber);
+                        command.Parameters.AddWithValue("@type", account.Type.ToString());
+
+                        // Use async version of ExecuteNonQuery
+                        await command.ExecuteNonQueryAsync();
+                    }
                 }
+
+                return true;  // Return true if account creation is successful
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (e.g., to a logging service or console)
+                Debug.WriteLine($"Error creating account: {ex.Message}");
+
+                return false;  // Return false if an error occurs
             }
         }
+
 
         public void UpdateAccount(Account account)
         {

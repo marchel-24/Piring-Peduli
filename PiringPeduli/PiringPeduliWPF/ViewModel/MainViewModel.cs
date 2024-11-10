@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PiringPeduliWPF.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,7 +51,7 @@ namespace PiringPeduliWPF.ViewModel
 
         private void ExecuteAccountView(object obj)
         {
-            CurrentChildView = new AccountViewModel();
+            CurrentChildView = new SignUpViewModel();
         }
 
         private void ExecuteSettingsView(object obj)

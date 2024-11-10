@@ -1,5 +1,6 @@
 ﻿using PiringPeduliClass.Repository;
 using PiringPeduliClass.Service;
+using PiringPeduliWPF.Services;
 using PiringPeduliWPF.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -31,26 +32,15 @@ namespace PiringPeduliWPF.View.Windows
             // Pass the connection string to the UserRepository and UserService
             var userRepository = new AccountRepository(connectionString);
             var userService = new AccountService(userRepository);
+            var navigationService = new NavigationService(this);
 
-            DataContext = new AccountViewModel(userService);
-        }
-
-        private void LogintoSignUp_Click(object sender, RoutedEventArgs e)
-        {
-            // Create a new instance of the SignUp window
-            SignUp signUpWindow = new SignUp();
-
-            // Show the SignUp window
-            signUpWindow.Show();
-
-            // Optionally close or hide the current Login window
-            this.Close(); // or this.Hide(); if you want to just hide it
+            DataContext = new LoginViewModel(userService, navigationService);
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             var passwordBox = sender as PasswordBox;
-            if (DataContext is AccountViewModel viewModel)
+            if (DataContext is SignUpViewModel viewModel)
             {
                 viewModel.Password = passwordBox.Password; // Update the ViewModel
             }

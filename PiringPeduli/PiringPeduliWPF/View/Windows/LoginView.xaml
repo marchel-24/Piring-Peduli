@@ -14,7 +14,7 @@
         AllowsTransparency="True"
         >
     <Window.DataContext>
-        <viewModel:AccountViewModel />
+        <viewModel:LoginViewModel />
     </Window.DataContext>
     
     <Border CornerRadius="10">
@@ -270,7 +270,7 @@
                             FontFamily="Gilroy"
                             FontWeight="Medium"
                             Cursor="Hand"
-                            Click="LogintoSignUp_Click">
+                            Command="{Binding NavigateSignUpCommand}">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Background" Value="Transparent"/>

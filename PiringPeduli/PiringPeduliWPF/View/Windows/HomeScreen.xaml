@@ -20,7 +20,7 @@
     </Window.DataContext>
 
     <Window.Resources>
-        <DataTemplate DataType="{x:Type viewModel:AccountViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:SignUpViewModel}">
             <local:AccountView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:MainScreenViewModel}">
