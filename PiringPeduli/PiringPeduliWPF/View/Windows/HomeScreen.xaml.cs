@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using PiringPeduliWPF.ViewModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -20,6 +21,7 @@ namespace PiringPeduliWPF.View.Windows
         {
             InitializeComponent();
 
+            DataContext = new MainViewModel();
         }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -15,12 +15,9 @@
         ResizeMode="NoResize" 
         Background="{x:Null}" 
         AllowsTransparency="True">
-    <Window.DataContext>
-        <viewModel:MainViewModel/>
-    </Window.DataContext>
 
     <Window.Resources>
-        <DataTemplate DataType="{x:Type viewModel:SignUpViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:AccountViewModel}">
             <local:AccountView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:MainScreenViewModel}">

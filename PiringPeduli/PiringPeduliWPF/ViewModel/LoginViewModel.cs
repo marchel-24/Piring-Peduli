@@ -79,6 +79,7 @@ namespace PiringPeduliWPF.ViewModel
 
                 if (account != null)
                 {
+                    UserSessionService.Account = account;
                     _navigationService.NavigateTo("HomeScreenView");
                 }
             }

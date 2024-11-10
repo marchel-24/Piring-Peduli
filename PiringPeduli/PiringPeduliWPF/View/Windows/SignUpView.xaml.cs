@@ -65,6 +65,7 @@ namespace PiringPeduliWPF.View.Windows
                 viewModel.ConfirmPassword = confirmPasswordBox.Password; // Update the ViewModel
             }
         }
+
         private void ArrowIcon_Click(object sender, MouseButtonEventArgs e)
         {
             //MessageBox.Show("Arrow icon clicked!");

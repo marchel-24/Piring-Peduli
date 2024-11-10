@@ -13,10 +13,7 @@
         Background="Transparent"
         AllowsTransparency="True"
         >
-    <Window.DataContext>
-        <viewModel:LoginViewModel />
-    </Window.DataContext>
-    
+
     <Border CornerRadius="10">
         <Border.Background>
             <ImageBrush ImageSource="../Assets/Background.png"

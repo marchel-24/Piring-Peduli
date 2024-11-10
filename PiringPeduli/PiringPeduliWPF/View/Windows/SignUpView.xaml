@@ -13,9 +13,6 @@
         Background="Transparent"
         AllowsTransparency="True"
         >
-    <Window.DataContext>
-        <viewModel:SignUpViewModel />
-    </Window.DataContext>
     <Border CornerRadius="10">
         <Border.Background>
             <ImageBrush ImageSource="../Assets/background.png"

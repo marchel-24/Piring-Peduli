@@ -8,9 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800"
              Background="White">
-    <UserControl.DataContext>
-        <viewModel:SignUpViewModel />
-    </UserControl.DataContext>
     <Grid>
         <TextBlock Text="Update Profile" FontSize="28" FontWeight="Bold" Margin="30,30,0,0"/>
 
@@ -109,8 +106,7 @@
              Height="28"
              VerticalContentAlignment="Center"
              Margin="0,5,0,0"
-             Padding="5,0,0,0"
-             Text="{Binding PhoneNumber}">
+             Padding="5,0,0,0">
                 <TextBox.Style>
                     <Style TargetType="{x:Type TextBox}">
                         <Style.Resources>
@@ -262,7 +258,8 @@
                  Height="28"
                  VerticalContentAlignment="Center"
                  Margin="0,5,0,0"
-                 Padding="5,0,0,0">
+                 Padding="5,0,0,0"
+                 PasswordChanged="ConfirmPasswordBox_PasswordChanged">
                 <PasswordBox.Style>
                     <Style TargetType="{x:Type PasswordBox}">
                         <Style.Resources>
@@ -332,8 +329,7 @@
             <Button x:Name="btnDelete"
                     Content="Delete"
                     Width="92"
-                    Margin="0,0,10,2" 
-                    Command="{Binding DeleteCommand}"
+                    Margin="0,0,10,2"
                     >
                 <Button.Style>
                     <Style TargetType="Button">
