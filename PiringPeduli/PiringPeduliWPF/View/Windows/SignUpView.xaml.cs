@@ -28,7 +28,7 @@ namespace PiringPeduliWPF.View.Windows
         {
             InitializeComponent();
 
-            string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDB"].ConnectionString;
 
             // Pass the connection string to the UserRepository and UserService
             var userRepository = new AccountRepository(connectionString);
@@ -63,5 +63,36 @@ namespace PiringPeduliWPF.View.Windows
                 viewModel.ConfirmPassword = confirmPasswordBox.Password; // Update the ViewModel
             }
         }
+        private void ArrowIcon_Click(object sender, MouseButtonEventArgs e)
+        {
+            //MessageBox.Show("Arrow icon clicked!");
+            QuestionComboBox.IsDropDownOpen = !QuestionComboBox.IsDropDownOpen;
+        }
+
+
+        private void QuestionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Ambil pilihan yang dipilih dari ComboBox
+            ComboBoxItem selectedItem = (ComboBoxItem)QuestionComboBox.SelectedItem;
+            string selectedOption = selectedItem.Content.ToString();
+
+            // Update pertanyaan kedua berdasarkan pilihan
+            switch (selectedOption)
+            {
+                case "Opsi A":
+                    DynamicQuestionText.Text = "Pertanyaan 2: Anda memilih Opsi A. Apa pendapat Anda?";
+                    break;
+                case "Opsi B":
+                    DynamicQuestionText.Text = "Pertanyaan 2: Anda memilih Opsi B. Bagaimana tanggapan Anda?";
+                    break;
+                case "Opsi C":
+                    DynamicQuestionText.Text = "Pertanyaan 2: Anda memilih Opsi C. Mengapa Anda memilih ini?";
+                    break;
+                default:
+                    DynamicQuestionText.Text = "Pertanyaan 2: Pilih salah satu opsi di atas.";
+                    break;
+            }
+        }
+
     }
 }
