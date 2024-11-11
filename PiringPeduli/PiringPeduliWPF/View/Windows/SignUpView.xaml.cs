@@ -35,8 +35,7 @@ namespace PiringPeduliWPF.View.Windows
             // Pass the connection string to the UserRepository and UserService
             var userRepository = new AccountRepository(connectionString);
             var userService = new AccountService(userRepository);
-            var navigationSercive = new NavigationService(this);
-            DataContext = new SignUpViewModel(userService, navigationSercive);
+            DataContext = new SignUpViewModel(userService);
         }
 
         private void BtnMinimized_click(object sender, RoutedEventArgs e)

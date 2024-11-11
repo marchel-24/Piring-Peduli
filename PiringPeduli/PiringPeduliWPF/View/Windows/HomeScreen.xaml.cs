@@ -1,4 +1,5 @@
 ﻿using PiringPeduliWPF.ViewModel;
+using PiringPeduliWPF.Services;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,7 +8,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace PiringPeduliWPF.View.Windows
@@ -20,7 +20,6 @@ namespace PiringPeduliWPF.View.Windows
         public HomeScreen()
         {
             InitializeComponent();
-
             DataContext = new MainViewModel();
         }
 
