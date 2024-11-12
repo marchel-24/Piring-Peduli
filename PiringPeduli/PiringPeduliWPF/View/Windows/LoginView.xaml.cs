@@ -32,9 +32,12 @@ namespace PiringPeduliWPF.View.Windows
             // Pass the connection string to the UserRepository and UserService
             var userRepository = new AccountRepository(connectionString);
             var userService = new AccountService(userRepository);
-            var navigationService = new NavigationService(this);
+            if (NavigationService.CurrentWindow == null)
+            {
 
-            DataContext = new LoginViewModel(userService, navigationService);
+                NavigationService.CurrentWindow = this;
+            }
+            DataContext = new LoginViewModel(userService);
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)

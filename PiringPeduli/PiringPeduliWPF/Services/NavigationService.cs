@@ -1,6 +1,7 @@
 ﻿using PiringPeduliWPF.View.Windows;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,16 +9,19 @@ using System.Windows;
 
 namespace PiringPeduliWPF.Services
 {
-    public class NavigationService : INavigationService
+    public class NavigationService
     {
-        private readonly Window _currentWindow;
+        private static Window _currentWindow;
 
-        public NavigationService(Window currentWindow)
+        private NavigationService() { }
+
+        public static Window CurrentWindow
         {
-            _currentWindow = currentWindow;
+            get => _currentWindow;
+            set => _currentWindow = value;
         }
 
-        public void NavigateTo(string viewName)
+        public static void NavigateTo(string viewName)
         {
             // Example: Depending on the view name, create the corresponding view and show it
             Window newView = viewName switch
@@ -28,8 +32,14 @@ namespace PiringPeduliWPF.Services
                 _ => throw new ArgumentException("Unknown view", nameof(viewName))
             };
 
-            _currentWindow.Close(); // Close the current window
+            if (_currentWindow != null)
+            {
+
+                Debug.Print(CurrentWindow.ToString());
+                _currentWindow.Close(); // Close the current window
+            }
             newView.Show();         // Open the new window
+            _currentWindow = newView;
         }
     }
 }

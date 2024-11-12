@@ -17,7 +17,6 @@ namespace PiringPeduliWPF.ViewModel
     public class SignUpViewModel : ViewModelBase
     {
         private readonly AccountService _accountService;
-        private readonly NavigationService _navigationService;
 
         private string _username;
         private string _password;
@@ -72,10 +71,9 @@ namespace PiringPeduliWPF.ViewModel
         }
 
 
-        public SignUpViewModel(AccountService accountService, NavigationService navigationService)
+        public SignUpViewModel(AccountService accountService)
         {
             _accountService = accountService;
-            _navigationService = navigationService;
 
             RegisterCommand = new ViewModeCommand(Register);
         }
@@ -131,7 +129,7 @@ namespace PiringPeduliWPF.ViewModel
                 if (success)
                 {
                     // After successful registration, navigate to the login view
-                    _navigationService.NavigateTo("LoginView");
+                    NavigationService.NavigateTo("LoginView");
                 }
                 else
                 {

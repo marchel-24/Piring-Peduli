@@ -1,5 +1,6 @@
 ﻿using PiringPeduliWPF.Services;
 using PiringPeduliClass.Service;
+using PiringPeduliClass.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +8,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml;
+using System.Diagnostics;
 
 namespace PiringPeduliWPF.ViewModel
 {
     public class MainViewModel:ViewModelBase
     {
         private ViewModelBase _currentChildView;
-        private readonly AccountService _accountService;
+        private Account _account;
+
+        public Account Account
+        {
+            get => _account;
+            set
+            {
+                _account = value;
+                OnPropertyChanged(nameof(Account));
+            }
+        }
 
         public ViewModelBase CurrentChildView
         {
@@ -35,6 +47,7 @@ namespace PiringPeduliWPF.ViewModel
 
         public MainViewModel()
         {
+            Account = UserSessionService.Account;
             ShowMainScreenViewCommand = new ViewModeCommand(ExecuteMainScreenView);
             ShowPickUpViewCommand = new ViewModeCommand(ExecutePickUpView);
             ShowAccountViewCommand = new ViewModeCommand(ExecuteAccountView);

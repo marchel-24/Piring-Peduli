@@ -64,14 +64,13 @@ namespace PiringPeduliClass.Service
         }
 
 
-        public void UpdateAccount(Account account)
+        public void UpdateAccount(string oldUsername, Account updatedAccount)
         {
-            var accountId = _accountRepository.GetIdFromUsername(account.Username);
-            Debug.Print(accountId.ToString());
+            var accountId = _accountRepository.GetIdFromUsername(oldUsername);
             if(accountId != -1)
             {
-                account.AccountId = accountId;
-                _accountRepository.UpdateAccount(account);
+                updatedAccount.AccountId = accountId;
+                _accountRepository.UpdateAccount(updatedAccount);
             }
         }
 

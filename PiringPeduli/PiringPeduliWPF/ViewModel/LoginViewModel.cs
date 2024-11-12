@@ -50,10 +50,9 @@ namespace PiringPeduliWPF.ViewModel
             LoginCommand = new ViewModeCommand(Login);
         }
 
-        public LoginViewModel(AccountService accountService, NavigationService navigationService)
+        public LoginViewModel(AccountService accountService)
         {
             _accountService = accountService;
-            _navigationService = navigationService;
 
             LoginCommand = new ViewModeCommand(Login);
             NavigateSignUpCommand = new ViewModeCommand(NavigateSignUp);
@@ -79,7 +78,8 @@ namespace PiringPeduliWPF.ViewModel
 
                 if (account != null)
                 {
-                    _navigationService.NavigateTo("HomeScreenView");
+                    UserSessionService.Account = account;
+                    NavigationService.NavigateTo("HomeScreenView");
                 }
             }
             catch (Exception ex)
@@ -91,7 +91,7 @@ namespace PiringPeduliWPF.ViewModel
 
         private void NavigateSignUp(object obj)
         {
-            _navigationService.NavigateTo("SignUpView");
+            NavigationService.NavigateTo("SignUpView");
         }
     }
 }
