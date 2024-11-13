@@ -37,5 +37,18 @@ namespace PiringPeduliWPF.View.Windows
         {
             this.WindowState = WindowState.Minimized;
         }
+
+        private void maximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Normal)
+            {
+                this.WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                this.WindowState = WindowState.Normal;
+            }
+        }
+
     }
 }
