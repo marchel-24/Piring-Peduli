@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PiringPeduliWPF.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace PiringPeduliWPF.View.UserControls
         public Settings()
         {
             InitializeComponent();
+            this.DataContext = SettingViewModel.Instance;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
