@@ -85,18 +85,43 @@ namespace PiringPeduliWPF.View.Windows
             // Update pertanyaan kedua berdasarkan pilihan
             switch (selectedOption)
             {
-                case "Opsi A":
-                    DynamicQuestionText.Text = "Pertanyaan 2: Anda memilih Opsi A. Apa pendapat Anda?";
+                case "Courier":
+                    DynamicQuestionText.Text = "Vehicle Type";
                     break;
-                case "Opsi B":
-                    DynamicQuestionText.Text = "Pertanyaan 2: Anda memilih Opsi B. Bagaimana tanggapan Anda?";
+                case "Customer":
+                    DynamicQuestionText.Text = "Nama";
                     break;
-                case "Opsi C":
+                case "Recycler":
                     DynamicQuestionText.Text = "Pertanyaan 2: Anda memilih Opsi C. Mengapa Anda memilih ini?";
                     break;
-                default:
+                case "Temporary Storage":
                     DynamicQuestionText.Text = "Pertanyaan 2: Pilih salah satu opsi di atas.";
                     break;
+            }
+        }
+
+        private void VehicleType_Click(object sender, MouseButtonEventArgs e)
+        {
+            //MessageBox.Show("Arrow icon clicked!");
+            VehicleTypeComboBox.IsDropDownOpen = !VehicleTypeComboBox.IsDropDownOpen;
+        }
+
+        private void VehicleTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Ambil pilihan yang dipilih dari ComboBox
+            ComboBoxItem selectedItem = (ComboBoxItem)VehicleTypeComboBox.SelectedItem;
+            string selectedOption = selectedItem.Content.ToString();
+
+            // Update pertanyaan kedua berdasarkan pilihan
+            switch (selectedOption)
+            {
+                case "Truck":
+                    break;
+                case "Car":
+                    break;
+                case "Motorcycle": 
+                    break;
+                
             }
         }
 

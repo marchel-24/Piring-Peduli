@@ -198,15 +198,15 @@
                                Margin="0,20,0,0"
                                />
                     <ComboBox x:Name="QuestionComboBox" 
-          SelectionChanged="QuestionComboBox_SelectionChanged"
-          Background="White"
-          FontSize="11"
-          FontWeight="Medium"
-          FontFamily="Gilroy"
-          Height="30"
-          VerticalContentAlignment="Center"
-          Margin="0,5,0,0"
-          Padding="5,0,0,0">
+                              SelectionChanged="QuestionComboBox_SelectionChanged"
+                              Background="White"
+                              FontSize="11"
+                              FontWeight="Medium"
+                              FontFamily="Gilroy"
+                              Height="30"
+                              VerticalContentAlignment="Center"
+                              Margin="0,5,0,0"
+                              Padding="5,0,0,0">    
                         <ComboBox.Style>
                             <Style TargetType="ComboBox">
                                 <Setter Property="Template">
@@ -215,45 +215,45 @@
                                             <Grid>
                                                 <!-- Border around ComboBox -->
                                                 <Border x:Name="Border"
-                                    Background="White"
-                                    BorderBrush="Gray"
-                                    BorderThickness="1"
-                                    CornerRadius="8"
+                                                        Background="White"
+                                                        BorderBrush="Gray"
+                                                        BorderThickness="1"
+                                                        CornerRadius="8"
                                                         MouseLeftButtonDown="ArrowIcon_Click">
                                                     <!-- Content Presenter for selected item -->
                                                     <ContentPresenter HorizontalAlignment="Left"
-                                                  VerticalAlignment="Center"
-                                                  Margin="5,0,0,0"
-                                                  IsHitTestVisible="False"
-                                                  Content="{TemplateBinding SelectionBoxItem}" />
+                                                                      VerticalAlignment="Center"
+                                                                      Margin="5,0,0,0"
+                                                                      IsHitTestVisible="False"
+                                                                      Content="{TemplateBinding SelectionBoxItem}" />
                                                 </Border>
 
                                                 <!-- Down Arrow Icon (without ToggleButton) -->
                                                 <Path x:Name="ArrowIcon"
-                                  Data="M 0 0 L 4 4 L 8 0 Z"
-                                  Fill="Black"
-                                  Width="8"
-                                  Height="8"
-                                  HorizontalAlignment="Right"
-                                  VerticalAlignment="Center"
-                                  Margin="0,0,10,0"
-                                  MouseLeftButtonDown="ArrowIcon_Click"/>
+                                                      Data="M 0 0 L 4 4 L 8 0 Z"
+                                                      Fill="Black"
+                                                      Width="8"
+                                                      Height="8"
+                                                      HorizontalAlignment="Right"
+                                                      VerticalAlignment="Center"
+                                                      Margin="0,0,10,0"
+                                                      MouseLeftButtonDown="ArrowIcon_Click"/>       
 
                                                 <!-- Dropdown Popup -->
                                                 <Popup x:Name="PART_Popup"
-                                   Placement="Bottom"
-                                   IsOpen="{TemplateBinding IsDropDownOpen}"
-                                   AllowsTransparency="True"
-                                   Focusable="False"
-                                   PopupAnimation="Slide">
+                                                       Placement="Bottom"
+                                                       IsOpen="{TemplateBinding IsDropDownOpen}"
+                                                       AllowsTransparency="True"
+                                                       Focusable="False"
+                                                       PopupAnimation="Slide">  
                                                     <Border x:Name="DropDownBorder"
-                                        CornerRadius="8"
-                                        BorderBrush="Gray"
-                                        BorderThickness="1"
-                                        Background="White">
+                                                            CornerRadius="8"
+                                                            BorderBrush="Gray"
+                                                            BorderThickness="1"
+                                                            Background="White">
                                                         <ScrollViewer>
                                                             <StackPanel IsItemsHost="True"
-                                                    KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                                                        KeyboardNavigation.DirectionalNavigation="Contained"/>
                                                         </ScrollViewer>
                                                     </Border>
                                                 </Popup>
@@ -271,13 +271,91 @@
                         <ComboBoxItem Content="Temporary Storage"/>
                     </ComboBox>
 
+                    
+
 
 
 
                     <TextBlock x:Name="DynamicQuestionText" Margin="0,10,0,0" FontWeight="Bold"/>
-
+                    <TextBox>
+                        
+                    </TextBox>
                     <!-- Input jawaban dari pertanyaan 2 -->
-                    <TextBox x:Name="AnswerTextBox" Width="200"/>
+                    <ComboBox x:Name="VehicleTypeComboBox" 
+                                SelectionChanged="VehicleTypeComboBox_SelectionChanged"
+                                Background="White"
+                                FontSize="11"
+                                FontWeight="Medium"
+                                FontFamily="Gilroy"
+                                Height="30"
+                                VerticalContentAlignment="Center"
+                                Margin="0,5,0,0"
+                                Padding="5,0,0,0">
+                        <ComboBox.Style>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ComboBox">
+                                            <Grid>
+                                                <!-- Border around ComboBox -->
+                                                <Border x:Name="Border"
+                                                          Background="White"
+                                                          BorderBrush="Gray"
+                                                          BorderThickness="1"
+                                                          CornerRadius="8"
+                                              MouseLeftButtonDown="VehicleType_Click">
+                                                    <!-- Content Presenter for selected item -->
+                                                    <ContentPresenter HorizontalAlignment="Left"
+                                                                        VerticalAlignment="Center"
+                                                                        Margin="5,0,0,0"
+                                                                        IsHitTestVisible="False"
+                                                                        Content="{TemplateBinding SelectionBoxItem}" />
+                                                </Border>
+
+                                                <!-- Down Arrow Icon (without ToggleButton) -->
+                                                <Path x:Name="ArrowIcon"
+                                                        Data="M 0 0 L 4 4 L 8 0 Z"
+                                                        Fill="Black"
+                                                        Width="8"
+                                                        Height="8"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Center"
+                                                        Margin="0,0,10,0"
+                                                        MouseLeftButtonDown="VehicleType_Click"/>
+
+                                                <!-- Dropdown Popup -->
+                                                <Popup x:Name="PART_Popup"
+                                                         Placement="Bottom"
+                                                         IsOpen="{TemplateBinding IsDropDownOpen}"
+                                                         AllowsTransparency="True"
+                                                         Focusable="False"
+                                                         PopupAnimation="Slide">
+                                                    <Border x:Name="DropDownBorder"
+                                                              CornerRadius="8"
+                                                              BorderBrush="Gray"
+                                                              BorderThickness="1"
+                                                              Background="White">
+                                                        <ScrollViewer>
+                                                            <StackPanel IsItemsHost="True"
+                                                                        KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                                        </ScrollViewer>
+                                                    </Border>
+                                                </Popup>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ComboBox.Style>
+
+                        <!-- ComboBox Items -->
+                        <ComboBoxItem Content="Car"/>
+                        <ComboBoxItem Content="Mototrcycle"/>
+                        <ComboBoxItem Content="Truck"/>
+                    </ComboBox>
+                    
+                    
+
 
 
                     <TextBlock Text="Password"
