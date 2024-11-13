@@ -85,7 +85,7 @@ namespace PiringPeduliWPF.View.Windows
             // Update pertanyaan kedua berdasarkan pilihan
             switch (selectedOption)
             {
-                case "Opsi A":
+                case "Courier":
                     DynamicQuestionText.Text = "Pertanyaan 2: Anda memilih Opsi A. Apa pendapat Anda?";
                     break;
                 case "Opsi B":

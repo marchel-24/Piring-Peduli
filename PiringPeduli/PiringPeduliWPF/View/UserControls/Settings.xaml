@@ -3,10 +3,76 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PiringPeduliWPF.View.UserControls"
+             xmlns:local="clr-namespace:PiringPeduliWPF.View.UserControls" xmlns:viewmodel="clr-namespace:PiringPeduliWPF.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:SettingViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800"
+             d:DesignHeight="565" d:DesignWidth="750"
              Background="White">
+
+    <UserControl.Resources>
+        <Style x:Key="ToggleButtonStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Width" Value="35"/>
+            <Setter Property="MaxHeight" Value="20"/>
+            <Setter Property="MaxWidth" Value="35"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Grid>
+                            <Border x:Name="borderBackground"
+                                    Background="{TemplateBinding Background}"
+                                    CornerRadius="7"
+                                    Height="14"
+                                    Width="35"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"/>
+                            <Ellipse x:Name="Ellipse"
+                                     Height="20"
+                                     Width="20"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Left"
+                                     Fill="Gray"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="Checked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderBackground"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        To="LightGreen" Duration="0:0:0.2"/>
+                                        <ColorAnimation Storyboard.TargetName="Ellipse"
+                                                        Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)"
+                                                        To="Green" Duration="0:0:0.2"/>
+                                        <ThicknessAnimation Storyboard.TargetName="Ellipse"
+                                                            Storyboard.TargetProperty="Margin"
+                                                            To="15 0 0 0" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Unchecked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderBackground"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        To="LightGray" Duration="0:0:0.2"/>
+                                        <ThicknessAnimation Storyboard.TargetName="Ellipse"
+                                                            Storyboard.TargetProperty="Margin"
+                                                            To="0 0 0 0" Duration="0:0:0.2"/>
+                                        <ColorAnimation Storyboard.TargetName="Ellipse"
+                                                        Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)"
+                                                        To="Gray" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
@@ -20,7 +86,7 @@
         <TextBlock Text="Settings" FontSize="28" FontWeight="Bold" Margin="20,40,20,20" Grid.Row="0"/>
 
         <!-- Change Password Button -->
-        <Button Content="Change Password" HorizontalAlignment="Left" Margin="20,10,0,10" Grid.Row="1" Background="White" BorderBrush="Gray" BorderThickness="0,0,0,1" Width="700" Click="Button_Click">
+        <Button Content="Change Password" HorizontalAlignment="Left" Margin="20,10,0,10" Grid.Row="1" Background="White" BorderBrush="Gray" BorderThickness="0,0,0,1" Width="700" Click="Button_Click" >
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -28,6 +94,7 @@
                     <Setter Property="BorderBrush" Value="Gray"/>
                     <Setter Property="BorderThickness" Value="0,0,0,0"/>
                     <Setter Property="Padding" Value="5"/>
+                    <Setter Property="Cursor" Value="Hand"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
@@ -42,26 +109,15 @@
         </Button>
 
         <!-- Notification Button -->
-        <Button Content="Notification" HorizontalAlignment="Left" Margin="20,10,0,10" Grid.Row="2" Background="White" BorderBrush="Gray" BorderThickness="0,0,0,1" Width="700">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="OverridesDefaultStyle" Value="True"/>
-                    <Setter Property="Background" Value="White"/>
-                    <Setter Property="BorderBrush" Value="Gray"/>
-                    <Setter Property="BorderThickness" Value="0,0,0,0"/>
-                    <Setter Property="Padding" Value="5"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="Button">
-                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                                    <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
-        </Button>
+        <Border BorderBrush="Gray" Grid.Row="2" BorderThickness="0,0,0,1" Width="700" Margin="5,10,0,10">
+            <StackPanel Orientation="Horizontal">
+                <!-- Button -->
+                <TextBlock Text="Notification" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                <!-- ToggleButton -->
+                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource ToggleButtonStyle}" Margin="600 0 0 0" IsChecked="{Binding IsNotificationEnabled, Mode=TwoWay}"/>
+            </StackPanel>
+        </Border>
 
         <!-- Log Out Button -->
         <Button Content="Log out" HorizontalAlignment="Left" Margin="20,10,0,10" Grid.Row="3" Background="White" BorderBrush="Gray" BorderThickness="0,0,0,1" Width="700">
