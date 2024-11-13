@@ -175,7 +175,7 @@ namespace PiringPeduliClass.Repository
         }
 
 
-        public void DeleteAccountById(int accountId)
+        public async void DeleteAccountById(int accountId)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
@@ -190,20 +190,31 @@ namespace PiringPeduliClass.Repository
             }
         }
 
-        public void DeleteAccountByUsername(string username)
+        public async Task<bool> DeleteAccountByUsernameAsync(string username)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            try
             {
-                connection.Open();
-
-                using (var command = new NpgsqlCommand(
-                    "DELETE FROM account WHERE username = @username", connection))
+                using (var connection = new NpgsqlConnection(_connectionString))
                 {
-                    command.Parameters.AddWithValue("@username", username);
-                    command.ExecuteNonQuery();
+                    await connection.OpenAsync();
+
+                    using (var command = new NpgsqlCommand("DELETE FROM account WHERE username = @username", connection))
+                    {
+                        command.Parameters.AddWithValue("@username", username);
+                        await command.ExecuteNonQueryAsync();
+                    }
                 }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error deleting account: {ex.Message}");
+
+                return false;  // Return false if an error occurs
             }
         }
+
 
         public bool ValidateAccount(string username, string password)
         {

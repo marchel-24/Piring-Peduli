@@ -102,9 +102,23 @@ namespace PiringPeduliClass.Service
             _accountRepository.DeleteAccountById(accountId);
         }
 
-        public void RemoveAccountByUsername(string username)
+        public async Task<bool> RemoveAccountByUsernameAsync(string username)
         {
-            _accountRepository.DeleteAccountByUsername(username);
+            try
+            {
+                bool isDeleted = await _accountRepository.DeleteAccountByUsernameAsync(username);
+
+                if ((!isDeleted))
+                {
+                    throw new Exception("Delete account failed");
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<Account> Login(string username, string password)
