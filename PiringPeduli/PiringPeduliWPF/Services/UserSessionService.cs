@@ -21,5 +21,14 @@ namespace PiringPeduliWPF.Services
             get => _account;
             set => _account = value;
         }
+
+        public static void LogOut()
+        {
+            if (_account != null)
+            {
+                _account = null;
+            }
+            NavigationService.NavigateTo("LoginView");
+        }
     }
 }

@@ -56,10 +56,6 @@ namespace PiringPeduliWPF.ViewModel
         public ICommand DeleteCommand { get; }
         public ICommand CancelCommand { get; }
 
-        //public UpdateProfileViewModel()
-        //{
-        //    UpdateCommand = new ViewModeCommand(Update);
-        //}
 
         public UpdateProfileViewModel(AccountService accountService)
         {
@@ -68,14 +64,70 @@ namespace PiringPeduliWPF.ViewModel
         }
 
 
-        private void Update(object obj)
+        private async void Update(object obj)
         {
-            Account updatedAccount = new Account
+            try
             {
-                Username = Username,
-                Password = Password,
-            };
-            _accountService.UpdateAccount(UserSessionService.Account.Username, updatedAccount);
+                // Validate if the username is provided
+                if (string.IsNullOrWhiteSpace(Username))
+                {
+                    throw new Exception("Username is required.");
+                }
+                // Validate if the password is provided and meets the length requirement
+                if (string.IsNullOrWhiteSpace(Password))
+                {
+                    throw new Exception("Password is required.");
+                }
+
+                if (Password.Length < 8)
+                {
+                    throw new Exception("Password must be at least 8 characters long.");
+                }
+
+                // Validate if the confirm password matches the password
+                if (Password != ConfirmPassword)
+                {
+                    throw new Exception("Confirm Password Failed");
+                }
+
+                var account = await _accountService.GetUserByUsernameAsync(Username);
+
+                if (Username != UserSessionService.Account.Username)
+                {
+                    if (account != null)
+                    {
+                        throw new Exception("Username already exist");
+                    }
+                }
+
+                if (Password == UserSessionService.Account.Password)
+                {
+                    throw new Exception("Please change your password");
+                }
+
+                Account updatedAccount = new Account
+                {
+                    Username = Username,
+                    Password = Password,
+                };
+                var success = await _accountService.UpdateAccountAsync(UserSessionService.Account.Username, updatedAccount);
+                if (success)
+                {
+                    MessageBox.Show($"Update done, navigate to Login", "Update Account Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
+                    UserSessionService.LogOut();
+                    NavigationService.NavigateTo("LoginView");
+                }
+                else
+                {
+                    throw new Exception("Update profile failed, please try again.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that occur during the registration process
+                MessageBox.Show($"An error occurred: {ex.Message}", "Update Account Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
     }
 }
