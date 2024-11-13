@@ -108,7 +108,9 @@
                      Height="28"
                      VerticalContentAlignment="Center"
                      Margin="0,5,0,0"
-                     Padding="5,0,0,0">
+                     Padding="5,0,0,0"
+                      Text="{Binding CourierName}"
+                     >
                 <TextBox.Style>
                     <Style TargetType="{x:Type TextBox}">
                         <Style.Resources>
@@ -177,7 +179,8 @@
                        Margin="0,20,0,0"
             />
 
-            <ComboBox x:Name="VehicleTypeQuestionComboBox" 
+            <ComboBox x:Name="VehicleTypeQuestionComboBox"
+                      SelectionChanged="VehicleTypeQuestionComboBox_SelectionChanged"
                       Background="White"
                       FontSize="11"
                       FontWeight="Medium"

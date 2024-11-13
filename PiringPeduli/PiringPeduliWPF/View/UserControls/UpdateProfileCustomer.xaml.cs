@@ -32,16 +32,16 @@ namespace PiringPeduliWPF.View.UserControls
             string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
 
             // Pass the connection string to the UserRepository and UserService
-            var userRepository = new AccountRepository(connectionString);
-            var userService = new AccountService(userRepository);
-            DataContext = new UpdateProfileViewModel(userService);
+            var userRepository = new CustomerRepository(connectionString);
+            var userService = new CustomerService(userRepository);
+            DataContext = new UpdateProfileCustomerViewModel(userService);
             //Debug.Print((UpdateProfileViewModel)DataContext.));
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             var passwordBox = sender as PasswordBox;
-            if (DataContext is UpdateProfileViewModel viewModel)
+            if (DataContext is UpdateProfileCustomerViewModel viewModel)
             {
                 viewModel.Password = passwordBox.Password; // Update the ViewModel
             }
@@ -50,7 +50,7 @@ namespace PiringPeduliWPF.View.UserControls
         private void ConfirmPasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             var confirmPasswordBox = sender as PasswordBox;
-            if (DataContext is UpdateProfileViewModel viewModel)
+            if (DataContext is UpdateProfileCustomerViewModel viewModel)
             {
                 viewModel.ConfirmPassword = confirmPasswordBox.Password; // Update the ViewModel
             }

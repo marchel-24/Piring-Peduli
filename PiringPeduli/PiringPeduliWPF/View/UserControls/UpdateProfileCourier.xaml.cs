@@ -32,16 +32,16 @@ namespace PiringPeduliWPF.View.UserControls
             string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
 
             // Pass the connection string to the UserRepository and UserService
-            var userRepository = new AccountRepository(connectionString);
-            var userService = new AccountService(userRepository);
-            DataContext = new UpdateProfileViewModel(userService);
+            var courierRepository = new CourierRepository(connectionString);
+            var userService = new CourierService(courierRepository);
+            DataContext = new UpdateProfileCourierViewModel(userService);
             //Debug.Print((UpdateProfileViewModel)DataContext.));
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             var passwordBox = sender as PasswordBox;
-            if (DataContext is UpdateProfileViewModel viewModel)
+            if (DataContext is UpdateProfileCourierViewModel viewModel)
             {
                 viewModel.Password = passwordBox.Password; // Update the ViewModel
             }
@@ -50,7 +50,7 @@ namespace PiringPeduliWPF.View.UserControls
         private void ConfirmPasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             var confirmPasswordBox = sender as PasswordBox;
-            if (DataContext is UpdateProfileViewModel viewModel)
+            if (DataContext is UpdateProfileCourierViewModel viewModel)
             {
                 viewModel.ConfirmPassword = confirmPasswordBox.Password; // Update the ViewModel
             }
@@ -79,6 +79,17 @@ namespace PiringPeduliWPF.View.UserControls
         {
             //MessageBox.Show("Arrow icon clicked!");
             VehicleTypeQuestionComboBox.IsDropDownOpen = !VehicleTypeQuestionComboBox.IsDropDownOpen;
+        }
+
+        private void VehicleTypeQuestionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Ambil pilihan yang dipilih dari ComboBox
+            ComboBoxItem selectedItem = (ComboBoxItem)VehicleTypeQuestionComboBox.SelectedItem;
+            string selectedOption = selectedItem.Content.ToString();
+            if (DataContext is UpdateProfileCourierViewModel viewModel)
+            {
+                viewModel.VehicleTypeStr = selectedOption;
+            }
         }
     }
 }

@@ -4,11 +4,11 @@ using System;
 
 namespace PiringPeduliClass.Service
 {
-    public class CustomerService
+    public class CustomerService : AccountService
     {
         private readonly CustomerRepository _customerRepository;
 
-        public CustomerService(CustomerRepository customerRepository)
+        public CustomerService(CustomerRepository customerRepository) : base(customerRepository)
         {
             _customerRepository = customerRepository;
         }
@@ -29,17 +29,37 @@ namespace PiringPeduliClass.Service
         }
 
         // Method to update an existing customer by name
-        public void UpdateCustomerByName(string customerName, string customerInstance, string customerAddress, int accountId)
+        public async Task <bool>  UpdateCustomerAsync(string oldUsername, Customer updatedAccount)
         {
-            var updatedCustomer = new Customer
+            try
             {
-                CustomerName = customerName,
-                CustomerInstance = customerInstance,
-                CustomerAddress = customerAddress,
-                AccountId = accountId
-            };
+                // Attempt to get the account ID using the provided username
+                var accountId = await _customerRepository.GetIdFromUsernameAsync(oldUsername);
 
-            _customerRepository.UpdateCustomerByName(customerName, updatedCustomer);
+                // Check if the account exists
+                if (accountId != -1)
+                {
+                    updatedAccount.AccountId = accountId;
+                    // Update the account with the new details
+                    bool isUpdatedAccount = await _customerRepository.UpdateAccountAsync(updatedAccount);
+                    bool isUpdatedCourier = await _customerRepository.UpdateCustomerAsync(updatedAccount);
+                    if (!isUpdatedAccount || !isUpdatedCourier)
+                    {
+                        throw new Exception("Account update failed");
+                    }
+                    return true;
+                }
+                else
+                {
+                    throw new Exception($"Account with username '{oldUsername}' not found.");
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         // Method to delete a customer by name

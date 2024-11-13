@@ -1,4 +1,6 @@
-﻿using PiringPeduliWPF.ViewModel;
+﻿using PiringPeduliWPF.Services;
+using PiringPeduliClass.Model;
+using PiringPeduliWPF.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +34,22 @@ namespace PiringPeduliWPF.View.UserControls
             var parentFrame = FindParent<SettingsFrame>(this);
             if (parentFrame != null)
             {
-                parentFrame.ContentControl.Content = new UpdateProfileTemporaryStorage();
+                if (UserSessionService.Account.Type == AccountType.Customer)
+                {
+                    parentFrame.ContentControl.Content = new UpdateProfileCustomer();
+                }
+                else if (UserSessionService.Account.Type == AccountType.Recycler)
+                {
+                    parentFrame.ContentControl.Content = new UpdateProfileRecycler();
+                }
+                else if (UserSessionService.Account.Type == AccountType.TemporaryStorage)
+                {
+                    parentFrame.ContentControl.Content = new UpdateProfileTemporaryStorage();
+                }
+                else if (UserSessionService.Account.Type == AccountType.Courier)
+                {
+                    parentFrame.ContentControl.Content = new UpdateProfileCourier();
+                }
             }
         }
 

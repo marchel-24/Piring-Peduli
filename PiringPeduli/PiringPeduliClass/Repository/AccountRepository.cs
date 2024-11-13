@@ -7,7 +7,7 @@ namespace PiringPeduliClass.Repository
 {
     public class AccountRepository
     {
-        private readonly string _connectionString;
+        protected readonly string _connectionString;
 
         public AccountRepository(string connectionString)
         {
