@@ -21,56 +21,39 @@
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
                         <Grid>
                             <Border x:Name="borderBackground"
-                                    Background="{TemplateBinding Background}"
-                                    CornerRadius="7"
-                                    Height="14"
-                                    Width="35"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center"/>
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="7"
+                            Height="14"
+                            Width="35"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"/>
                             <Ellipse x:Name="Ellipse"
-                                     Height="20"
-                                     Width="20"
-                                     VerticalAlignment="Center"
-                                     HorizontalAlignment="Left"
-                                     Fill="Gray"/>
+                             Height="20"
+                             Width="20"
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Left"
+                             Fill="Gray"/>
                         </Grid>
                         <ControlTemplate.Triggers>
-                            <EventTrigger RoutedEvent="Checked">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="borderBackground"
-                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                        To="LightGreen" Duration="0:0:0.2"/>
-                                        <ColorAnimation Storyboard.TargetName="Ellipse"
-                                                        Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)"
-                                                        To="Green" Duration="0:0:0.2"/>
-                                        <ThicknessAnimation Storyboard.TargetName="Ellipse"
-                                                            Storyboard.TargetProperty="Margin"
-                                                            To="15 0 0 0" Duration="0:0:0.2"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="Unchecked">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="borderBackground"
-                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                        To="LightGray" Duration="0:0:0.2"/>
-                                        <ThicknessAnimation Storyboard.TargetName="Ellipse"
-                                                            Storyboard.TargetProperty="Margin"
-                                                            To="0 0 0 0" Duration="0:0:0.2"/>
-                                        <ColorAnimation Storyboard.TargetName="Ellipse"
-                                                        Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)"
-                                                        To="Gray" Duration="0:0:0.2"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </ControlTemplate.Triggers>
+                            <!-- DataTrigger for Checked state -->
+                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Value="True">
+                                <Setter TargetName="borderBackground" Property="Background" Value="LightGreen"/>
+                                <Setter TargetName="Ellipse" Property="Fill" Value="Green"/>
+                                <Setter TargetName="Ellipse" Property="Margin" Value="15 0 0 0"/>
+                            </DataTrigger>
 
+                            <!-- DataTrigger for Unchecked state -->
+                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Value="False">
+                                <Setter TargetName="borderBackground" Property="Background" Value="LightGray"/>
+                                <Setter TargetName="Ellipse" Property="Fill" Value="Gray"/>
+                                <Setter TargetName="Ellipse" Property="Margin" Value="0 0 0 0"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
     </UserControl.Resources>
 
     <Grid>
@@ -126,7 +109,7 @@
 
                     <!-- CheckBox with ToggleButtonStyle for Notification -->
                     <CheckBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" 
-                      Style="{StaticResource ToggleButtonStyle}" 
+                      Style="{DynamicResource ToggleButtonStyle}" 
                       IsChecked="{Binding IsNotificationEnabled, Mode=TwoWay}"/>
                 </Grid>
             </Border>

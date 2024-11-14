@@ -34,16 +34,58 @@
         <materialDesign:Card Margin="10" UniformCornerRadius="15">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="15*"/>
+                    <!-- Left column with initial fixed width to allow dynamic expansion -->
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Grid.Resources>
-                    <Style TargetType="materialDesign:PackIcon">
-                        <Setter Property="Width" Value="50"></Setter>
-                        <Setter Property="Height" Value="50"></Setter>
-                    </Style>
-                </Grid.Resources>
-                <Grid Grid.Column="0" Background="#3B8E45">
+
+                <!-- Left Grid that expands and overlays the right grid on hover -->
+                <Grid Grid.Column="0" Background="#3B8E45" Width="50" x:Name="LeftGrid">
+                    <Grid.Resources>
+                        <!-- Define the hover style for expanding and overlaying the grid to the right -->
+                        <Style TargetType="Grid" x:Key="OverlayExpandOnHoverStyle">
+                            <Setter Property="Panel.ZIndex" Value="0"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Panel.ZIndex" Value="1"/>
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <!-- Animate the width of the left grid to expand and overlay the right grid -->
+                                                <DoubleAnimation Storyboard.TargetProperty="Width"
+                                                     To="150" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <!-- Return the left grid to its original width -->
+                                                <DoubleAnimation Storyboard.TargetProperty="Width"
+                                                     To="50" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+
+                        <!-- Style for the TextBlock to show only when LeftGrid.Width is expanded -->
+                        <Style TargetType="TextBlock" x:Key="TextVisibilityOnExpand">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ActualWidth, ElementName=LeftGrid}" Value="150">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+
+                    <!-- Apply the overlay expand style to this Grid -->
+                    <Grid.Style>
+                        <StaticResource ResourceKey="OverlayExpandOnHoverStyle"/>
+                    </Grid.Style>
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.2*"/>
                         <RowDefinition Height="Auto"/>
@@ -58,92 +100,80 @@
                         <RowDefinition Height="0.2*"/>
                     </Grid.RowDefinitions>
 
-                    <Button Grid.Row="1" 
-                            Style="{DynamicResource MaterilDesignFloatingActionButton}" 
-                            HorizontalAlignment="Center" 
-                            BorderBrush="{x:Null}" 
-                            Background="{x:Null}" 
-                            Foreground="White"
-                            Command="{Binding ShowAccountViewCommand}">
-                        <materialDesign:PackIcon Kind="Account"
-                                                 Width="35"
-                                                 Height="35"/>
-                    </Button>
-                    <Button Grid.Row="3"
-                            Style="{DynamicResource MaterilDesignFloatingActionButton}" 
-                            HorizontalAlignment="Center" 
-                            BorderBrush="{x:Null}" 
-                            Background="{x:Null}" 
-                            Foreground="White"
-                            Command="{Binding ShowPickUpViewCommand}">
-                            <materialDesign:PackIcon Kind="MapMarker" 
-                                                     Width="35"
-                                                     Height="35"/>
+                    <!-- Buttons with TextBlocks next to them -->
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Style="{DynamicResource MaterilDesignFloatingActionButton}" 
+                    BorderBrush="{x:Null}" 
+                    Background="{x:Null}" 
+                    Foreground="White"
+                    Command="{Binding ShowAccountViewCommand}">
+                            <materialDesign:PackIcon Kind="Account" Width="35" Height="35"/>
                         </Button>
-                    <Button Grid.Row="5"
-                            Style="{DynamicResource MaterilDesignFloatingActionButton}" 
-                            HorizontalAlignment="Center" 
-                            BorderBrush="{x:Null}" 
-                            Background="{x:Null}" 
-                            Foreground="White"
-                            Command="{Binding ShowMainScreenViewCommand}">
-                        <materialDesign:PackIcon Kind="Home"
-                                                 Width="35"
-                                                 Height="35"/>
-                    </Button>
+                        <!-- Text that appears when the grid expands -->
+                        <TextBlock Text="Account" Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center"
+                       Style="{StaticResource TextVisibilityOnExpand}"/>
+                    </StackPanel>
 
-                    <Button Grid.Row="7"
-                            Style="{DynamicResource MaterialDesignFloatingButton}"
-                            HorizontalAlignment="Center"
-                            BorderBrush="{x:Null}"
-                            Background="{x:Null}"
-                            Foreground="White"
-                            Command="{Binding}">
-                        <materialDesign:PackIcon Kind="Emoticon"
-                                                 Width="35"
-                                                 Height="35"/>
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Style="{DynamicResource MaterilDesignFloatingActionButton}" 
+                    BorderBrush="{x:Null}" 
+                    Background="{x:Null}" 
+                    Foreground="White"
+                    Command="{Binding ShowPickUpViewCommand}">
+                            <materialDesign:PackIcon Kind="MapMarker" Width="35" Height="35"/>
+                        </Button>
+                        <TextBlock Text="Pick Up" Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center"
+                       Style="{StaticResource TextVisibilityOnExpand}"/>
+                    </StackPanel>
 
-                    </Button>
+                    <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Style="{DynamicResource MaterilDesignFloatingActionButton}" 
+                    BorderBrush="{x:Null}" 
+                    Background="{x:Null}" 
+                    Foreground="White"
+                    Command="{Binding ShowMainScreenViewCommand}">
+                            <materialDesign:PackIcon Kind="Home" Width="35" Height="35"/>
+                        </Button>
+                        <TextBlock Text="Home" Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center"
+                       Style="{StaticResource TextVisibilityOnExpand}"/>
+                    </StackPanel>
 
-                    <Button Grid.Row="9" 
-                            Style="{DynamicResource MaterilDesignFloatingActionButton}" 
-                            HorizontalAlignment="Center" 
-                            BorderBrush="{x:Null}" 
-                            Background="{x:Null}" 
-                            Foreground="White"
-                            Command="{Binding ShowSettingsViewCommand}">
-                        <materialDesign:PackIcon Kind="Cog"
-                                                 Width="35"
-                                                 Height="35"/>
-                    </Button>
-
-
+                    <StackPanel Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Style="{DynamicResource MaterilDesignFloatingActionButton}" 
+                    BorderBrush="{x:Null}" 
+                    Background="{x:Null}" 
+                    Foreground="White"
+                    Command="{Binding ShowSettingsViewCommand}">
+                            <materialDesign:PackIcon Kind="Cog" Width="35" Height="35"/>
+                        </Button>
+                        <TextBlock Text="Settings" Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center"
+                       Style="{StaticResource TextVisibilityOnExpand}"/>
+                    </StackPanel>
                 </Grid>
 
-                <Grid Grid.Column="1"
-                      Background="White">
+                <!-- Right Grid -->
+                <Grid Grid.Column="1" Background="White">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
                     <StackPanel x:Name="pnlControl"
-                                FlowDirection="RightToLeft"
-                                Orientation="Horizontal">
+                    FlowDirection="RightToLeft"
+                    Orientation="Horizontal">
                         <Button x:Name="closewindowButton"
-                                Click="closewindowButton_Click">
-                            <materialDesign:PackIcon Kind="WindowClose"
-                                                     Width="20"
-                                                     Height="20"
-                                                     Foreground="Red"/>
+                    Click="closewindowButton_Click">
+                            <materialDesign:PackIcon Kind="WindowClose" Width="20" Height="20" Foreground="Red"/>
+                        </Button>
+
+                        <Button x:Name="maximizeButton"
+                    Click="maximizeButton_Click">
+                            <materialDesign:PackIcon Kind="WindowMaximize" Width="20" Height="20" Foreground="LightSlateGray"/>
                         </Button>
 
                         <Button x:Name="minimizedButton"
-                                Click="minimizedButton_Click">
-                            <materialDesign:PackIcon Kind="WindowMinimize"
-                                                     Width="20"
-                                                     Height="20"
-                                                     Foreground="LightSlateGray"/>
+                    Click="minimizedButton_Click">
+                            <materialDesign:PackIcon Kind="WindowMinimize" Width="20" Height="20" Foreground="LightSlateGray"/>
                         </Button>
                     </StackPanel>
 
@@ -152,6 +182,7 @@
                     </Border>
                 </Grid>
             </Grid>
+
         </materialDesign:Card>
     </Grid>
 </Window>

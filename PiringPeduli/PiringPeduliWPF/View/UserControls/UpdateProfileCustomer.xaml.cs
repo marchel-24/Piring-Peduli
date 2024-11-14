@@ -71,7 +71,7 @@ namespace PiringPeduliWPF.View.UserControls
             var parentFrame = FindParent<SettingsFrame>(this);
             if (parentFrame != null)
             {
-                parentFrame.ContentControl.Content = new SettingsFrame();
+                parentFrame.ContentControl.Content = new Settings();
             }
         }
     }
