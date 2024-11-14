@@ -4,12 +4,12 @@ using System;
 
 namespace PiringPeduliClass.Service
 {
-    public class CourierService
+    public class CourierService : AccountService
     {
         private readonly CourierRepository _courierRepository;
 
-        public CourierService(CourierRepository courierRepository)
-        {
+        public CourierService(CourierRepository courierRepository) : base(courierRepository)
+        { 
             _courierRepository = courierRepository;
         }
 
@@ -31,16 +31,37 @@ namespace PiringPeduliClass.Service
             return _courierRepository.GetCourierById(courierId);
         }
 
-        public void UpdateCourier(int courierId, string name, VehicleType vehicleType)
+        public async Task<bool> UpdateCourier(string oldUsername, Courier updatedAccount)
         {
-            var courier = new Courier
+            try
             {
-                CourierId = courierId,
-                Name = name,
-                Vehicle = vehicleType
-            };
+                // Attempt to get the account ID using the provided username
+                var accountId = await _courierRepository.GetIdFromUsernameAsync(oldUsername);
 
-            _courierRepository.UpdateCourier(courier);
+                // Check if the account exists
+                if (accountId != -1)
+                {
+                    updatedAccount.AccountId = accountId;
+                    // Update the account with the new details
+                    bool isUpdatedAccount = await _courierRepository.UpdateAccountAsync(updatedAccount);
+                    bool isUpdatedCourier = await _courierRepository.UpdateCourierAsync(updatedAccount);
+                    if (!isUpdatedAccount || !isUpdatedCourier)
+                    {
+                        throw new Exception("Account update failed");
+                    }
+                    return true;
+                }
+                else
+                {
+                    throw new Exception($"Account with username '{oldUsername}' not found.");
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public void DeleteCourier(int courierId)
@@ -48,10 +69,10 @@ namespace PiringPeduliClass.Service
             _courierRepository.DeleteCourier(courierId);
         }
 
-        public void AssignOrderToCourier(Courier courier, Order order)
+        public void AssignOrderToCourier(string username, Courier courier, Order order)
         {
             courier.AcceptOrder(order);
-            UpdateCourier(courier.CourierId, courier.Name, courier.Vehicle); // Update courier after assigning order
+            UpdateCourier(username, courier); // Update courier after assigning order
         }
 
         public Courier GetCourierByName(string courierName)

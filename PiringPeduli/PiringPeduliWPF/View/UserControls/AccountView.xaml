@@ -20,7 +20,7 @@
             <!-- Profile Image -->
             <Image Name="ProfileImage" Width="100" Height="100" Margin="10" Source="/View/Assets/person.png"/>
             <!-- User Info (Name, Email, Address) -->
-            <TextBlock Name="UserName" Text="Nama" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <TextBlock Name="UserName" Text="{Binding Username}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
             <TextBlock Name="UserEmail" Text="email" FontSize="14" HorizontalAlignment="Center"/>
             <TextBlock Name="UserAddress" Text="Address" FontSize="14" HorizontalAlignment="Center"/>
         </StackPanel>

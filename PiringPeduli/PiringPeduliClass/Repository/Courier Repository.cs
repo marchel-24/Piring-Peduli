@@ -4,14 +4,10 @@ using System;
 
 namespace PiringPeduliClass.Repository
 {
-    public class CourierRepository
+    public class CourierRepository : AccountRepository
     {
-        private readonly string _connectionString;
-
-        public CourierRepository(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
+        // Constructor uses the base class constructor to initialize the connection string
+        public CourierRepository(string connectionString) : base(connectionString) { }
 
         public void AddCourier(Courier courier)
         {
@@ -21,7 +17,6 @@ namespace PiringPeduliClass.Repository
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {
-                    //command.Parameters.AddWithValue("@CourierId", courier.CourierId);
                     command.Parameters.AddWithValue("@Name", courier.Name);
                     command.Parameters.AddWithValue("@VehicleType", courier.Vehicle.ToString());
                     command.Parameters.AddWithValue("@AccountID", courier.AccountId);
@@ -61,7 +56,6 @@ namespace PiringPeduliClass.Repository
             return null;
         }
 
-
         public Courier GetCourierByName(string couriername)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
@@ -91,24 +85,32 @@ namespace PiringPeduliClass.Repository
             return null;
         }
 
-        public void UpdateCourier(Courier courier)
+        public async Task<bool> UpdateCourierAsync(Courier courier)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            try
             {
-                string query = "UPDATE courier SET couriername = @couriername, vehicletype = @vehicletype::vehicle_type WHERE courierid = @courierid";
-
-                using (var command = new NpgsqlCommand(query, connection))
+                using (var connection = new NpgsqlConnection(_connectionString))
                 {
-                    command.Parameters.AddWithValue("@courierid", courier.CourierId);
-                    command.Parameters.AddWithValue("@couriername", courier.Name);
-                    command.Parameters.AddWithValue("@vehicletype", courier.Vehicle.ToString());
+                    string query = "UPDATE courier SET couriername = @couriername, vehicletype = @vehicletype::vehicle_type WHERE accountid = @accountid";
 
-                    connection.Open();
-                    command.ExecuteNonQuery();
+                    using (var command = new NpgsqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@accountid", courier.AccountId);
+                        command.Parameters.AddWithValue("@couriername", courier.Name);
+                        command.Parameters.AddWithValue("@vehicletype", courier.Vehicle.ToString());
+
+                        await connection.OpenAsync();
+                        await command.ExecuteNonQueryAsync();
+                    }
                 }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating courier: {ex.Message}");
+                return false;
             }
         }
-
 
         public void DeleteCourier(int courierId)
         {

@@ -38,7 +38,7 @@ namespace PiringPeduliWPF
             {
                 //AccountService.CreateCourier("siappaaa", VehicleType.Motorcycle, 4);
                 //sortService.PublishSortedWaste(SortedType.Others);
-                AccountService.RemoveAccountByUsername("ilham");
+                //AccountService.RemoveAccountByUsername("ilham");
                 //TempoServ.CreateTemporaryStorage("Jalan Roma", 1);
                 //wasteInStorageService.DeleteWasteByStorage(1);
                 //requiredWasteService.AddRequiredWaste(1, 2);

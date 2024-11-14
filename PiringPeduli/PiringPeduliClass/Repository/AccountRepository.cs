@@ -7,7 +7,7 @@ namespace PiringPeduliClass.Repository
 {
     public class AccountRepository
     {
-        private readonly string _connectionString;
+        protected readonly string _connectionString;
 
         public AccountRepository(string connectionString)
         {
@@ -92,22 +92,23 @@ namespace PiringPeduliClass.Repository
             }
         }
 
-        public int GetIdFromUsername(string username)
+        public async Task<int> GetIdFromUsernameAsync(string username)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();
 
                 using (var command = new NpgsqlCommand("SELECT accountid FROM account WHERE username = @username", connection))
                 {
                     command.Parameters.AddWithValue("@username", username);
 
-                    // Execute the command and convert the result to int
-                    object result = command.ExecuteScalar();
-                    return result != null ? Convert.ToInt32(result) : -1; // Return -1 or another value if the user is not found
+                    // Execute the command asynchronously and convert the result to int
+                    object result = await command.ExecuteScalarAsync();
+                    return result != null ? Convert.ToInt32(result) : -1; // Return -1 if the user is not found
                 }
             }
         }
+
 
         public async Task<bool> CreateAccountAsync(Account account)
         {
@@ -142,26 +143,39 @@ namespace PiringPeduliClass.Repository
         }
 
 
-        public void UpdateAccount(Account account)
+        public async Task<bool> UpdateAccountAsync(Account account)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            try
             {
-                connection.Open();
-
-                using (var command = new NpgsqlCommand(
-                    "UPDATE account SET username = @username, password = @password, type = @type::account_type WHERE accountid = @accountid", connection))
+                using (var connection = new NpgsqlConnection(_connectionString))
                 {
-                    command.Parameters.AddWithValue("@accountid", account.AccountId);
-                    command.Parameters.AddWithValue("@username", account.Username);
-                    command.Parameters.AddWithValue("@password", account.Password);
-                    command.Parameters.AddWithValue("@type", account.Type.ToString());
+                    await connection.OpenAsync();
 
-                    command.ExecuteNonQuery();
+                    using (var command = new NpgsqlCommand(
+                        "UPDATE account SET username = @username, password = @password, type = @type::account_type WHERE accountid = @accountid", connection))
+                    {
+                        command.Parameters.AddWithValue("@accountid", account.AccountId);
+                        command.Parameters.AddWithValue("@username", account.Username);
+                        command.Parameters.AddWithValue("@password", account.Password);
+                        command.Parameters.AddWithValue("@type", account.Type.ToString());
+
+                        await command.ExecuteNonQueryAsync();
+                    }
                 }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (e.g., to a logging service or console)
+                Debug.WriteLine($"Error updating account: {ex.Message}");
+
+                return false;  // Return false if an error occurs
             }
         }
 
-        public void DeleteAccountById(int accountId)
+
+        public async void DeleteAccountById(int accountId)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
@@ -176,20 +190,31 @@ namespace PiringPeduliClass.Repository
             }
         }
 
-        public void DeleteAccountByUsername(string username)
+        public async Task<bool> DeleteAccountByUsernameAsync(string username)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            try
             {
-                connection.Open();
-
-                using (var command = new NpgsqlCommand(
-                    "DELETE FROM account WHERE username = @username", connection))
+                using (var connection = new NpgsqlConnection(_connectionString))
                 {
-                    command.Parameters.AddWithValue("@username", username);
-                    command.ExecuteNonQuery();
+                    await connection.OpenAsync();
+
+                    using (var command = new NpgsqlCommand("DELETE FROM account WHERE username = @username", connection))
+                    {
+                        command.Parameters.AddWithValue("@username", username);
+                        await command.ExecuteNonQueryAsync();
+                    }
                 }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error deleting account: {ex.Message}");
+
+                return false;  // Return false if an error occurs
             }
         }
+
 
         public bool ValidateAccount(string username, string password)
         {

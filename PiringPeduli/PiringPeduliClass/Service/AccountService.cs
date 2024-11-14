@@ -64,24 +64,61 @@ namespace PiringPeduliClass.Service
         }
 
 
-        public void UpdateAccount(string oldUsername, Account updatedAccount)
+        public async Task<bool> UpdateAccountAsync(string oldUsername, Account updatedAccount)
         {
-            var accountId = _accountRepository.GetIdFromUsername(oldUsername);
-            if(accountId != -1)
+            try
             {
-                updatedAccount.AccountId = accountId;
-                _accountRepository.UpdateAccount(updatedAccount);
+                // Attempt to get the account ID using the provided username
+                var accountId = await _accountRepository.GetIdFromUsernameAsync(oldUsername);
+
+                // Check if the account exists
+                if (accountId != -1)
+                {
+                    updatedAccount.AccountId = accountId;
+                    // Update the account with the new details
+                    bool isUpdated = await _accountRepository.UpdateAccountAsync(updatedAccount);
+                    if (!isUpdated)
+                    {
+                        throw new Exception("Account update failed");
+                    }
+                    return true;
+                }
+                else
+                {
+                    throw new Exception($"Account with username '{oldUsername}' not found.");
+                }
+
+                
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
+
 
         public void RemoveAccountById(int accountId)
         {
             _accountRepository.DeleteAccountById(accountId);
         }
 
-        public void RemoveAccountByUsername(string username)
+        public async Task<bool> RemoveAccountByUsernameAsync(string username)
         {
-            _accountRepository.DeleteAccountByUsername(username);
+            try
+            {
+                bool isDeleted = await _accountRepository.DeleteAccountByUsernameAsync(username);
+
+                if ((!isDeleted))
+                {
+                    throw new Exception("Delete account failed");
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<Account> Login(string username, string password)
@@ -91,14 +128,10 @@ namespace PiringPeduliClass.Service
                 // Step 1: Validate the username and password
                 bool isValid = _accountRepository.ValidateAccount(username, password);
 
-                Debug.Print(isValid.ToString());
                 if (!isValid)
                 {
-                    Debug.Print("LSKJFD");
                     throw new Exception("Invalid username or password.");
                 }
-
-                Debug.Print("lsfjennsln");
                 // Step 2: Retrieve the account details asynchronously
                 var account = await _accountRepository.GetAccountByUsernameAsync(username);
 

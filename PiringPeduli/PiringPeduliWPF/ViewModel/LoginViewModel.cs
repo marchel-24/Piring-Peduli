@@ -53,7 +53,6 @@ namespace PiringPeduliWPF.ViewModel
         public LoginViewModel(AccountService accountService)
         {
             _accountService = accountService;
-
             LoginCommand = new ViewModeCommand(Login);
             NavigateSignUpCommand = new ViewModeCommand(NavigateSignUp);
         }

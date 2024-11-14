@@ -4,14 +4,9 @@ using System;
 
 namespace PiringPeduliClass.Repository
 {
-    public class CustomerRepository
+    public class CustomerRepository : AccountRepository
     {
-        private readonly string _connectionString;
-
-        public CustomerRepository(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
+        public CustomerRepository(string connectionString) : base(connectionString) { }
 
         public void AddCustomer(Customer customer)
         {
@@ -32,23 +27,33 @@ namespace PiringPeduliClass.Repository
             }
         }
 
-        public void UpdateCustomerByName(string customerName, Customer updatedCustomer)
+        public async Task<bool> UpdateCustomerAsync(Customer updatedCustomer)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            try
             {
-                connection.Open();
-
-                string query = "UPDATE Customer SET customerinstance = @CustomerInstance, customeraddress = @CustomerAddress, accountid = @AccountId WHERE customername = @CustomerName";
-
-                using (var command = new NpgsqlCommand(query, connection))
+                using (var connection = new NpgsqlConnection(_connectionString))
                 {
-                    command.Parameters.AddWithValue("@CustomerInstance", updatedCustomer.CustomerInstance);
-                    command.Parameters.AddWithValue("@CustomerAddress", updatedCustomer.CustomerAddress);
-                    command.Parameters.AddWithValue("@AccountId", updatedCustomer.AccountId);
-                    command.Parameters.AddWithValue("@CustomerName", customerName);
+                    connection.Open();
 
-                    command.ExecuteNonQuery();
+                    string query = "UPDATE Customer SET customername = @CustomerName, customerinstance = @CustomerInstance, customeraddress = @CustomerAddress WHERE accountid = @accountid";
+
+                    using (var command = new NpgsqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@CustomerName", updatedCustomer.CustomerName);
+                        command.Parameters.AddWithValue("@CustomerInstance", updatedCustomer.CustomerInstance);
+                        command.Parameters.AddWithValue("@CustomerAddress", updatedCustomer.CustomerAddress);
+                        command.Parameters.AddWithValue("@CustomerName", updatedCustomer.CustomerName);
+                        command.Parameters.AddWithValue("@accountid", updatedCustomer.AccountId);
+
+                        command.ExecuteNonQuery();
+                    }
                 }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating courier: {ex.Message}");
+                return false;
             }
         }
 

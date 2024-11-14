@@ -110,6 +110,7 @@ namespace PiringPeduliWPF.ViewModel
                 {
                     throw new Exception("Confirm Password Failed");
                 }
+
                 var account = await _accountService.GetUserByUsernameAsync(Username);
 
                 if (account != null) 
@@ -123,12 +124,13 @@ namespace PiringPeduliWPF.ViewModel
                 }
 
                 AccountType AccountType = (AccountType)Enum.Parse(typeof(AccountType), AccountTypeStr);
-                Debug.Print(AccountType.ToString());
                 var success = await _accountService.RegisterNewAccountAsync(Username, Password, AccountType);
 
                 if (success)
                 {
                     // After successful registration, navigate to the login view
+
+                    MessageBox.Show($"Sign up done, navigate to Login", "Sign Up Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
                     NavigationService.NavigateTo("LoginView");
                 }
                 else

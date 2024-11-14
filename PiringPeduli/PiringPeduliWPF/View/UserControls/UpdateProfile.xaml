@@ -330,6 +330,7 @@
                     Content="Delete"
                     Width="92"
                     Margin="0,0,10,2"
+                    Command="{Binding DeleteCommand}"
                     >
                 <Button.Style>
                     <Style TargetType="Button">

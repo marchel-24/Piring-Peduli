@@ -14,12 +14,14 @@ using System.Windows.Input;
 
 namespace PiringPeduliWPF.ViewModel
 {
-    public class UpdateProfileViewModel : ViewModelBase
+    public class UpdateProfileCourierViewModel : ViewModelBase
     {
-        private readonly AccountService _accountService;
+        private readonly CourierService _accountService;
 
         private string _username;
         private string _password;
+        private string _courierName;
+        private string _vehicleTypeStr;
         private string _confirmPassword;
 
         public string Username
@@ -42,6 +44,26 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
+        public string VehicleTypeStr
+        {
+            get => _vehicleTypeStr;
+            set
+            {
+                _vehicleTypeStr = value;
+                OnPropertyChanged(nameof(VehicleTypeStr));
+            }
+        }
+
+        public string CourierName
+        {
+            get => _courierName;
+            set
+            {
+                _courierName = value;
+                OnPropertyChanged(nameof(CourierName));
+            }
+        }
+
         public string ConfirmPassword
         {
             get => _confirmPassword;
@@ -57,11 +79,11 @@ namespace PiringPeduliWPF.ViewModel
         public ICommand CancelCommand { get; }
 
 
-        public UpdateProfileViewModel(AccountService accountService)
+        public UpdateProfileCourierViewModel(CourierService accountService)
         {
             _accountService = accountService;
             UpdateCommand = new ViewModeCommand(Update);
-            DeleteCommand = new ViewModeCommand(Delete);
+            //DeleteCommand = new ViewModeCommand(Delete);
         }
 
 
@@ -78,6 +100,11 @@ namespace PiringPeduliWPF.ViewModel
                 if (string.IsNullOrWhiteSpace(Password))
                 {
                     throw new Exception("Password is required.");
+                }
+
+                if (string.IsNullOrWhiteSpace(CourierName))
+                {
+                    throw new Exception("Courier name is required.");
                 }
 
                 if (Password.Length < 8)
@@ -106,12 +133,20 @@ namespace PiringPeduliWPF.ViewModel
                     throw new Exception("Please change your password");
                 }
 
-                Account updatedAccount = new Account
+                
+
+                VehicleType vehicleType = (VehicleType)Enum.Parse(typeof(VehicleType), VehicleTypeStr);
+
+                Courier updatedAccount = new Courier
                 {
                     Username = Username,
                     Password = Password,
+                    Type = UserSessionService.Account.Type,
+                    Name = CourierName,
+                    Vehicle = vehicleType
                 };
-                var success = await _accountService.UpdateAccountAsync(UserSessionService.Account.Username, updatedAccount);
+
+                var success = await _accountService.UpdateCourier(UserSessionService.Account.Username, updatedAccount);
                 if (success)
                 {
                     MessageBox.Show($"Update done, navigate to Login", "Update Account Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -131,49 +166,49 @@ namespace PiringPeduliWPF.ViewModel
 
         }
 
-        private async void Delete(object obj)
-        {
-            try
-            {
-                // Validate if the username is provided
-                if (string.IsNullOrWhiteSpace(Username))
-                {
-                    throw new Exception("Username is required.");
-                }
-                // Validate if the password is provided and meets the length requirement
-                if (string.IsNullOrWhiteSpace(Password))
-                {
-                    throw new Exception("Password is required.");
-                }
+        //private async void Delete(object obj)
+        //{
+        //    try
+        //    {
+        //        // Validate if the username is provided
+        //        if (string.IsNullOrWhiteSpace(Username))
+        //        {
+        //            throw new Exception("Username is required.");
+        //        }
+        //        // Validate if the password is provided and meets the length requirement
+        //        if (string.IsNullOrWhiteSpace(Password))
+        //        {
+        //            throw new Exception("Password is required.");
+        //        }
 
-                // Validate if the confirm password matches the password
-                if (Password != ConfirmPassword)
-                {
-                    throw new Exception("Confirm Password Failed");
-                }
+        //        // Validate if the confirm password matches the password
+        //        if (Password != ConfirmPassword)
+        //        {
+        //            throw new Exception("Confirm Password Failed");
+        //        }
 
-                if (Username != UserSessionService.Account.Username || Password != UserSessionService.Account.Password)
-                {
-                    throw new Exception("Validation failed");
-                }
+        //        if (Username != UserSessionService.Account.Username || Password != UserSessionService.Account.Password)
+        //        {
+        //            throw new Exception("Validation failed");
+        //        }
 
-                var success = await _accountService.RemoveAccountByUsernameAsync(Username);
-                if (success)
-                {
-                    MessageBox.Show($"Delete done, navigate to Login", "Delete Account Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
-                    UserSessionService.LogOut();
-                    NavigationService.NavigateTo("LoginView");
-                }
-                else
-                {
-                    throw new Exception("Delete profile failed, please try again.");
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle any exceptions that occur during the registration process
-                MessageBox.Show($"An error occurred: {ex.Message}", "Delete Account Failed", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+        //        var success = await _accountService.RemoveAccountByUsernameAsync(Username);
+        //        if (success)
+        //        {
+        //            MessageBox.Show($"Delete done, navigate to Login", "Delete Account Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
+        //            UserSessionService.LogOut();
+        //            NavigationService.NavigateTo("LoginView");
+        //        }
+        //        else
+        //        {
+        //            throw new Exception("Delete profile failed, please try again.");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Handle any exceptions that occur during the registration process
+        //        MessageBox.Show($"An error occurred: {ex.Message}", "Delete Account Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+        //}
     }
 }

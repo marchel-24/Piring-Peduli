@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PiringPeduliWPF.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,10 @@ namespace PiringPeduliWPF.View.UserControls
         public AccountView()
         {
             InitializeComponent();
+            DataContext = new AccountViewModel();
         }
+
+
 
         private void OrderTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
