@@ -4,11 +4,11 @@ using System;
 
 namespace PiringPeduliClass.Service
 {
-    public class TemporaryStorageService
+    public class TemporaryStorageService:AccountService
     {
         private readonly TemporaryStorageRepository _temporaryStorageRepository;
 
-        public TemporaryStorageService(TemporaryStorageRepository temporaryStorageRepository)
+        public TemporaryStorageService(TemporaryStorageRepository temporaryStorageRepository) : base(temporaryStorageRepository)
         {
             _temporaryStorageRepository = temporaryStorageRepository;
         }
@@ -26,7 +26,34 @@ namespace PiringPeduliClass.Service
             _temporaryStorageRepository.makeAccount(temporaryStorage);
         }
 
-        // Additional methods for temporary storage management can be added here, if needed
-        // Example: Update, Delete, or Get storage by ID or Address
+        public async Task<bool> UpdateTempStorage(string oldUsername, TemporaryStorage updatedAccount)
+        {
+            try
+            {
+                var accountId = await _temporaryStorageRepository.GetIdFromUsernameAsync(oldUsername);
+
+                if (accountId != -1)
+                {
+                    updatedAccount.AccountId = accountId;
+                    bool isUpdatedAccount = await _temporaryStorageRepository.UpdateAccountAsync(updatedAccount);
+                    bool isUpdatedTemporaryStorage = await _temporaryStorageRepository.UpdateTemporaryStorageAsync(updatedAccount);
+
+                    if (!isUpdatedAccount || !isUpdatedTemporaryStorage)
+                    {
+                        throw new Exception("Account update failed");
+                    }
+                    return true;
+                }
+                else
+                {
+                    throw new Exception($"Account with username '{oldUsername}' not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

@@ -108,7 +108,8 @@
                      Height="28"
                      VerticalContentAlignment="Center"
                      Margin="0,5,0,0"
-                     Padding="5,0,0,0">
+                     Padding="5,0,0,0"
+                     Text="{Binding StorageAddress}">
                 <TextBox.Style>
                     <Style TargetType="{x:Type TextBox}">
                         <Style.Resources>

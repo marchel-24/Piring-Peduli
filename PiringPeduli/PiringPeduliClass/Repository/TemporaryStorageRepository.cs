@@ -8,14 +8,9 @@ using System.Threading.Tasks;
 
 namespace PiringPeduliClass.Repository
 {
-    public class TemporaryStorageRepository
+    public class TemporaryStorageRepository:AccountRepository
     {
-        private readonly string _connectionString;
-
-        public TemporaryStorageRepository (string connectionString)
-        {
-            _connectionString = connectionString;
-        }
+        public TemporaryStorageRepository(string connectionstring) : base(connectionstring) { }
 
         public void makeAccount(TemporaryStorage account)
         {
@@ -35,6 +30,32 @@ namespace PiringPeduliClass.Repository
 
                     command.ExecuteNonQuery();
                 }
+            }
+        }
+
+        public async Task<bool> UpdateTemporaryStorageAsync(TemporaryStorage temporaryStorage)
+        {
+            try
+            {
+                using (var connection = new NpgsqlConnection(_connectionString))
+                {
+                    string query = "UPDATE temporarystorage SET storageaddress = @storageaddress WHERE accountid = @accountid";
+
+                    using (var command = new NpgsqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@accountid", temporaryStorage.AccountId);
+                        command.Parameters.AddWithValue("@storageaddress", temporaryStorage.StorageAddress);
+
+                        await connection.OpenAsync();
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating storage: {ex.Message}");
+                return false;
             }
         }
     }
