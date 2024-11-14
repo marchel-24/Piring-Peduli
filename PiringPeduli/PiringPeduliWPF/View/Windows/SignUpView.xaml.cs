@@ -77,28 +77,76 @@ namespace PiringPeduliWPF.View.Windows
             // Ambil pilihan yang dipilih dari ComboBox
             ComboBoxItem selectedItem = (ComboBoxItem)QuestionComboBox.SelectedItem;
             string selectedOption = selectedItem.Content.ToString();
-            if (DataContext is SignUpViewModel viewModel)
-            {
-                viewModel.AccountTypeStr = selectedOption;
-            }
 
-            // Update pertanyaan kedua berdasarkan pilihan
+            // Sembunyikan semua elemen terlebih dahulu
+            VehicleTypeComboBox.Visibility = Visibility.Collapsed;
+            CourierNameTextBox.Visibility = Visibility.Collapsed;
+            VehicleType.Visibility = Visibility.Collapsed;
+            CourierName.Visibility = Visibility.Collapsed;
+
+            CustomerNameTextBox.Visibility = Visibility.Collapsed;
+            CustomerInstanceTextBox.Visibility = Visibility.Collapsed;
+            CustomerAddressTextBox.Visibility = Visibility.Collapsed;
+            CustomerName.Visibility = Visibility.Collapsed;
+            CustomerInstance.Visibility = Visibility.Collapsed;
+            CustomerAddress.Visibility = Visibility.Collapsed;
+          
+
+            RecyclerNameTextBox.Visibility = Visibility.Collapsed;
+            RecyclerAddressTextBox.Visibility = Visibility.Collapsed;
+            RecyclerName.Visibility = Visibility.Collapsed;
+            RecyclerAddress.Visibility = Visibility.Collapsed;
+
+            TempStorageNameTextBox.Visibility = Visibility.Collapsed;
+            TempStorageAddressTextBox.Visibility = Visibility.Collapsed;
+            TemporaryStorage.Visibility = Visibility.Collapsed;
+            TemporaryStorageAddress.Visibility = Visibility.Collapsed;
+
+            // Tampilkan elemen yang sesuai dengan pilihan
             switch (selectedOption)
             {
                 case "Courier":
-                    DynamicQuestionText.Text = "Vehicle Type";
+                    VehicleTypeComboBox.Visibility = Visibility.Visible;
+                    CourierNameTextBox.Visibility = Visibility.Visible;
+                    VehicleType.Visibility= Visibility.Visible;
+                    CourierName.Visibility= Visibility.Visible;
+                    CourierName.Text = "Courier Name";
+                    VehicleType.Text = "Vehicle Type";
                     break;
+
                 case "Customer":
-                    DynamicQuestionText.Text = "Nama";
+                    CustomerNameTextBox.Visibility = Visibility.Visible;
+                    CustomerInstanceTextBox.Visibility = Visibility.Visible;
+                    CustomerAddressTextBox.Visibility = Visibility.Visible;
+                    CustomerName.Visibility= Visibility.Visible;
+                    CustomerInstance.Visibility = Visibility.Visible;
+                    CustomerAddress.Visibility= Visibility.Visible;
+                    CustomerName.Text = "Customer Name";
+                    CustomerInstance.Text = "Instance";
+                    CustomerAddress.Text = "Customer Address";
                     break;
+
                 case "Recycler":
-                    DynamicQuestionText.Text = "Pertanyaan 2: Anda memilih Opsi C. Mengapa Anda memilih ini?";
+                    RecyclerNameTextBox.Visibility = Visibility.Visible;
+                    RecyclerAddressTextBox.Visibility = Visibility.Visible;
+                    RecyclerName.Visibility= Visibility.Visible;
+                    RecyclerAddress.Visibility= Visibility.Visible;
+                    RecyclerName.Text = "Recycler Name";
+                    RecyclerAddress.Text = "Recycler Address";
                     break;
+
                 case "Temporary Storage":
-                    DynamicQuestionText.Text = "Pertanyaan 2: Pilih salah satu opsi di atas.";
+                    TempStorageNameTextBox.Visibility = Visibility.Visible;
+                    TempStorageAddressTextBox.Visibility = Visibility.Visible;
+                    TemporaryStorage.Visibility= Visibility.Visible;
+                    TemporaryStorageAddress.Visibility= Visibility.Visible;
+                    TemporaryStorage.Text = " Name Temporary Storage";
+                    TemporaryStorageAddress.Text = "Temporary Storage Address";
                     break;
             }
         }
+
+
 
         private void VehicleType_Click(object sender, MouseButtonEventArgs e)
         {
