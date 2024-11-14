@@ -1,6 +1,7 @@
 ﻿using Npgsql;
 using PiringPeduliClass.Model;
 using System;
+using System.Diagnostics;
 
 namespace PiringPeduliClass.Repository
 {
@@ -107,7 +108,7 @@ namespace PiringPeduliClass.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error updating courier: {ex.Message}");
+                Debug.Print($"Error updating courier: {ex.Message}");
                 return false;
             }
         }
