@@ -48,7 +48,7 @@ namespace PiringPeduliWPF
                 //Debug.WriteLine(AccountService.GetRecyclerByName("ilham").RecyclerAddress);
                 //Debug.WriteLine(AccountService.GetRecyclerByName("ilham").AccountId);
                 //sortService.CreateOrder(1, StatusType.Delivered, 1, 3, 1,"Hai hai");
-                Debug.WriteLine("Berhasil");
+                //Debug.WriteLine("Berhasil");
             }
             catch (Exception ex) 
             {

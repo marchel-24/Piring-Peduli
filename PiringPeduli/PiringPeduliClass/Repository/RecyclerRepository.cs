@@ -4,14 +4,9 @@ using System.Collections.Generic;
 
 namespace PiringPeduliClass.Repository
 {
-    public class RecyclerRepository
+    public class RecyclerRepository:AccountRepository
     {
-        private readonly string _connectionString;
-
-        public RecyclerRepository(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
+        public RecyclerRepository(string connectionString) : base(connectionString) { }
 
         public void AddRecycler(Recycler recycler)
         {
@@ -35,22 +30,30 @@ namespace PiringPeduliClass.Repository
         }
 
         // Method to update recycler details by name
-        public void UpdateRecyclerByName(string recyclerName, Recycler updatedRecycler)
+        public async Task<bool> UpdateRecyclerAsync(Recycler recycler)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            try
             {
-                connection.Open();
-
-                string query = "UPDATE Recycler SET recycleraddress = @RecyclerAddress, accountid = @AccountID WHERE recyclername = @RecyclerName";
-
-                using (var command = new NpgsqlCommand(query, connection))
+                using (var connection = new NpgsqlConnection(_connectionString))
                 {
-                    command.Parameters.AddWithValue("@RecyclerAddress", updatedRecycler.RecyclerAddress);
-                    command.Parameters.AddWithValue("@AccountID", updatedRecycler.AccountId);
-                    command.Parameters.AddWithValue("@RecyclerName", recyclerName);
+                    string query = "UPDATE recycler SET recyclername = @recyclername, recycleraddress = @recycleraddress WHERE accountid = @accountid";
 
-                    command.ExecuteNonQuery();
+                    using (var command = new NpgsqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@accountid", recycler.AccountId);
+                        command.Parameters.AddWithValue("@recyclername", recycler.RecyclerName);
+                        command.Parameters.AddWithValue("@recycleraddress", recycler.RecyclerAddress);
+
+                        await connection.OpenAsync();
+                        await command.ExecuteNonQueryAsync();
+                    }
                 }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating recycler: {ex.Message}");
+                return false;
             }
         }
 
