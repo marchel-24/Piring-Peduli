@@ -24,7 +24,8 @@ namespace PiringPeduliWPF.View.UserControls
         public SettingsFrame()
         {
             InitializeComponent();
-            switchSettingsMain();
+            Loaded += (s, e) => switchSettingsMain();
+
         }
 
         private void switchSettingsMain()
