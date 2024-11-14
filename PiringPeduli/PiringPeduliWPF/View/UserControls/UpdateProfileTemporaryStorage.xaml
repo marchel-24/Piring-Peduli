@@ -101,14 +101,15 @@
                         Margin="0,20,0,0"
     />
             <TextBox x:Name="Name_Storage"
-                      FontSize="11"
-                      FontWeight="Medium"
-                      BorderThickness="0,0,0,2"
-                      FontFamily="Gilroy"
-                      Height="28"
-                      VerticalContentAlignment="Center"
-                      Margin="0,5,0,0"
-                      Padding="5,0,0,0">
+                     FontSize="11"
+                     FontWeight="Medium"
+                     BorderThickness="0,0,0,2"
+                     FontFamily="Gilroy"
+                     Height="28"
+                     VerticalContentAlignment="Center"
+                     Margin="0,5,0,0"
+                     Padding="5,0,0,0"
+                     Text="{Binding StorageName}">
                 <TextBox.Style>
                     <Style TargetType="{x:Type TextBox}">
                         <Style.Resources>

@@ -17,6 +17,7 @@ namespace PiringPeduliWPF.ViewModel
 
         private string _username;
         private string _password;
+        private string _storagename;
         private string _storageaddress;
         private string _confirmPassword;
 
@@ -37,6 +38,16 @@ namespace PiringPeduliWPF.ViewModel
             {
                 _password = value;
                 OnPropertyChanged(nameof(Password));
+            }
+        }
+
+        public string StorageName
+        {
+            get => _storagename;
+            set
+            {
+                _storagename = value;
+                OnPropertyChanged(nameof(StorageName));
             }
         }
 
@@ -87,6 +98,10 @@ namespace PiringPeduliWPF.ViewModel
                 {
                     throw new Exception("Password is required.");
                 }
+                if (string.IsNullOrWhiteSpace(StorageName))
+                {
+                    throw new Exception("Storage name is required");
+                }
 
                 if (string.IsNullOrWhiteSpace(StorageAddress))
                 {
@@ -123,6 +138,8 @@ namespace PiringPeduliWPF.ViewModel
                 {
                     Username = Username,
                     Password = Password,
+                    Type = UserSessionService.Account.Type,
+                    StorageName = StorageName,
                     StorageAddress = StorageAddress
                 };
 

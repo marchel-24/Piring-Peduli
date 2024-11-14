@@ -10,6 +10,7 @@ namespace PiringPeduliClass.Model
     public class TemporaryStorage : Account
     {
         private int storageId;
+        private string storagename;
         private List<SortedWaste> storedWasteType;
         private string storageAddress;
 
@@ -26,6 +27,12 @@ namespace PiringPeduliClass.Model
         {
             get { return storageAddress; }
             set { storageAddress = value; }
+        }
+
+        public string StorageName
+        {
+            get { return storagename; }
+            set { storagename = value; }
         }
 
        

@@ -1,6 +1,7 @@
 ﻿using Npgsql;
 using PiringPeduliClass.Model;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace PiringPeduliClass.Repository
 {
@@ -52,7 +53,7 @@ namespace PiringPeduliClass.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error updating recycler: {ex.Message}");
+                Debug.Print($"Error updating recycler: {ex.Message}");
                 return false;
             }
         }

@@ -1,6 +1,7 @@
 ﻿using PiringPeduliClass.Model;
 using PiringPeduliClass.Repository;
 using System;
+using System.Diagnostics;
 
 namespace PiringPeduliClass.Service
 {
@@ -38,6 +39,8 @@ namespace PiringPeduliClass.Service
                     bool isUpdatedAccount = await _temporaryStorageRepository.UpdateAccountAsync(updatedAccount);
                     bool isUpdatedTemporaryStorage = await _temporaryStorageRepository.UpdateTemporaryStorageAsync(updatedAccount);
 
+                    Debug.Print(isUpdatedAccount.ToString());
+                    Debug.Print(isUpdatedTemporaryStorage.ToString());
                     if (!isUpdatedAccount || !isUpdatedTemporaryStorage)
                     {
                         throw new Exception("Account update failed");

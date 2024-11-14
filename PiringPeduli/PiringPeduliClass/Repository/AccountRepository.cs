@@ -168,7 +168,7 @@ namespace PiringPeduliClass.Repository
             catch (Exception ex)
             {
                 // Log the exception (e.g., to a logging service or console)
-                Debug.WriteLine($"Error updating account: {ex.Message}");
+                Debug.Print($"Error updating account: {ex.Message}");
 
                 return false;  // Return false if an error occurs
             }
