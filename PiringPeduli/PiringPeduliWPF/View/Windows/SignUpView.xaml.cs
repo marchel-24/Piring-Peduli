@@ -35,7 +35,9 @@ namespace PiringPeduliWPF.View.Windows
             // Pass the connection string to the UserRepository and UserService
             var userRepository = new AccountRepository(connectionString);
             var userService = new AccountService(userRepository);
-            DataContext = new SignUpViewModel(userService);
+            var courierRepository = new CourierRepository(connectionString);
+            var courierService = new CourierService(courierRepository);
+            DataContext = new SignUpViewModel(userService, courierService);
         }
 
         private void BtnMinimized_click(object sender, RoutedEventArgs e)
@@ -112,6 +114,24 @@ namespace PiringPeduliWPF.View.Windows
                     CourierName.Visibility= Visibility.Visible;
                     CourierName.Text = "Courier Name";
                     VehicleType.Text = "Vehicle Type";
+                    
+                    VehicleTypeComboBox.SelectionChanged += (s, args) =>
+                    {
+                        if (DataContext is SignUpViewModel vm)
+                        {
+                            vm.AccountTypeStr = selectedOption;
+                            ComboBoxItem selectedVehicle = (ComboBoxItem)VehicleTypeComboBox.SelectedItem;
+                            vm.VehicleTypestr = selectedVehicle?.Content.ToString();
+                        }
+                    };
+
+                    CourierNameTextBox.TextChanged += (s, args) =>
+                    {
+                        if (DataContext is SignUpViewModel vm)
+                        {
+                            vm.CourierName = CourierNameTextBox.Text;
+                        }
+                    };
                     break;
 
                 case "Customer":

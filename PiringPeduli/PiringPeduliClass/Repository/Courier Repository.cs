@@ -10,22 +10,33 @@ namespace PiringPeduliClass.Repository
         // Constructor uses the base class constructor to initialize the connection string
         public CourierRepository(string connectionString) : base(connectionString) { }
 
-        public void AddCourier(Courier courier)
+        public async Task<bool> AddCourierAsync(Courier courier)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            try
             {
-                string query = "INSERT INTO courier (CourierId, couriername, VehicleType, accountid) VALUES (DEFAULT, @Name, @VehicleType::vehicle_type, @AccountID)";
-
-                using (var command = new NpgsqlCommand(query, connection))
+                using (var connection = new NpgsqlConnection(_connectionString))
                 {
-                    command.Parameters.AddWithValue("@Name", courier.Name);
-                    command.Parameters.AddWithValue("@VehicleType", courier.Vehicle.ToString());
-                    command.Parameters.AddWithValue("@AccountID", courier.AccountId);
+                    await connection.OpenAsync();
+                    string query = "INSERT INTO courier (CourierId, couriername, VehicleType, accountid) VALUES (DEFAULT, @Name, @VehicleType::vehicle_type, @AccountID)";
 
-                    connection.Open();
-                    command.ExecuteNonQuery();
+                    using (var command = new NpgsqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Name", courier.Name);
+                        command.Parameters.AddWithValue("@VehicleType", courier.Vehicle.ToString());
+                        command.Parameters.AddWithValue("@AccountID", courier.AccountId);
+
+                        await command.ExecuteNonQueryAsync();
+                    }
                 }
+                return true;
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error creating courier: {ex.Message}");
+
+                return false;
+            }
+            
         }
 
         public Courier GetCourierById(int courierId)

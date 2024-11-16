@@ -17,11 +17,14 @@ namespace PiringPeduliWPF.ViewModel
     public class SignUpViewModel : ViewModelBase
     {
         private readonly AccountService _accountService;
+        private readonly CourierService _courierService;
 
         private string _username;
         private string _password;
         private string _confirmPassword;
         private string _accountTypeStr;
+        private string _vehicleTypestr;
+        private string _courierName;
 
         public string Username
         {
@@ -63,6 +66,27 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
+        public string VehicleTypestr
+        {
+            get => _vehicleTypestr;
+            set
+            {
+                _vehicleTypestr = value;
+                OnPropertyChanged(nameof(VehicleType));
+            }
+        }
+
+        public string CourierName
+        {
+            get => _courierName;
+            set
+            {
+                _courierName = value;
+                OnPropertyChanged(nameof(CourierName));
+            }
+        }
+
+
         public ICommand RegisterCommand { get; }
 
         public SignUpViewModel()
@@ -71,9 +95,10 @@ namespace PiringPeduliWPF.ViewModel
         }
 
 
-        public SignUpViewModel(AccountService accountService)
+        public SignUpViewModel(AccountService accountService, CourierService courierService)
         {
             _accountService = accountService;
+            _courierService = courierService;
 
             RegisterCommand = new ViewModeCommand(Register);
         }
@@ -111,6 +136,11 @@ namespace PiringPeduliWPF.ViewModel
                     throw new Exception("Confirm Password Failed");
                 }
 
+                if (string.IsNullOrWhiteSpace(VehicleTypestr))
+                {
+                    throw new Exception("Vehicle type gak ada");
+                }
+
                 var account = await _accountService.GetUserByUsernameAsync(Username);
 
                 if (account != null) 
@@ -121,17 +151,28 @@ namespace PiringPeduliWPF.ViewModel
                 if (AccountTypeStr == "Temporary Storage")
                 {
                     AccountTypeStr = "TemporaryStorage";
+                }else if (AccountTypeStr == "Courier")
+                {
+                    AccountTypeStr = "Courier";
                 }
 
                 AccountType AccountType = (AccountType)Enum.Parse(typeof(AccountType), AccountTypeStr);
-                var success = await _accountService.RegisterNewAccountAsync(Username, Password, AccountType);
+                var successmadeAccount = await _accountService.RegisterNewAccountAsync(Username, Password, AccountType);
 
-                if (success)
+                if (successmadeAccount)
                 {
+                    VehicleType vehicleType = (VehicleType)Enum.Parse(typeof(VehicleType), VehicleTypestr);
+                    Courier createdAccount = new Courier { Name = CourierName, Vehicle = vehicleType };
+
+                    var successmadeCourier = await _courierService.CreateCourierAsync(createdAccount, Username);
                     // After successful registration, navigate to the login view
 
-                    MessageBox.Show($"Sign up done, navigate to Login", "Sign Up Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
-                    NavigationService.NavigateTo("LoginView");
+                    if (successmadeCourier)
+                    {
+
+                        MessageBox.Show($"Sign up done, navigate to Login", "Sign Up Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
+                        NavigationService.NavigateTo("LoginView");
+                    }
                 }
                 else
                 {

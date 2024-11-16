@@ -13,17 +13,32 @@ namespace PiringPeduliClass.Service
             _courierRepository = courierRepository;
         }
 
-        public void CreateCourier(string name, VehicleType vehicleType, int AccountID)
+        public async Task<bool> CreateCourierAsync(Courier accountmade, string username)
         {
-            var courier = new Courier
+            try
             {
-                //CourierId = courierId,
-                Name = name,
-                Vehicle = vehicleType,
-                AccountId = AccountID
-            };
+                var accountID = await _courierRepository.GetIdFromUsernameAsync(username);
+                var courier = new Courier
+                {
+                    Name = accountmade.Name,
+                    Vehicle = accountmade.Vehicle,
+                    AccountId = accountID
+                };
 
-            _courierRepository.AddCourier(courier);
+                bool isCreated = await _courierRepository.AddCourierAsync(courier);
+
+                if (!isCreated)
+                {
+                    throw new Exception("Courier creation Failed");
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            
         }
 
         public Courier GetCourierById(int courierId)
