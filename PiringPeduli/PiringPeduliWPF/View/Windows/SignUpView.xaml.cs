@@ -41,7 +41,9 @@ namespace PiringPeduliWPF.View.Windows
             var customerService = new CustomerService(customerRepository);
             var recyclerRepository = new RecyclerRepository(connectionString);
             var recyclerService = new RecyclerService(recyclerRepository);
-            DataContext = new SignUpViewModel(userService, courierService, customerService, recyclerService);
+            var tempRepository = new TemporaryStorageRepository(connectionString);
+            var tempService = new TemporaryStorageService(tempRepository);
+            DataContext = new SignUpViewModel(userService, courierService, customerService, recyclerService, tempService);
         }
 
         private void BtnMinimized_click(object sender, RoutedEventArgs e)
@@ -208,6 +210,23 @@ namespace PiringPeduliWPF.View.Windows
                     TemporaryStorageAddress.Visibility= Visibility.Visible;
                     TemporaryStorage.Text = " Name Temporary Storage";
                     TemporaryStorageAddress.Text = "Temporary Storage Address";
+
+                    TempStorageNameTextBox.TextChanged += (s, args) =>
+                    {
+                        if (DataContext is SignUpViewModel vm)
+                        {
+                            vm.AccountTypeStr= selectedOption;
+                            vm.TemporaryStorageName = TempStorageNameTextBox.Text;
+                        }
+                    };
+
+                    TempStorageAddressTextBox.TextChanged += (s, args) =>
+                    {
+                        if (DataContext is SignUpViewModel vm)
+                        {
+                            vm.TemporaryStorageAddress = TempStorageAddressTextBox.Text;
+                        }
+                    };
                     break;
             }
         }

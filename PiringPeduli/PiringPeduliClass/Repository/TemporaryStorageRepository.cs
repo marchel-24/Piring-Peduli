@@ -13,26 +13,36 @@ namespace PiringPeduliClass.Repository
     {
         public TemporaryStorageRepository(string connectionstring) : base(connectionstring) { }
 
-        public void makeAccount(TemporaryStorage account)
+        public async Task<bool> AddTemporaryStorageAsync(TemporaryStorage account)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            try
             {
-                connection.Open();
-
-                using (var command = new NpgsqlCommand
-                    (
-                        "INSERT INTO temporarystorage (storageid, storageaddress, accountid, storagename) VALUES (DEFAULT, @storageaddress, @accountid, @storagename)", connection
-                        )
-                    )
+                using (var connection = new NpgsqlConnection(_connectionString))
                 {
-                    //command.Parameters.AddWithValue("@storageid", account.StorageId);
-                    command.Parameters.AddWithValue("@storageaddress", account.StorageAddress);
-                    command.Parameters.AddWithValue("@accountid", account.AccountId);
-                    command.Parameters.AddWithValue("@storagename", account.StorageName);
+                    await connection.OpenAsync();
 
-                    command.ExecuteNonQuery();
+                    using (var command = new NpgsqlCommand
+                        (
+                            "INSERT INTO temporarystorage (storageid, storageaddress, accountid, storagename) VALUES (DEFAULT, @storageaddress, @accountid, @storagename)", connection
+                            )
+                        )
+                    {
+                        command.Parameters.AddWithValue("@storageaddress", account.StorageAddress);
+                        command.Parameters.AddWithValue("@accountid", account.AccountId);
+                        command.Parameters.AddWithValue("@storagename", account.StorageName);
+
+                        await command.ExecuteNonQueryAsync();
+                    }
                 }
+                return true;
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error creating courier: {ex.Message}");
+
+                return false;
+            }
+            
         }
 
         public async Task<bool> UpdateTemporaryStorageAsync(TemporaryStorage temporaryStorage)

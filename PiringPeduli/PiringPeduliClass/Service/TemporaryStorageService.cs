@@ -15,16 +15,34 @@ namespace PiringPeduliClass.Service
         }
 
         // Method to create a new temporary storage account
-        public void CreateTemporaryStorage(string storageAddress, int accountId)
+        public async Task<bool> CreateTemporaryStorageAsync(TemporaryStorage accountmade, string username)
         {
-            var temporaryStorage = new TemporaryStorage
+            try
             {
-                //StorageId = storageId,
-                StorageAddress = storageAddress,
-                AccountId = accountId
-            };
+                var accountId = await _temporaryStorageRepository.GetIdFromUsernameAsync(username);
+                var temporaryStorage = new TemporaryStorage
+                {
+                    //StorageId = storageId,
+                    StorageAddress = accountmade.StorageAddress,
+                    StorageName = accountmade.StorageName,
+                    AccountId = accountId
+                };
 
-            _temporaryStorageRepository.makeAccount(temporaryStorage);
+                bool isCreated = await _temporaryStorageRepository.AddTemporaryStorageAsync(temporaryStorage);
+
+                if (!isCreated)
+                {
+                    throw new Exception("Temporary Storage creation Failed");
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
+
+            
         }
 
         public async Task<bool> UpdateTempStorage(string oldUsername, TemporaryStorage updatedAccount)

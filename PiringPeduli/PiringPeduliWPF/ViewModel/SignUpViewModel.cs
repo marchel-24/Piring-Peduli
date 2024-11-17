@@ -20,6 +20,7 @@ namespace PiringPeduliWPF.ViewModel
         private readonly CourierService _courierService;
         private readonly CustomerService _customerService;
         private readonly RecyclerService _recyclerService;
+        private readonly TemporaryStorageService _temporaryStorage;
 
         private string _username;
         private string _password;
@@ -32,6 +33,8 @@ namespace PiringPeduliWPF.ViewModel
         private string _customerinstance;
         private string _recyclername;
         private string _recycleraddress;
+        private string _storagename;
+        private string _storageaddress;
 
         public string Username
         {
@@ -143,6 +146,26 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
+        public string TemporaryStorageName
+        {
+            get => _storagename;
+            set
+            {
+                _storagename = value;
+                OnPropertyChanged(nameof(TemporaryStorageName));
+            }
+        }
+
+        public string TemporaryStorageAddress
+        {
+            get => _storageaddress;
+            set
+            {
+                _storageaddress = value;
+                OnPropertyChanged(nameof(TemporaryStorageAddress));
+            }
+        }
+
 
         public ICommand RegisterCommand { get; }
 
@@ -152,12 +175,13 @@ namespace PiringPeduliWPF.ViewModel
         }
 
 
-        public SignUpViewModel(AccountService accountService, CourierService courierService, CustomerService customerService, RecyclerService recyclerService)
+        public SignUpViewModel(AccountService accountService, CourierService courierService, CustomerService customerService, RecyclerService recyclerService, TemporaryStorageService temporaryStorage)
         {
             _accountService = accountService;
             _courierService = courierService;
             _customerService = customerService;
             _recyclerService = recyclerService;
+            _temporaryStorage = temporaryStorage;
 
             RegisterCommand = new ViewModeCommand(Register);
         }
@@ -206,6 +230,15 @@ namespace PiringPeduliWPF.ViewModel
                 if (AccountTypeStr == "Temporary Storage")
                 {
                     AccountTypeStr = "TemporaryStorage";
+                    if (string.IsNullOrWhiteSpace(TemporaryStorageName))
+                    {
+                        throw new Exception("Temporary Storgae name is required");
+                    }
+
+                    if (string.IsNullOrWhiteSpace(TemporaryStorageAddress))
+                    {
+                        throw new Exception("Temporary Storage address is required");
+                    }
                 }
                 else if (AccountTypeStr == "Courier")
                 {
@@ -271,7 +304,7 @@ namespace PiringPeduliWPF.ViewModel
                         }
                     }
 
-                    else 
+                    else
                     if (AccountType == AccountType.Customer)
                     {
                         Customer createdAccount = new Customer
@@ -304,6 +337,23 @@ namespace PiringPeduliWPF.ViewModel
                         if (successmadeRecycler)
                         {
                             MessageBox.Show($"Sign up done, registered as Recycler", "Sign Up Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
+                            NavigationService.NavigateTo("LoginView");
+                        }
+                    }
+                    else
+                    if (AccountType == AccountType.TemporaryStorage)
+                    {
+                        TemporaryStorage createdAccount = new TemporaryStorage
+                        {
+                            StorageName = TemporaryStorageName,
+                            StorageAddress = TemporaryStorageAddress
+                        };
+
+                        var successmadeTemporary = await _temporaryStorage.CreateTemporaryStorageAsync(createdAccount, Username);
+
+                        if (successmadeTemporary)
+                        {
+                            MessageBox.Show($"Sign up done, registered as Temporary Storage", "Sign Up Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
                             NavigationService.NavigateTo("LoginView");
                         }
                     }
