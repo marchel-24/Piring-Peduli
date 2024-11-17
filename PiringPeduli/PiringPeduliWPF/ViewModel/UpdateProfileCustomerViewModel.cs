@@ -188,18 +188,16 @@ namespace PiringPeduliWPF.ViewModel
         {
             try
             {
-                // Validate if the username is provided
                 if (string.IsNullOrWhiteSpace(Username))
                 {
                     throw new Exception("Username is required.");
                 }
-                // Validate if the password is provided and meets the length requirement
+
                 if (string.IsNullOrWhiteSpace(Password))
                 {
                     throw new Exception("Password is required.");
                 }
 
-                // Validate if the confirm password matches the password
                 if (Password != ConfirmPassword)
                 {
                     throw new Exception("Confirm Password Failed");
@@ -224,7 +222,6 @@ namespace PiringPeduliWPF.ViewModel
             }
             catch (Exception ex)
             {
-                // Handle any exceptions that occur during the registration process
                 MessageBox.Show($"An error occurred: {ex.Message}", "Delete Account Failed", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

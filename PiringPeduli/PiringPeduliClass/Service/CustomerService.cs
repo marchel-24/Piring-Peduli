@@ -85,8 +85,8 @@ namespace PiringPeduliClass.Service
             {
                 var accountid = await _customerRepository.GetIdFromUsernameAsync(username);
 
-                var isDeleteCustomer = await _customerRepository.DeleteCustomerByAccountID(accountid);
-                var isDeleteAccount = await _customerRepository.DeleteAccountById(accountid);
+                bool isDeleteCustomer = await _customerRepository.DeleteCustomerByAccountID(accountid);
+                bool isDeleteAccount = await _customerRepository.DeleteAccountById(accountid);
 
                 if (!isDeleteAccount || !isDeleteCustomer)
                 {
