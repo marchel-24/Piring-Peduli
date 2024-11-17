@@ -18,6 +18,7 @@ namespace PiringPeduliWPF.ViewModel
     {
         private readonly AccountService _accountService;
         private readonly CourierService _courierService;
+        private readonly CustomerService _customerService;
 
         private string _username;
         private string _password;
@@ -25,6 +26,9 @@ namespace PiringPeduliWPF.ViewModel
         private string _accountTypeStr;
         private string _vehicleTypestr;
         private string _courierName;
+        private string _customername;
+        private string _customeraddress;
+        private string _customerinstance;
 
         public string Username
         {
@@ -86,6 +90,36 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
+        public string CustomerName
+        {
+            get => _customername;
+            set
+            {
+                _customername = value;
+                OnPropertyChanged(nameof(CustomerName));
+            }
+        }
+
+        public string CustomerAddress
+        {
+            get => _customeraddress;
+            set
+            {
+                _customeraddress = value;
+                OnPropertyChanged(nameof(CustomerAddress));
+            }
+        }
+
+        public string CustomerInstance
+        {
+            get => _customerinstance;
+            set
+            {
+                _customerinstance = value;
+                OnPropertyChanged(nameof(CustomerInstance));    
+            }
+        }
+
 
         public ICommand RegisterCommand { get; }
 
@@ -95,10 +129,11 @@ namespace PiringPeduliWPF.ViewModel
         }
 
 
-        public SignUpViewModel(AccountService accountService, CourierService courierService)
+        public SignUpViewModel(AccountService accountService, CourierService courierService, CustomerService customerService)
         {
             _accountService = accountService;
             _courierService = courierService;
+            _customerService = customerService;
 
             RegisterCommand = new ViewModeCommand(Register);
         }
@@ -136,24 +171,47 @@ namespace PiringPeduliWPF.ViewModel
                     throw new Exception("Confirm Password Failed");
                 }
 
-                if (string.IsNullOrWhiteSpace(VehicleTypestr))
-                {
-                    throw new Exception("Vehicle type gak ada");
-                }
-
                 var account = await _accountService.GetUserByUsernameAsync(Username);
 
                 if (account != null) 
                 {
                     throw new Exception("Username already exist");
                 }
+
                 // Proceed with registration logic
                 if (AccountTypeStr == "Temporary Storage")
                 {
                     AccountTypeStr = "TemporaryStorage";
-                }else if (AccountTypeStr == "Courier")
+                }
+                else if (AccountTypeStr == "Courier")
                 {
                     AccountTypeStr = "Courier";
+                    if (string.IsNullOrWhiteSpace(VehicleTypestr))
+                    {
+                        throw new Exception("Vehicle type is required");
+                    }
+
+                    if (string.IsNullOrWhiteSpace(CourierName))
+                    {
+                        throw new Exception("Courier name is required");
+                    }
+                }
+                else if (AccountTypeStr == "Customer")
+                {
+                    if (string.IsNullOrWhiteSpace(CustomerName))
+                    {
+                        throw new Exception("Customer name is required");
+                    }
+
+                    if (string.IsNullOrWhiteSpace(CustomerAddress))
+                    {
+                        throw new Exception("Customer address is required");
+                    }
+
+                    if (string.IsNullOrWhiteSpace(CustomerInstance))
+                    {
+                        throw new Exception("Customer instance is required");
+                    }
                 }
 
                 AccountType AccountType = (AccountType)Enum.Parse(typeof(AccountType), AccountTypeStr);
@@ -161,18 +219,43 @@ namespace PiringPeduliWPF.ViewModel
 
                 if (successmadeAccount)
                 {
-                    VehicleType vehicleType = (VehicleType)Enum.Parse(typeof(VehicleType), VehicleTypestr);
-                    Courier createdAccount = new Courier { Name = CourierName, Vehicle = vehicleType };
-
-                    var successmadeCourier = await _courierService.CreateCourierAsync(createdAccount, Username);
-                    // After successful registration, navigate to the login view
-
-                    if (successmadeCourier)
+                    if (AccountType == AccountType.Courier)
                     {
+                        VehicleType vehicleType = (VehicleType)Enum.Parse(typeof(VehicleType), VehicleTypestr);
+                        Courier createdAccount = new Courier { Name = CourierName, Vehicle = vehicleType };
 
-                        MessageBox.Show($"Sign up done, navigate to Login", "Sign Up Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
-                        NavigationService.NavigateTo("LoginView");
+                        var successmadeCourier = await _courierService.CreateCourierAsync(createdAccount, Username);
+                        // After successful registration, navigate to the login view
+
+                        if (successmadeCourier)
+                        {
+
+                            MessageBox.Show($"Sign up done, registered as Courier", "Sign Up Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
+                            NavigationService.NavigateTo("LoginView");
+                        }
                     }
+
+                    if (AccountType == AccountType.Customer)
+                    {
+                        Customer createdAccount = new Customer
+                        {
+                            CustomerName = CustomerName,
+                            CustomerAddress = CustomerAddress,
+                            CustomerInstance = CustomerInstance
+                        };
+
+                        var successmadeCustomer = await _customerService.CreateCustomerAsync(Username, createdAccount);
+
+                        if (successmadeCustomer)
+                        {
+
+                            MessageBox.Show($"Sign up done, registered as Customer", "Sign Up Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
+                            NavigationService.NavigateTo("LoginView");
+                        }
+                    }
+                    
+
+                    
                 }
                 else
                 {

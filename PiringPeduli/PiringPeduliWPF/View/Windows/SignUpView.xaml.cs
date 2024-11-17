@@ -37,7 +37,9 @@ namespace PiringPeduliWPF.View.Windows
             var userService = new AccountService(userRepository);
             var courierRepository = new CourierRepository(connectionString);
             var courierService = new CourierService(courierRepository);
-            DataContext = new SignUpViewModel(userService, courierService);
+            var customerRepository = new CustomerRepository(connectionString);
+            var customerService = new CustomerService(customerRepository);
+            DataContext = new SignUpViewModel(userService, courierService, customerService);
         }
 
         private void BtnMinimized_click(object sender, RoutedEventArgs e)
@@ -144,6 +146,31 @@ namespace PiringPeduliWPF.View.Windows
                     CustomerName.Text = "Customer Name";
                     CustomerInstance.Text = "Instance";
                     CustomerAddress.Text = "Customer Address";
+
+                    CustomerNameTextBox.TextChanged += (s, args) =>
+                    {
+                        if (DataContext is SignUpViewModel vm)
+                        {
+                            vm.AccountTypeStr= selectedOption;
+                            vm.CustomerName = CustomerNameTextBox.Text;
+                        }
+                    };
+
+                    CustomerAddressTextBox.TextChanged += (s, args) =>
+                    {
+                        if (DataContext is SignUpViewModel vm)
+                        {
+                            vm.CustomerAddress = CustomerAddressTextBox.Text;
+                        }
+                    };
+
+                    CustomerInstanceTextBox.TextChanged += (s, args) =>
+                    {
+                        if (DataContext is SignUpViewModel vm)
+                        {
+                            vm.CustomerInstance = CustomerInstanceTextBox.Text;
+                        }
+                    };
                     break;
 
                 case "Recycler":
