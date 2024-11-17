@@ -14,17 +14,31 @@ namespace PiringPeduliClass.Service
         }
 
         // Method to create a new recycler
-        public void CreateRecycler(int recyclerId, string recyclerName, string recyclerAddress, int accountId)
+        public async Task<bool> CreateRecyclerAsync(Recycler accountmade, string username)
         {
-            var recycler = new Recycler
+            try
             {
-                RecyclerId = recyclerId,
-                RecyclerName = recyclerName,
-                RecyclerAddress = recyclerAddress,
-                AccountId = accountId
-            };
+                var accountid = await _recyclerRepository.GetIdFromUsernameAsync(username);
+                var recycler = new Recycler
+                {
+                    RecyclerName = accountmade.RecyclerName,
+                    RecyclerAddress = accountmade.RecyclerAddress,
+                    AccountId = accountid
+                };
 
-            _recyclerRepository.AddRecycler(recycler);
+                bool isCreated = await _recyclerRepository.AddRecyclerAsync(recycler);
+
+                if (!isCreated)
+                {
+                    throw new Exception("Recycler creation failed");
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         // Method to update an existing recycler by name

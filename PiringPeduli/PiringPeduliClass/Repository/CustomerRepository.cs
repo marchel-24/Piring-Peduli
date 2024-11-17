@@ -15,7 +15,7 @@ namespace PiringPeduliClass.Repository
             {
                 using (var connection = new NpgsqlConnection(_connectionString))
                 {
-                    connection.Open();
+                    await connection.OpenAsync();
 
                     using (var command = new NpgsqlCommand("INSERT INTO Customer (customerid, customername, customerinstance, customeraddress, accountid) VALUES (DEFAULT, @CustomerName, @CustomerInstance, @CustomerAddress, @AccountId)", connection))
                     {
@@ -24,7 +24,7 @@ namespace PiringPeduliClass.Repository
                         command.Parameters.AddWithValue("@CustomerAddress", customer.CustomerAddress);
                         command.Parameters.AddWithValue("@AccountId", customer.AccountId);
 
-                        command.ExecuteNonQuery();
+                        await command.ExecuteNonQueryAsync();
                     }
                 }
                 return true;

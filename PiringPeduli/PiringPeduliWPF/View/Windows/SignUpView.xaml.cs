@@ -39,7 +39,9 @@ namespace PiringPeduliWPF.View.Windows
             var courierService = new CourierService(courierRepository);
             var customerRepository = new CustomerRepository(connectionString);
             var customerService = new CustomerService(customerRepository);
-            DataContext = new SignUpViewModel(userService, courierService, customerService);
+            var recyclerRepository = new RecyclerRepository(connectionString);
+            var recyclerService = new RecyclerService(recyclerRepository);
+            DataContext = new SignUpViewModel(userService, courierService, customerService, recyclerService);
         }
 
         private void BtnMinimized_click(object sender, RoutedEventArgs e)
@@ -180,6 +182,23 @@ namespace PiringPeduliWPF.View.Windows
                     RecyclerAddress.Visibility= Visibility.Visible;
                     RecyclerName.Text = "Recycler Name";
                     RecyclerAddress.Text = "Recycler Address";
+
+                    RecyclerNameTextBox.TextChanged += (s, args) =>
+                    {
+                        if (DataContext is SignUpViewModel vm)
+                        {
+                            vm.AccountTypeStr = selectedOption;
+                            vm.RecyclerName = RecyclerNameTextBox.Text;
+                        }
+                    };
+
+                    RecyclerAddressTextBox.TextChanged += (s, args) =>
+                    {
+                        if (DataContext is SignUpViewModel vm)
+                        {
+                            vm.RecyclerAddress = RecyclerAddressTextBox.Text;
+                        }
+                    };
                     break;
 
                 case "Temporary Storage":

@@ -19,6 +19,7 @@ namespace PiringPeduliWPF.ViewModel
         private readonly AccountService _accountService;
         private readonly CourierService _courierService;
         private readonly CustomerService _customerService;
+        private readonly RecyclerService _recyclerService;
 
         private string _username;
         private string _password;
@@ -29,6 +30,8 @@ namespace PiringPeduliWPF.ViewModel
         private string _customername;
         private string _customeraddress;
         private string _customerinstance;
+        private string _recyclername;
+        private string _recycleraddress;
 
         public string Username
         {
@@ -120,6 +123,26 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
+        public string RecyclerName
+        {
+            get => _recyclername;
+            set
+            {
+                _recyclername = value;
+                OnPropertyChanged(nameof(RecyclerName));
+            }
+        }
+
+        public string RecyclerAddress
+        {
+            get => _recycleraddress;
+            set
+            {
+                _recycleraddress = value;
+                OnPropertyChanged(nameof(RecyclerAddress));
+            }
+        }
+
 
         public ICommand RegisterCommand { get; }
 
@@ -129,11 +152,12 @@ namespace PiringPeduliWPF.ViewModel
         }
 
 
-        public SignUpViewModel(AccountService accountService, CourierService courierService, CustomerService customerService)
+        public SignUpViewModel(AccountService accountService, CourierService courierService, CustomerService customerService, RecyclerService recyclerService)
         {
             _accountService = accountService;
             _courierService = courierService;
             _customerService = customerService;
+            _recyclerService = recyclerService;
 
             RegisterCommand = new ViewModeCommand(Register);
         }
@@ -213,6 +237,18 @@ namespace PiringPeduliWPF.ViewModel
                         throw new Exception("Customer instance is required");
                     }
                 }
+                else if (AccountTypeStr == "Recycler")
+                {
+                    if (string.IsNullOrWhiteSpace(RecyclerName))
+                    {
+                        throw new Exception("Recycler name is required");
+                    }
+
+                    if (string.IsNullOrWhiteSpace(RecyclerAddress))
+                    {
+                        throw new Exception("Recycer address is required");
+                    }
+                }
 
                 AccountType AccountType = (AccountType)Enum.Parse(typeof(AccountType), AccountTypeStr);
                 var successmadeAccount = await _accountService.RegisterNewAccountAsync(Username, Password, AccountType);
@@ -235,6 +271,7 @@ namespace PiringPeduliWPF.ViewModel
                         }
                     }
 
+                    else 
                     if (AccountType == AccountType.Customer)
                     {
                         Customer createdAccount = new Customer
@@ -253,9 +290,23 @@ namespace PiringPeduliWPF.ViewModel
                             NavigationService.NavigateTo("LoginView");
                         }
                     }
-                    
+                    else
+                    if (AccountType == AccountType.Recycler)
+                    {
+                        Recycler createdAccount = new Recycler
+                        {
+                            RecyclerName = RecyclerName,
+                            RecyclerAddress = RecyclerAddress
+                        };
 
-                    
+                        var successmadeRecycler = await _recyclerService.CreateRecyclerAsync(createdAccount, Username);
+
+                        if (successmadeRecycler)
+                        {
+                            MessageBox.Show($"Sign up done, registered as Recycler", "Sign Up Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
+                            NavigationService.NavigateTo("LoginView");
+                        }
+                    }
                 }
                 else
                 {
