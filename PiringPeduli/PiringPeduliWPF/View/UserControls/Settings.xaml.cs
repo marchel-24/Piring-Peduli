@@ -62,5 +62,10 @@ namespace PiringPeduliWPF.View.UserControls
             }
             return parent as T;
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            UserSessionService.LogOut();
+        }
     }
 }

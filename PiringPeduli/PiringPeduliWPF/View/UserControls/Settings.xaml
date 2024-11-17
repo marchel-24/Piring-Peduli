@@ -117,7 +117,7 @@
 
         <!-- Log Out Button -->
         <Viewbox HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="30,10,30,10" Grid.Row="3">
-            <Button Content="Log out" HorizontalAlignment="Left" Background="White" BorderBrush="Gray" BorderThickness="0,0,0,1" Width="700">
+            <Button Content="Log out" HorizontalAlignment="Left" Background="White" BorderBrush="Gray" BorderThickness="0,0,0,1" Width="700" Click="Button_Click_1">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -125,6 +125,7 @@
                         <Setter Property="BorderBrush" Value="Gray"/>
                         <Setter Property="BorderThickness" Value="0,0,0,0"/>
                         <Setter Property="Padding" Value="5"/>
+                        <Setter Property="Cursor" Value="Hand"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="Button">
