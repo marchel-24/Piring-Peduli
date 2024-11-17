@@ -133,5 +133,39 @@ namespace PiringPeduliClass.Repository
 
             return orders;
         }
+
+        public List<Order> GetOrdersBySourceId(int sourceId)
+        {
+            var orders = new List<Order>();
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                string query = "SELECT orderid, status, sourceid, destinationid, courierid, Description FROM Orders WHERE sourceid = @sourceid";
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@source", sourceId.ToString());
+                    connection.Open();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            orders.Add(new Order
+                            {
+                                OrderId = reader.GetInt32(0),
+                                //(SortedType)Enum.Parse(typeof(SortedType), reader.GetString(reader.GetOrdinal("wastedtype"))
+                                Status = (StatusType)Enum.Parse(typeof(StatusType), reader.GetString(reader.GetOrdinal("status"))),
+                                Source = reader.GetInt32(2),
+                                Destination = reader.GetInt32(3),
+                                //Courier = reader.GetInt32(4),
+                                Description = reader.GetString(5)
+                            });
+                        }
+                    }
+                }
+            }
+
+            return orders;
+        }
     }
 }

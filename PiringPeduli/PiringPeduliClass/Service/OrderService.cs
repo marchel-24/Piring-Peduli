@@ -12,6 +12,11 @@ namespace PiringPeduliClass.Service
         private readonly OrderRepository _orderRepository;
         private readonly AccountRepository _accountRepository;
 
+        public OrderService(OrderRepository orderRepository)
+        {
+            _orderRepository = orderRepository;
+        }
+
         public OrderService(OrderRepository orderRepository, AccountRepository accountRepository)
         {
             _orderRepository = orderRepository;
@@ -75,6 +80,12 @@ namespace PiringPeduliClass.Service
         public void DeleteOrder(int orderId)
         {
             _orderRepository.DeleteOrder(orderId);
+        }
+
+        public List<Order> GetOrderById(int sourceorderId)
+        {
+            List<Order> orders = _orderRepository.GetOrdersBySourceId(sourceorderId);
+            return orders;
         }
     }
 }

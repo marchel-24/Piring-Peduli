@@ -22,7 +22,7 @@
             <!-- User Info (Name, Email, Address) -->
             <TextBlock Name="UserName" Text="{Binding Username}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
             <TextBlock Name="UserEmail" Text="email" FontSize="14" HorizontalAlignment="Center"/>
-            <TextBlock Name="UserAddress" Text="Address" FontSize="14" HorizontalAlignment="Center"/>
+            <TextBlock Name="UserAddress" Text="{Binding Address}" FontSize="14" HorizontalAlignment="Center"/>
         </StackPanel>
 
         <!-- Main Content Section -->
@@ -41,11 +41,11 @@
                 </DataGrid.Columns>
             </DataGrid>
             <!-- Order Table (Scrollable) -->
-                <DataGrid Name="OrderTable" Grid.Column="1" AutoGenerateColumns="False" CanUserAddRows="False" Margin="10" SelectionChanged="OrderTable_SelectionChanged">
+            <DataGrid Name="OrderTable" Grid.Column="1" AutoGenerateColumns="False" CanUserAddRows="False" Margin="10" SelectionChanged="OrderTable_SelectionChanged" ItemsSource="{Binding Orders}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Order ID" Binding="{Binding OrderID}"/>
-                        <DataGridTextColumn Header="Product" Binding="{Binding Product}"/>
-                        <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}"/>
+                        <DataGridTextColumn Header="Order ID" Binding="{Binding OrderId}"/>
+                        <DataGridTextColumn Header="Destination" Binding="{Binding Destination}"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
                     </DataGrid.Columns>
                 </DataGrid>
 
