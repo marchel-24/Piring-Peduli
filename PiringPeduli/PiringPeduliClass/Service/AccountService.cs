@@ -42,7 +42,9 @@ namespace PiringPeduliClass.Service
                     AccountId = newAccountId,
                     Username = username,
                     Password = password,
-                    Type = type
+                    Type = type,
+                    Lat = -0.771317095452585,
+                    Lon = 0.37772145337762
                 };
 
                 // Create the account asynchronously

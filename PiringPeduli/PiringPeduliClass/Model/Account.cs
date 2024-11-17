@@ -23,6 +23,8 @@ namespace PiringPeduliClass.Model
         private string username;
         private string password;
         private AccountType type;
+        private double lat;
+        private double lon;
 
         /// <summary>
         /// Gets or sets the account's ID.
@@ -58,6 +60,18 @@ namespace PiringPeduliClass.Model
         {
             get { return type; }
             set { type = value;  }
+        }
+
+        public double Lat
+        {
+            get { return lat; }
+            set { lat = value; }
+        }
+
+        public double Lon
+        {
+            get { return lon; }
+            set { lon = value; }
         }
 
         /// <summary>
