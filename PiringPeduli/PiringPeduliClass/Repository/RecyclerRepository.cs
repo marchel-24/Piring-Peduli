@@ -9,25 +9,36 @@ namespace PiringPeduliClass.Repository
     {
         public RecyclerRepository(string connectionString) : base(connectionString) { }
 
-        public void AddRecycler(Recycler recycler)
+        public async Task<bool> AddRecyclerAsync(Recycler recycler)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            try
             {
-                connection.Open();
-
-                string query = "INSERT INTO Recycler (recyclerid, recyclername, recycleraddress, accountid) " +
-                               "VALUES (@RecyclerId, @RecyclerName, @RecyclerAddress, @AccountID)";
-
-                using (var command = new NpgsqlCommand(query, connection))
+                using (var connection = new NpgsqlConnection(_connectionString))
                 {
-                    command.Parameters.AddWithValue("@RecyclerId", recycler.RecyclerId);
-                    command.Parameters.AddWithValue("@RecyclerName", recycler.RecyclerName);
-                    command.Parameters.AddWithValue("@RecyclerAddress", recycler.RecyclerAddress);
-                    command.Parameters.AddWithValue("@AccountID", recycler.AccountId);
+                    await connection.OpenAsync();
 
-                    command.ExecuteNonQuery();
+                    string query = "INSERT INTO Recycler (recyclerid, recyclername, recycleraddress, accountid) " +
+                                   "VALUES (DEFAULT, @RecyclerName, @RecyclerAddress, @AccountID)";
+
+                    using (var command = new NpgsqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@RecyclerName", recycler.RecyclerName);
+                        command.Parameters.AddWithValue("@RecyclerAddress", recycler.RecyclerAddress);
+                        command.Parameters.AddWithValue("@AccountID", recycler.AccountId);
+
+                        await command.ExecuteNonQueryAsync();
+                    }
                 }
+
+                return true;
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error creating recycler: {ex.Message}");
+
+                return false;
+            }
+            
         }
 
         // Method to update recycler details by name

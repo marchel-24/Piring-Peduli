@@ -35,7 +35,15 @@ namespace PiringPeduliWPF.View.Windows
             // Pass the connection string to the UserRepository and UserService
             var userRepository = new AccountRepository(connectionString);
             var userService = new AccountService(userRepository);
-            DataContext = new SignUpViewModel(userService);
+            var courierRepository = new CourierRepository(connectionString);
+            var courierService = new CourierService(courierRepository);
+            var customerRepository = new CustomerRepository(connectionString);
+            var customerService = new CustomerService(customerRepository);
+            var recyclerRepository = new RecyclerRepository(connectionString);
+            var recyclerService = new RecyclerService(recyclerRepository);
+            var tempRepository = new TemporaryStorageRepository(connectionString);
+            var tempService = new TemporaryStorageService(tempRepository);
+            DataContext = new SignUpViewModel(userService, courierService, customerService, recyclerService, tempService);
         }
 
         private void BtnMinimized_click(object sender, RoutedEventArgs e)
@@ -112,6 +120,24 @@ namespace PiringPeduliWPF.View.Windows
                     CourierName.Visibility= Visibility.Visible;
                     CourierName.Text = "Courier Name";
                     VehicleType.Text = "Vehicle Type";
+                    
+                    VehicleTypeComboBox.SelectionChanged += (s, args) =>
+                    {
+                        if (DataContext is SignUpViewModel vm)
+                        {
+                            vm.AccountTypeStr = selectedOption;
+                            ComboBoxItem selectedVehicle = (ComboBoxItem)VehicleTypeComboBox.SelectedItem;
+                            vm.VehicleTypestr = selectedVehicle?.Content.ToString();
+                        }
+                    };
+
+                    CourierNameTextBox.TextChanged += (s, args) =>
+                    {
+                        if (DataContext is SignUpViewModel vm)
+                        {
+                            vm.CourierName = CourierNameTextBox.Text;
+                        }
+                    };
                     break;
 
                 case "Customer":
@@ -124,6 +150,31 @@ namespace PiringPeduliWPF.View.Windows
                     CustomerName.Text = "Customer Name";
                     CustomerInstance.Text = "Instance";
                     CustomerAddress.Text = "Customer Address";
+
+                    CustomerNameTextBox.TextChanged += (s, args) =>
+                    {
+                        if (DataContext is SignUpViewModel vm)
+                        {
+                            vm.AccountTypeStr= selectedOption;
+                            vm.CustomerName = CustomerNameTextBox.Text;
+                        }
+                    };
+
+                    CustomerAddressTextBox.TextChanged += (s, args) =>
+                    {
+                        if (DataContext is SignUpViewModel vm)
+                        {
+                            vm.CustomerAddress = CustomerAddressTextBox.Text;
+                        }
+                    };
+
+                    CustomerInstanceTextBox.TextChanged += (s, args) =>
+                    {
+                        if (DataContext is SignUpViewModel vm)
+                        {
+                            vm.CustomerInstance = CustomerInstanceTextBox.Text;
+                        }
+                    };
                     break;
 
                 case "Recycler":
@@ -133,6 +184,23 @@ namespace PiringPeduliWPF.View.Windows
                     RecyclerAddress.Visibility= Visibility.Visible;
                     RecyclerName.Text = "Recycler Name";
                     RecyclerAddress.Text = "Recycler Address";
+
+                    RecyclerNameTextBox.TextChanged += (s, args) =>
+                    {
+                        if (DataContext is SignUpViewModel vm)
+                        {
+                            vm.AccountTypeStr = selectedOption;
+                            vm.RecyclerName = RecyclerNameTextBox.Text;
+                        }
+                    };
+
+                    RecyclerAddressTextBox.TextChanged += (s, args) =>
+                    {
+                        if (DataContext is SignUpViewModel vm)
+                        {
+                            vm.RecyclerAddress = RecyclerAddressTextBox.Text;
+                        }
+                    };
                     break;
 
                 case "Temporary Storage":
@@ -142,6 +210,23 @@ namespace PiringPeduliWPF.View.Windows
                     TemporaryStorageAddress.Visibility= Visibility.Visible;
                     TemporaryStorage.Text = " Name Temporary Storage";
                     TemporaryStorageAddress.Text = "Temporary Storage Address";
+
+                    TempStorageNameTextBox.TextChanged += (s, args) =>
+                    {
+                        if (DataContext is SignUpViewModel vm)
+                        {
+                            vm.AccountTypeStr= selectedOption;
+                            vm.TemporaryStorageName = TempStorageNameTextBox.Text;
+                        }
+                    };
+
+                    TempStorageAddressTextBox.TextChanged += (s, args) =>
+                    {
+                        if (DataContext is SignUpViewModel vm)
+                        {
+                            vm.TemporaryStorageAddress = TempStorageAddressTextBox.Text;
+                        }
+                    };
                     break;
             }
         }

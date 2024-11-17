@@ -36,19 +36,7 @@ namespace PiringPeduliWPF
 
             try
             {
-                //AccountService.CreateCourier("siappaaa", VehicleType.Motorcycle, 4);
-                //sortService.PublishSortedWaste(SortedType.Others);
-                //AccountService.RemoveAccountByUsername("ilham");
-                //TempoServ.CreateTemporaryStorage("Jalan Roma", 1);
-                //wasteInStorageService.DeleteWasteByStorage(1);
-                //requiredWasteService.AddRequiredWaste(1, 2);
-
-                //Debug.WriteLine(AccountService.GetRecyclerByName("ilham").RecyclerId);
-                //Debug.WriteLine(AccountService.GetRecyclerByName("ilham").RecyclerName);
-                //Debug.WriteLine(AccountService.GetRecyclerByName("ilham").RecyclerAddress);
-                //Debug.WriteLine(AccountService.GetRecyclerByName("ilham").AccountId);
-                //sortService.CreateOrder(1, StatusType.Delivered, 1, 3, 1,"Hai hai");
-                //Debug.WriteLine("Berhasil");
+                
             }
             catch (Exception ex) 
             {

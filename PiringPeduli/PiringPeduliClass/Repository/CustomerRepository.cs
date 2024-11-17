@@ -9,22 +9,31 @@ namespace PiringPeduliClass.Repository
     {
         public CustomerRepository(string connectionString) : base(connectionString) { }
 
-        public void AddCustomer(Customer customer)
+        public async Task<bool> AddCustomerAsync(Customer customer)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            try
             {
-                connection.Open();
-
-                using (var command = new NpgsqlCommand("INSERT INTO Customer (customerid, customername, customerinstance, customeraddress, accountid) VALUES (@CustomerId, @CustomerName, @CustomerInstance, @CustomerAddress, @AccountId)", connection))
+                using (var connection = new NpgsqlConnection(_connectionString))
                 {
-                    command.Parameters.AddWithValue("@CustomerId", customer.CustomerId);
-                    command.Parameters.AddWithValue("@CustomerName", customer.CustomerName);
-                    command.Parameters.AddWithValue("@CustomerInstance", customer.CustomerInstance);
-                    command.Parameters.AddWithValue("@CustomerAddress", customer.CustomerAddress);
-                    command.Parameters.AddWithValue("@AccountId", customer.AccountId);
+                    await connection.OpenAsync();
 
-                    command.ExecuteNonQuery();
+                    using (var command = new NpgsqlCommand("INSERT INTO Customer (customerid, customername, customerinstance, customeraddress, accountid) VALUES (DEFAULT, @CustomerName, @CustomerInstance, @CustomerAddress, @AccountId)", connection))
+                    {
+                        command.Parameters.AddWithValue("@CustomerName", customer.CustomerName);
+                        command.Parameters.AddWithValue("@CustomerInstance", customer.CustomerInstance);
+                        command.Parameters.AddWithValue("@CustomerAddress", customer.CustomerAddress);
+                        command.Parameters.AddWithValue("@AccountId", customer.AccountId);
+
+                        await command.ExecuteNonQueryAsync();
+                    }
                 }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error creating customer: {ex.Message}");
+
+                return false;
             }
         }
 

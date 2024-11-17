@@ -17,11 +17,24 @@ namespace PiringPeduliWPF.ViewModel
     public class SignUpViewModel : ViewModelBase
     {
         private readonly AccountService _accountService;
+        private readonly CourierService _courierService;
+        private readonly CustomerService _customerService;
+        private readonly RecyclerService _recyclerService;
+        private readonly TemporaryStorageService _temporaryStorage;
 
         private string _username;
         private string _password;
         private string _confirmPassword;
         private string _accountTypeStr;
+        private string _vehicleTypestr;
+        private string _courierName;
+        private string _customername;
+        private string _customeraddress;
+        private string _customerinstance;
+        private string _recyclername;
+        private string _recycleraddress;
+        private string _storagename;
+        private string _storageaddress;
 
         public string Username
         {
@@ -63,6 +76,97 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
+        public string VehicleTypestr
+        {
+            get => _vehicleTypestr;
+            set
+            {
+                _vehicleTypestr = value;
+                OnPropertyChanged(nameof(VehicleType));
+            }
+        }
+
+        public string CourierName
+        {
+            get => _courierName;
+            set
+            {
+                _courierName = value;
+                OnPropertyChanged(nameof(CourierName));
+            }
+        }
+
+        public string CustomerName
+        {
+            get => _customername;
+            set
+            {
+                _customername = value;
+                OnPropertyChanged(nameof(CustomerName));
+            }
+        }
+
+        public string CustomerAddress
+        {
+            get => _customeraddress;
+            set
+            {
+                _customeraddress = value;
+                OnPropertyChanged(nameof(CustomerAddress));
+            }
+        }
+
+        public string CustomerInstance
+        {
+            get => _customerinstance;
+            set
+            {
+                _customerinstance = value;
+                OnPropertyChanged(nameof(CustomerInstance));    
+            }
+        }
+
+        public string RecyclerName
+        {
+            get => _recyclername;
+            set
+            {
+                _recyclername = value;
+                OnPropertyChanged(nameof(RecyclerName));
+            }
+        }
+
+        public string RecyclerAddress
+        {
+            get => _recycleraddress;
+            set
+            {
+                _recycleraddress = value;
+                OnPropertyChanged(nameof(RecyclerAddress));
+            }
+        }
+
+        public string TemporaryStorageName
+        {
+            get => _storagename;
+            set
+            {
+                _storagename = value;
+                OnPropertyChanged(nameof(TemporaryStorageName));
+            }
+        }
+
+        public string TemporaryStorageAddress
+        {
+            get => _storageaddress;
+            set
+            {
+                _storageaddress = value;
+                OnPropertyChanged(nameof(TemporaryStorageAddress));
+            }
+        }
+
+
         public ICommand RegisterCommand { get; }
 
         public SignUpViewModel()
@@ -71,9 +175,13 @@ namespace PiringPeduliWPF.ViewModel
         }
 
 
-        public SignUpViewModel(AccountService accountService)
+        public SignUpViewModel(AccountService accountService, CourierService courierService, CustomerService customerService, RecyclerService recyclerService, TemporaryStorageService temporaryStorage)
         {
             _accountService = accountService;
+            _courierService = courierService;
+            _customerService = customerService;
+            _recyclerService = recyclerService;
+            _temporaryStorage = temporaryStorage;
 
             RegisterCommand = new ViewModeCommand(Register);
         }
@@ -117,21 +225,138 @@ namespace PiringPeduliWPF.ViewModel
                 {
                     throw new Exception("Username already exist");
                 }
+
                 // Proceed with registration logic
                 if (AccountTypeStr == "Temporary Storage")
                 {
                     AccountTypeStr = "TemporaryStorage";
+                    if (string.IsNullOrWhiteSpace(TemporaryStorageName))
+                    {
+                        throw new Exception("Temporary Storgae name is required");
+                    }
+
+                    if (string.IsNullOrWhiteSpace(TemporaryStorageAddress))
+                    {
+                        throw new Exception("Temporary Storage address is required");
+                    }
+                }
+                else if (AccountTypeStr == "Courier")
+                {
+                    AccountTypeStr = "Courier";
+                    if (string.IsNullOrWhiteSpace(VehicleTypestr))
+                    {
+                        throw new Exception("Vehicle type is required");
+                    }
+
+                    if (string.IsNullOrWhiteSpace(CourierName))
+                    {
+                        throw new Exception("Courier name is required");
+                    }
+                }
+                else if (AccountTypeStr == "Customer")
+                {
+                    if (string.IsNullOrWhiteSpace(CustomerName))
+                    {
+                        throw new Exception("Customer name is required");
+                    }
+
+                    if (string.IsNullOrWhiteSpace(CustomerAddress))
+                    {
+                        throw new Exception("Customer address is required");
+                    }
+
+                    if (string.IsNullOrWhiteSpace(CustomerInstance))
+                    {
+                        throw new Exception("Customer instance is required");
+                    }
+                }
+                else if (AccountTypeStr == "Recycler")
+                {
+                    if (string.IsNullOrWhiteSpace(RecyclerName))
+                    {
+                        throw new Exception("Recycler name is required");
+                    }
+
+                    if (string.IsNullOrWhiteSpace(RecyclerAddress))
+                    {
+                        throw new Exception("Recycer address is required");
+                    }
                 }
 
                 AccountType AccountType = (AccountType)Enum.Parse(typeof(AccountType), AccountTypeStr);
-                var success = await _accountService.RegisterNewAccountAsync(Username, Password, AccountType);
+                var successmadeAccount = await _accountService.RegisterNewAccountAsync(Username, Password, AccountType);
 
-                if (success)
+                if (successmadeAccount)
                 {
-                    // After successful registration, navigate to the login view
+                    if (AccountType == AccountType.Courier)
+                    {
+                        VehicleType vehicleType = (VehicleType)Enum.Parse(typeof(VehicleType), VehicleTypestr);
+                        Courier createdAccount = new Courier { Name = CourierName, Vehicle = vehicleType };
 
-                    MessageBox.Show($"Sign up done, navigate to Login", "Sign Up Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
-                    NavigationService.NavigateTo("LoginView");
+                        var successmadeCourier = await _courierService.CreateCourierAsync(createdAccount, Username);
+                        // After successful registration, navigate to the login view
+
+                        if (successmadeCourier)
+                        {
+
+                            MessageBox.Show($"Sign up done, registered as Courier", "Sign Up Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
+                            NavigationService.NavigateTo("LoginView");
+                        }
+                    }
+
+                    else
+                    if (AccountType == AccountType.Customer)
+                    {
+                        Customer createdAccount = new Customer
+                        {
+                            CustomerName = CustomerName,
+                            CustomerAddress = CustomerAddress,
+                            CustomerInstance = CustomerInstance
+                        };
+
+                        var successmadeCustomer = await _customerService.CreateCustomerAsync(Username, createdAccount);
+
+                        if (successmadeCustomer)
+                        {
+
+                            MessageBox.Show($"Sign up done, registered as Customer", "Sign Up Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
+                            NavigationService.NavigateTo("LoginView");
+                        }
+                    }
+                    else
+                    if (AccountType == AccountType.Recycler)
+                    {
+                        Recycler createdAccount = new Recycler
+                        {
+                            RecyclerName = RecyclerName,
+                            RecyclerAddress = RecyclerAddress
+                        };
+
+                        var successmadeRecycler = await _recyclerService.CreateRecyclerAsync(createdAccount, Username);
+
+                        if (successmadeRecycler)
+                        {
+                            MessageBox.Show($"Sign up done, registered as Recycler", "Sign Up Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
+                            NavigationService.NavigateTo("LoginView");
+                        }
+                    }
+                    else
+                    if (AccountType == AccountType.TemporaryStorage)
+                    {
+                        TemporaryStorage createdAccount = new TemporaryStorage
+                        {
+                            StorageName = TemporaryStorageName,
+                            StorageAddress = TemporaryStorageAddress
+                        };
+
+                        var successmadeTemporary = await _temporaryStorage.CreateTemporaryStorageAsync(createdAccount, Username);
+
+                        if (successmadeTemporary)
+                        {
+                            MessageBox.Show($"Sign up done, registered as Temporary Storage", "Sign Up Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
+                            NavigationService.NavigateTo("LoginView");
+                        }
+                    }
                 }
                 else
                 {

@@ -14,18 +14,34 @@ namespace PiringPeduliClass.Service
         }
 
         // Method to create a new customer
-        public void CreateCustomer(int customerId, string customerName, string customerInstance, string customerAddress, int accountId)
+        public async Task<bool> CreateCustomerAsync(string username, Customer accountmade)
         {
-            var customer = new Customer
+            try
             {
-                CustomerId = customerId,
-                CustomerName = customerName,
-                CustomerInstance = customerInstance,
-                CustomerAddress = customerAddress,
-                AccountId = accountId
-            };
+                var accountid = await _customerRepository.GetIdFromUsernameAsync(username);
 
-            _customerRepository.AddCustomer(customer);
+                var customer = new Customer
+                {
+                    CustomerName = accountmade.CustomerName,
+                    CustomerInstance = accountmade.CustomerInstance,
+                    CustomerAddress = accountmade.CustomerAddress,
+                    AccountId = accountid
+                };
+
+                var iscreated = await _customerRepository.AddCustomerAsync(customer);
+
+                if (!iscreated)
+                {
+                    throw new Exception("Courier creation Failed");
+                }
+
+                return true;
+            }
+            catch (Exception ex) 
+            {
+                throw new Exception(ex.Message);
+            }
+            
         }
 
         // Method to update an existing customer by name
