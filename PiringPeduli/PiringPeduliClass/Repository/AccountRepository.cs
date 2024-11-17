@@ -68,6 +68,8 @@ namespace PiringPeduliClass.Repository
                                 AccountId = reader.GetInt32(reader.GetOrdinal("accountid")),
                                 Username = reader.GetString(reader.GetOrdinal("username")),
                                 Password = reader.GetString(reader.GetOrdinal("password")),
+                                Lat = (double?)(reader.IsDBNull(reader.GetOrdinal("lat")) ? null : reader.GetDouble(reader.GetOrdinal("lat"))) ?? 0.0,
+                                Lon = (double?)(reader.IsDBNull(reader.GetOrdinal("lon")) ? null : reader.GetDouble(reader.GetOrdinal("lon"))) ?? 0.0,
                                 Type = (AccountType)Enum.Parse(typeof(AccountType), reader.GetString(reader.GetOrdinal("type")))
                             };
                         }

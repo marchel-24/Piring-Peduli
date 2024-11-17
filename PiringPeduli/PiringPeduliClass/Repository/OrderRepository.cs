@@ -2,6 +2,7 @@
 using PiringPeduliClass.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace PiringPeduliClass.Repository
 {
@@ -14,27 +15,48 @@ namespace PiringPeduliClass.Repository
             _connectionString = connectionString;
         }
 
-        public void AddOrder(Order order)
+        public async Task<bool> AddOrderAsync(Order order)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            try
             {
-                string query = "INSERT INTO Orders (orderid, status, sourceid, destinationid, courierid, Description) " +
-                               "VALUES (@OrderId, @Status::status, @SourceAccountId, @DestinationAccountId, @courierAccountId, @Description)";
-
-                using (var command = new NpgsqlCommand(query, connection))
+                using (var connection = new NpgsqlConnection(_connectionString))
                 {
-                    command.Parameters.AddWithValue("@OrderId", order.OrderId);
-                    command.Parameters.AddWithValue("@Status", order.Status.ToString());
-                    command.Parameters.AddWithValue("@SourceAccountId", order.Source);
-                    command.Parameters.AddWithValue("@DestinationAccountId", order.Destination);
-                    command.Parameters.AddWithValue("@courierAccountId", order.Courier);
-                    command.Parameters.AddWithValue("@Description", order.Description);
+                    await connection.OpenAsync(); // Use async version for opening the connection
 
-                    connection.Open();
-                    command.ExecuteNonQuery();
+                    string query = "INSERT INTO Orders (status, sourceid, destinationid, courierid, description) " +
+                                   "VALUES (@Status::status, @SourceAccountId, @DestinationAccountId, @CourierAccountId, @Description)";
+
+                    using (var command = new NpgsqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Status", order.Status.ToString());
+                        command.Parameters.AddWithValue("@SourceAccountId", order.Source);
+                        command.Parameters.AddWithValue("@DestinationAccountId", order.Destination);
+
+                        // Handle null for courierAccountId
+                        if (order.Courier == 0)
+                            command.Parameters.AddWithValue("@CourierAccountId", DBNull.Value);
+                        else
+                            command.Parameters.AddWithValue("@CourierAccountId", order.Courier);
+
+                        command.Parameters.AddWithValue("@Description", order.Description);
+
+                        // Use async version of ExecuteNonQuery
+                        await command.ExecuteNonQueryAsync();
+                    }
                 }
+
+                return true; // Return true if the order was added successfully
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (you can replace Debug.WriteLine with your logging framework)
+                Debug.WriteLine($"Error adding order: {ex.Message}");
+
+                return false; // Return false if an error occurs
             }
         }
+
+
 
         public void UpdateOrder(Order order)
         {
