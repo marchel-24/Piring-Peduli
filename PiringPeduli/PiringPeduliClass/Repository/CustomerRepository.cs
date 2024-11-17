@@ -67,21 +67,27 @@ namespace PiringPeduliClass.Repository
             }
         }
 
-        public void DeleteCustomerByName(string customerName)
+        public async Task<bool> DeleteCustomerByAccountID(int accountid)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            try
             {
-                connection.Open();
-
-                string query = "DELETE FROM Customer WHERE customername = @CustomerName";
-
-                using (var command = new NpgsqlCommand(query, connection))
+                using (var connection = new NpgsqlConnection(_connectionString))
                 {
-                    command.Parameters.AddWithValue("@CustomerName", customerName);
+                    await connection.OpenAsync();
 
-                    command.ExecuteNonQuery();
+                    string query = "DELETE FROM Customer WHERE accountid = @accountid";
+
+                    using (var command = new NpgsqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@accountid", accountid);
+
+                        await command.ExecuteNonQueryAsync();
+                    }
                 }
-            }
+
+                return true;
+            }catch (Exception ex) { return false; }
+            
         }
 
         public Customer GetCustomerByName(string customerName)

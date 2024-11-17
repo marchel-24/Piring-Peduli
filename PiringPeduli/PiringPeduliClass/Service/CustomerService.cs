@@ -79,9 +79,26 @@ namespace PiringPeduliClass.Service
         }
 
         // Method to delete a customer by name
-        public void DeleteCustomerByName(string customerName)
+        public async Task<bool> DeleteCustomer(string username)
         {
-            _customerRepository.DeleteCustomerByName(customerName);
+            try
+            {
+                var accountid = await _customerRepository.GetIdFromUsernameAsync(username);
+
+                var isDeleteCustomer = await _customerRepository.DeleteCustomerByAccountID(accountid);
+                var isDeleteAccount = await _customerRepository.DeleteAccountById(accountid);
+
+                if (!isDeleteAccount || !isDeleteCustomer)
+                {
+                    throw new Exception("Delete Account Failed");
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         // Method to retrieve a customer by name
