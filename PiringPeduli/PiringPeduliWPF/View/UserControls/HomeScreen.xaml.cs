@@ -4,6 +4,7 @@ using PiringPeduliWPF.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,26 +21,35 @@ using System.Windows.Shapes;
 namespace PiringPeduliWPF.View.UserControls
 {
     /// <summary>
-    /// Interaction logic for AccountView.xaml
+    /// Interaction logic for HomeScreen.xaml
     /// </summary>
-    public partial class AccountView : UserControl
+    public partial class HomeScreen : UserControl
     {
-        public AccountView()
+        public HomeScreen()
         {
             InitializeComponent();
             string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
-
-            // Pass the connection string to the UserRepository and UserService
             var orderRepository = new OrderRepository(connectionString);
             var orderService = new OrderService(orderRepository);
             DataContext = new AccountViewModel(orderService);
         }
 
-
-
-        private void OrderTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void OpenWebsiteCNN(object sender, RoutedEventArgs e)
         {
+            string url = "https://edition.cnn.com/climate/solutions";
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+        }
 
+        private void OpenWebsiteKompas(object sender, RoutedEventArgs e)
+        {
+            string url = "https://lestari.kompas.com/category/lingkungan";
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+        }
+
+        private void OpenWebsiteDetik(object sender, RoutedEventArgs e)
+        {
+            string url = "https://health.detik.com/";
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
         }
     }
 }

@@ -72,9 +72,25 @@ namespace PiringPeduliClass.Service
         }
 
         // Method to delete a recycler by name
-        public void DeleteRecyclerByName(string recyclerName)
+        public async Task<bool> DeleteRecycler(string username)
         {
-            _recyclerRepository.DeleteRecyclerByName(recyclerName);
+            try
+            {
+                var accountid = await _recyclerRepository.GetIdFromUsernameAsync(username);
+
+                bool isDeleteRecycler = await _recyclerRepository.DeleteRecyclerByAccountId(accountid);
+                bool isDeleteAccount = await _recyclerRepository.DeleteAccountById(accountid);
+
+                if (!isDeleteAccount || !isDeleteRecycler)
+                {
+                    throw new Exception("Account Delete Fail");
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         // Method to retrieve a recycler by name

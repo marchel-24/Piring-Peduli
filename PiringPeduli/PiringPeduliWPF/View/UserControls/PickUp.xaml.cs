@@ -1,5 +1,9 @@
-﻿using System;
+﻿using PiringPeduliClass.Repository;
+using PiringPeduliClass.Service;
+using PiringPeduliWPF.ViewModel;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,11 +27,14 @@ namespace PiringPeduliWPF.View.UserControls
         public PickUp()
         {
             InitializeComponent();
-        }
 
-        private void OrderButton_Click(object sender, RoutedEventArgs e)
-        {
+            string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
 
+            // Pass the connection string to the UserRepository and UserService
+            var orderRepository = new OrderRepository(connectionString);
+            var accountRepository = new AccountRepository(connectionString);
+            var orderService = new OrderService(orderRepository, accountRepository);
+            DataContext = new PickUpViewModel(orderService);
         }
 
         private void TxtWeight_TextChanged(object sender, TextChangedEventArgs e)

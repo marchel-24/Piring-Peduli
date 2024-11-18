@@ -70,21 +70,31 @@ namespace PiringPeduliClass.Repository
         }
 
         // Method to delete a recycler by name
-        public void DeleteRecyclerByName(string recyclerName)
+        public async Task<bool> DeleteRecyclerByAccountId(int accountid)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            try
             {
-                connection.Open();
-
-                string query = "DELETE FROM Recycler WHERE recyclername = @RecyclerName";
-
-                using (var command = new NpgsqlCommand(query, connection))
+                using (var connection = new NpgsqlConnection(_connectionString))
                 {
-                    command.Parameters.AddWithValue("@RecyclerName", recyclerName);
+                    connection.Open();
 
-                    command.ExecuteNonQuery();
+                    string query = "DELETE FROM Recycler WHERE accountid = @accountid";
+
+                    using (var command = new NpgsqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@accountid", accountid);
+
+                        command.ExecuteNonQuery();
+                    }
                 }
+
+                return true;
             }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            
         }
 
         // Method to get a recycler by name

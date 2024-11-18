@@ -80,7 +80,7 @@ namespace PiringPeduliWPF.ViewModel
         {
             _accountService = accountService;
             UpdateCommand = new ViewModeCommand(Update);
-            //DeleteCommand = new ViewModeCommand(Delete);
+            DeleteCommand = new ViewModeCommand(Delete);
         }
 
 
@@ -161,6 +161,48 @@ namespace PiringPeduliWPF.ViewModel
                 MessageBox.Show($"An error occurred: {ex.Message}", "Update Account Failed", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
+        }
+
+        private async void Delete(object obj)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(Username))
+                {
+                    throw new Exception("Username is required.");
+                }
+
+                if (string.IsNullOrWhiteSpace(Password))
+                {
+                    throw new Exception("Password is required.");
+                }
+
+                if (Password != ConfirmPassword)
+                {
+                    throw new Exception("Confirm Password Failed");
+                }
+
+                if (Username != UserSessionService.Account.Username || Password != UserSessionService.Account.Password)
+                {
+                    throw new Exception("Validation failed");
+                }
+
+                var success = await _accountService.DeleteRecycler(Username);
+                if (success)
+                {
+                    MessageBox.Show($"Delete done, navigate to Login", "Delete Account Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
+                    UserSessionService.LogOut();
+                    NavigationService.NavigateTo("LoginView");
+                }
+                else
+                {
+                    throw new Exception("Delete profile failed, please try again.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Delete Account Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

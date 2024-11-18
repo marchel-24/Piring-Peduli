@@ -94,7 +94,7 @@ namespace PiringPeduliWPF.ViewModel
         {
             _accountService = accountService;
             UpdateCommand = new ViewModeCommand(Update);
-            //DeleteCommand = new ViewModeCommand(Delete);
+            DeleteCommand = new ViewModeCommand(Delete);
         }
 
 
@@ -184,49 +184,46 @@ namespace PiringPeduliWPF.ViewModel
 
         }
 
-        //private async void Delete(object obj)
-        //{
-        //    try
-        //    {
-        //        // Validate if the username is provided
-        //        if (string.IsNullOrWhiteSpace(Username))
-        //        {
-        //            throw new Exception("Username is required.");
-        //        }
-        //        // Validate if the password is provided and meets the length requirement
-        //        if (string.IsNullOrWhiteSpace(Password))
-        //        {
-        //            throw new Exception("Password is required.");
-        //        }
+        private async void Delete(object obj)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(Username))
+                {
+                    throw new Exception("Username is required.");
+                }
 
-        //        // Validate if the confirm password matches the password
-        //        if (Password != ConfirmPassword)
-        //        {
-        //            throw new Exception("Confirm Password Failed");
-        //        }
+                if (string.IsNullOrWhiteSpace(Password))
+                {
+                    throw new Exception("Password is required.");
+                }
 
-        //        if (Username != UserSessionService.Account.Username || Password != UserSessionService.Account.Password)
-        //        {
-        //            throw new Exception("Validation failed");
-        //        }
+                if (Password != ConfirmPassword)
+                {
+                    throw new Exception("Confirm Password Failed");
+                }
 
-        //        var success = await _accountService.RemoveAccountByUsernameAsync(Username);
-        //        if (success)
-        //        {
-        //            MessageBox.Show($"Delete done, navigate to Login", "Delete Account Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
-        //            UserSessionService.LogOut();
-        //            NavigationService.NavigateTo("LoginView");
-        //        }
-        //        else
-        //        {
-        //            throw new Exception("Delete profile failed, please try again.");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Handle any exceptions that occur during the registration process
-        //        MessageBox.Show($"An error occurred: {ex.Message}", "Delete Account Failed", MessageBoxButton.OK, MessageBoxImage.Error);
-        //    }
-        //}
+                if (Username != UserSessionService.Account.Username || Password != UserSessionService.Account.Password)
+                {
+                    throw new Exception("Validation failed");
+                }
+
+                var success = await _accountService.DeleteCustomer(Username);
+                if (success)
+                {
+                    MessageBox.Show($"Delete done, navigate to Login", "Delete Account Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
+                    UserSessionService.LogOut();
+                    NavigationService.NavigateTo("LoginView");
+                }
+                else
+                {
+                    throw new Exception("Delete profile failed, please try again.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Delete Account Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }

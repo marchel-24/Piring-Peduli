@@ -1,0 +1,123 @@
+﻿<UserControl x:Class="PiringPeduliWPF.View.UserControls.HomeScreen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PiringPeduliWPF.View.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="565" d:DesignWidth="750">
+    <Grid>
+        <!-- Background image -->
+        <Grid.Background>
+            <ImageBrush ImageSource="..\Assets\BackgroundDaun.png" Stretch="UniformToFill" />
+        </Grid.Background>
+
+        <!-- Overlay with gradient effect -->
+        <Grid>
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="White" Offset="0" />
+                    <GradientStop Color="Transparent" Offset="1" />
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <!-- Your content goes here -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.3*"/>
+                <RowDefinition Height="0.2*"/>
+                <RowDefinition Height="1.0*"/>
+            </Grid.RowDefinitions>
+
+            <Viewbox Grid.Row="0" Margin="0 20 0 20">
+                <Image Source="..\Assets\LogoPiringPeduli.png" Height="80" Width="80"/>
+            </Viewbox>
+
+            <Viewbox Grid.Row="1" HorizontalAlignment="Left">
+                <StackPanel Height="Auto" Width="Auto" Margin ="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <TextBlock FontSize="12">
+                        <TextBlock.Text>
+                            <Binding Path="Username" StringFormat="Welcome {0}"/>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <TextBlock Text="{Binding accountType}" FontWeight="Light" FontSize="8"/>
+                </StackPanel>
+            </Viewbox>
+
+            <Viewbox Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Margin="10">
+                <TextBlock Text="Get More News" FontSize="1" HorizontalAlignment="Left" FontWeight="DemiBold"/>
+            </Viewbox>
+
+            <Grid Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- CNN Button -->
+                <Viewbox Grid.Column="0">
+                    <Button Margin="20" Height="100" Width="100" Click="OpenWebsiteCNN">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid>
+                                    <Border CornerRadius="15" Background="White" BorderBrush="#CCCCCC" BorderThickness="1">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="Gray" BlurRadius="10" ShadowDepth="3" />
+                                        </Border.Effect>
+                                    </Border>
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Image Source="..\Assets\CNN_Indonesia_logo.svg.png" Stretch="Uniform" Width="50" Height="50" />
+                                        <TextBlock Text="CNN" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" />
+                                    </StackPanel>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Viewbox>
+
+                <!-- Kompas Button -->
+                <Viewbox Grid.Column="1">
+                    <Button Margin="20" Height="100" Width="100" Click="OpenWebsiteKompas">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid>
+                                    <Border CornerRadius="15" Background="White" BorderBrush="#CCCCCC" BorderThickness="1">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="Gray" BlurRadius="10" ShadowDepth="3" />
+                                        </Border.Effect>
+                                    </Border>
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Image Source="..\Assets\1200px-Logo_Kompasdotcom.png" Stretch="Uniform" Width="50" Height="50" />
+                                        <TextBlock Text="Kompas" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" />
+                                    </StackPanel>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Viewbox>
+
+                <!-- Detik Button -->
+                <Viewbox Grid.Column="2">
+                    <Button Margin="20" Height="100" Width="100" Click="OpenWebsiteDetik">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid>
+                                    <Border CornerRadius="15" Background="White" BorderBrush="#CCCCCC" BorderThickness="1">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="Gray" BlurRadius="10" ShadowDepth="3" />
+                                        </Border.Effect>
+                                    </Border>
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Image Source="..\Assets\5c6bea342ff334e516b56831ab28c58e.png" Stretch="Uniform" Width="50" Height="50" />
+                                        <TextBlock Text="Detik" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" />
+                                    </StackPanel>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Viewbox>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

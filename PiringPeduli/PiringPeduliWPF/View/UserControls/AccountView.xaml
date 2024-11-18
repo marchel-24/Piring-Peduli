@@ -10,20 +10,18 @@
              Background="White">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="0.5*"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         
 
         <!-- User Info Section -->
-        <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10">
-            <!-- Profile Image -->
-            <Image Name="ProfileImage" Width="100" Height="100" Margin="10" Source="/View/Assets/person.png"/>
-            <!-- User Info (Name, Email, Address) -->
-            <TextBlock Name="UserName" Text="{Binding Username}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
-            <TextBlock Name="UserEmail" Text="email" FontSize="14" HorizontalAlignment="Center"/>
-            <TextBlock Name="UserAddress" Text="Address" FontSize="14" HorizontalAlignment="Center"/>
-        </StackPanel>
+        <Viewbox Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10">
+            <StackPanel Height="100" Width="100">
+                <TextBlock Text="{Binding Username}" FontSize="12" FontWeight="Bold"/>
+                <TextBlock Text="{Binding accountType}" FontSize="12" FontWeight="Light"/>
+            </StackPanel>
+        </Viewbox>
 
         <!-- Main Content Section -->
         <Grid Grid.Row="1" Margin="10">
@@ -41,11 +39,11 @@
                 </DataGrid.Columns>
             </DataGrid>
             <!-- Order Table (Scrollable) -->
-                <DataGrid Name="OrderTable" Grid.Column="1" AutoGenerateColumns="False" CanUserAddRows="False" Margin="10" SelectionChanged="OrderTable_SelectionChanged">
+            <DataGrid Name="OrderTable" Grid.Column="1" AutoGenerateColumns="False" CanUserAddRows="False" Margin="10" SelectionChanged="OrderTable_SelectionChanged" ItemsSource="{Binding Orders}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Order ID" Binding="{Binding OrderID}"/>
-                        <DataGridTextColumn Header="Product" Binding="{Binding Product}"/>
-                        <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}"/>
+                        <DataGridTextColumn Header="Order ID" Binding="{Binding OrderId}"/>
+                        <DataGridTextColumn Header="Destination" Binding="{Binding Destination}"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
                     </DataGrid.Columns>
                 </DataGrid>
 

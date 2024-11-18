@@ -52,6 +52,8 @@ namespace PiringPeduliWPF.ViewModel
             ShowPickUpViewCommand = new ViewModeCommand(ExecutePickUpView);
             ShowAccountViewCommand = new ViewModeCommand(ExecuteAccountView);
             ShowSettingsViewCommand = new ViewModeCommand(ExecuteSettingsView);
+
+            ExecuteMainScreenView(null);
         }
 
         private void ExecuteMainScreenView(object obj)

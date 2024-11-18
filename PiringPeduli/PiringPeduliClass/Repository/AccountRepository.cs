@@ -35,7 +35,9 @@ namespace PiringPeduliClass.Repository
                                 AccountId = reader.GetInt32(reader.GetOrdinal("accountid")),
                                 Username = reader.GetString(reader.GetOrdinal("username")),
                                 Password = reader.GetString(reader.GetOrdinal("password")),
-                                Type = (AccountType)Enum.Parse(typeof(AccountType), reader.GetString(reader.GetOrdinal("type")))
+                                Type = (AccountType)Enum.Parse(typeof(AccountType), reader.GetString(reader.GetOrdinal("type"))),
+                                Lat = (double?)(reader.IsDBNull(reader.GetOrdinal("lat")) ? null : reader.GetDouble(reader.GetOrdinal("lat"))) ?? 0.0,
+                                Lon = (double?)(reader.IsDBNull(reader.GetOrdinal("lon")) ? null : reader.GetDouble(reader.GetOrdinal("lon"))) ?? 0.0
                             };
                         }
                     }
@@ -66,6 +68,8 @@ namespace PiringPeduliClass.Repository
                                 AccountId = reader.GetInt32(reader.GetOrdinal("accountid")),
                                 Username = reader.GetString(reader.GetOrdinal("username")),
                                 Password = reader.GetString(reader.GetOrdinal("password")),
+                                Lat = (double?)(reader.IsDBNull(reader.GetOrdinal("lat")) ? null : reader.GetDouble(reader.GetOrdinal("lat"))) ?? 0.0,
+                                Lon = (double?)(reader.IsDBNull(reader.GetOrdinal("lon")) ? null : reader.GetDouble(reader.GetOrdinal("lon"))) ?? 0.0,
                                 Type = (AccountType)Enum.Parse(typeof(AccountType), reader.GetString(reader.GetOrdinal("type")))
                             };
                         }
@@ -119,11 +123,13 @@ namespace PiringPeduliClass.Repository
                     await connection.OpenAsync();  // Use async version for opening the connection
 
                     using (var command = new NpgsqlCommand(
-                        "INSERT INTO account (accountid, username, password, type) VALUES (@accountid, @username, @password, @type::account_type)", connection))
+                        "INSERT INTO account (accountid, username, password, type, lat, lon) VALUES (@accountid, @username, @password, @type::account_type, @lat, @lon)", connection))
                     {
                         command.Parameters.AddWithValue("@accountid", account.AccountId);
                         command.Parameters.AddWithValue("@username", account.Username);
                         command.Parameters.AddWithValue("@password", account.Password);
+                        command.Parameters.AddWithValue("@lat", account.Lat);
+                        command.Parameters.AddWithValue("@lon", account.Lon);
                         command.Parameters.AddWithValue("@type", account.Type.ToString());
 
                         // Use async version of ExecuteNonQuery
@@ -242,6 +248,47 @@ namespace PiringPeduliClass.Repository
                     return result > 0;
                 }
             }
+        }
+
+        // Method to get all accounts
+        public async Task<List<Account>> GetAllAccountsTemporaryStorageAsync()
+        {
+            var accounts = new List<Account>();
+
+            try
+            {
+                using (var connection = new NpgsqlConnection(_connectionString))
+                {
+                    await connection.OpenAsync();
+
+                    string query = "SELECT accountid, username, password, type, lat, lon FROM account WHERE type = 'TemporaryStorage'";
+
+                    using (var command = new NpgsqlCommand(query, connection))
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var account = new Account
+                            {
+                                AccountId = reader.GetInt32(reader.GetOrdinal("accountid")),
+                                Username = reader.GetString(reader.GetOrdinal("username")),
+                                Password = reader.GetString(reader.GetOrdinal("password")),
+                                Type = (AccountType)Enum.Parse(typeof(AccountType), reader.GetString(reader.GetOrdinal("type"))),
+                                Lat = (double?)(reader.IsDBNull(reader.GetOrdinal("lat")) ? null : reader.GetDouble(reader.GetOrdinal("lat"))) ?? 0.0,
+                                Lon = (double?)(reader.IsDBNull(reader.GetOrdinal("lon")) ? null : reader.GetDouble(reader.GetOrdinal("lon"))) ?? 0.0
+                            };
+
+                            accounts.Add(account);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error retrieving accounts: {ex.Message}");
+            }
+
+            return accounts;
         }
     }
 }
