@@ -21,6 +21,7 @@ namespace PiringPeduliWPF.ViewModel
         private readonly OrderService _orderService;
         private string _username;
         private string _address;
+        private string _accounttype;
         private ObservableCollection<Order> _orders;
 
         public string Username
@@ -43,6 +44,17 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
+
+        public string accountType
+        {
+            get => _accounttype;
+            set
+            {
+                _accounttype = value;
+                OnPropertyChanged(nameof(AccountType));
+            }
+        }
+
         public ObservableCollection<Order> Orders
         {
             get => _orders;
@@ -62,6 +74,7 @@ namespace PiringPeduliWPF.ViewModel
             _orderService = orderService;
             _orders = new ObservableCollection<Order>();
             Username = UserSessionService.Account.Username;
+            accountType = UserSessionService.Account.Type.ToString();
             LoadOrder();
         }
 

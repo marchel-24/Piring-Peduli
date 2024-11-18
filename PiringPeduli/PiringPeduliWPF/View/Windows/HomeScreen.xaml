@@ -21,7 +21,7 @@
             <local:AccountView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:MainScreenViewModel}">
-            <local:PickUpCourier/>
+            <local:HomeScreen/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:PickUpViewModel}">
             <local:PickUp/>
