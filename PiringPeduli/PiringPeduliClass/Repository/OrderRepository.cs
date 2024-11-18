@@ -144,7 +144,7 @@ namespace PiringPeduliClass.Repository
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@source", sourceId.ToString());
+                    command.Parameters.AddWithValue("@sourceid", sourceId);
                     connection.Open();
                     using (var reader = command.ExecuteReader())
                     {

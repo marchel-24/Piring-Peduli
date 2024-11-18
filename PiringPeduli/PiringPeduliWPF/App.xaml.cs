@@ -18,7 +18,7 @@ namespace PiringPeduliWPF
             base.OnStartup(e);
 
             // Get the connection string from App.config
-            string connectionString = "host=localhost;port=5432;Database=postgres;Username=postgres;Password=lol12345";
+            string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
 
             // Pass the connection string to the UserRepository and UserService
             var sortRepo = new SortedWasteRepository(connectionString);
