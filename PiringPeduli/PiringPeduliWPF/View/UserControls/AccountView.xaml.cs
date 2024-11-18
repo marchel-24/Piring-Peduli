@@ -1,6 +1,9 @@
-﻿using PiringPeduliWPF.ViewModel;
+﻿using PiringPeduliClass.Repository;
+using PiringPeduliClass.Service;
+using PiringPeduliWPF.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +27,12 @@ namespace PiringPeduliWPF.View.UserControls
         public AccountView()
         {
             InitializeComponent();
-            DataContext = new AccountViewModel();
+            string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
+
+            // Pass the connection string to the UserRepository and UserService
+            var orderRepository = new OrderRepository(connectionString);
+            var orderService = new OrderService(orderRepository);
+            DataContext = new AccountViewModel(orderService);
         }
 
 
