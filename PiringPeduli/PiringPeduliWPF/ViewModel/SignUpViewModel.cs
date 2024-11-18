@@ -35,6 +35,8 @@ namespace PiringPeduliWPF.ViewModel
         private string _recycleraddress;
         private string _storagename;
         private string _storageaddress;
+        private double _lat;
+        private double _lon;
 
         public string Username
         {
@@ -166,6 +168,26 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
+        public double Lat
+        {
+            get => _lat;
+            set
+            {
+                _lat= value;
+                OnPropertyChanged(nameof(Lat));
+            }
+        }
+
+        public double Lon
+        {
+            get => _lon;
+            set
+            {
+                _lon = value;
+                OnPropertyChanged(nameof(Lon));
+            }
+        }
+
 
         public ICommand RegisterCommand { get; }
 
@@ -206,6 +228,16 @@ namespace PiringPeduliWPF.ViewModel
                 if (string.IsNullOrWhiteSpace(AccountTypeStr))
                 {
                     throw new Exception("Account type is required.");
+                }
+
+                if (double.IsNaN(Lat))
+                {
+                    throw new Exception("Latitude is required.");
+                }
+
+                if (double.IsNaN(Lon))
+                {
+                    throw new Exception("Longtitude is required.");
                 }
 
                 if (Password.Length < 8)
@@ -284,7 +316,7 @@ namespace PiringPeduliWPF.ViewModel
                 }
 
                 AccountType AccountType = (AccountType)Enum.Parse(typeof(AccountType), AccountTypeStr);
-                var successmadeAccount = await _accountService.RegisterNewAccountAsync(Username, Password, AccountType);
+                var successmadeAccount = await _accountService.RegisterNewAccountAsync(Username, Password, AccountType, Lat, Lon);
 
                 if (successmadeAccount)
                 {
