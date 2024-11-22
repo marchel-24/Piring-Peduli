@@ -29,6 +29,15 @@
         <DataTemplate DataType="{x:Type viewModel:SettingViewModel}">
             <local:SettingsFrame/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:PickUpCourierViewModel}">
+            <local:PickUpCourier/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:RecyclerViewViewModel}">
+            <local:RecyclerView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:TemporaryStorageViewModel}">
+            <local:TemporaryStorage/>
+        </DataTemplate>
 
         <!-- Gaya Button untuk teks yang dapat ditekan -->
         <Style TargetType="TextBlock" x:Key="TextVisibilityOnExpandTextBlock">

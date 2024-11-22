@@ -3,413 +3,440 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
              xmlns:local="clr-namespace:PiringPeduliWPF.View.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800"
              Background="White">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.8*"/>
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
         <TextBlock Text="Update Profile Recycler" 
                    FontSize="28" 
                    FontFamily="Gilroy"
                    FontWeight="Bold" 
-                   Margin="10,30,0,0"/>
+                   Margin="10,25,0,0"
+                   Grid.Row="0"/>
 
-        <StackPanel Orientation="Vertical"
-                    Margin="20,107,20,26">
-            <TextBlock Text="Username"
-                       FontFamily="Gilroy"
-                       FontWeight="SemiBold"
-                       FontSize="13"
-                       Margin="0,20,0,0"
-                       />
-            <TextBox x:Name="Username_signup"
-                      FontSize="11"
-                      FontWeight="Medium"
-                      FontFamily="Gilroy"
-                      BorderThickness="0,0,0,2"
-                      Height="30"
-                      VerticalContentAlignment="Center"
-                      Margin="0,5,0,0"
-                      Padding="5,0,0,0"
-                      Text="{Binding Username}"
-             >
-                <TextBox.Style>
-                    <Style TargetType="{x:Type TextBox}">
-                        <Style.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="8" />
-                            </Style>
-                        </Style.Resources>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type TextBox}">
-                                    <Border x:Name="border" 
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Orientation="Vertical"
+            Margin="20,0,20,26">
+                <TextBlock Text="Username"
+               FontFamily="Gilroy"
+               FontWeight="SemiBold"
+               FontSize="13"
+               Margin="0,20,0,0"
+               />
+                <TextBox x:Name="Username_signup"
+              FontSize="11"
+              FontWeight="Medium"
+              FontFamily="Gilroy"
+              BorderThickness="0,0,0,2"
+              Height="30"
+              VerticalContentAlignment="Center"
+              Margin="0,5,0,0"
+              Padding="5,0,0,0"
+              Text="{Binding Username}"
+     >
+                    <TextBox.Style>
+                        <Style TargetType="{x:Type TextBox}">
+                            <Style.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="8" />
+                                </Style>
+                            </Style.Resources>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type TextBox}">
+                                        <Border x:Name="border" 
+                            CornerRadius="8" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            Background="{TemplateBinding Background}" 
+                            SnapsToDevicePixels="True">
+                                            <ScrollViewer x:Name="PART_ContentHost" 
+                                      Focusable="false" 
+                                      HorizontalScrollBarVisibility="Hidden" 
+                                      VerticalScrollBarVisibility="Hidden"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsEnabled" 
+                                         Value="false">
+                                                <Setter Property="Opacity" 
+                                            TargetName="border" 
+                                            Value="0.56"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" 
+                                         Value="true">
+                                                <Setter Property="BorderBrush" 
+                                            TargetName="border" 
+                                            Value="#FF7EB4EA"/>
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocused" 
+                                         Value="true">
+                                                <Setter Property="BorderBrush" 
+                                            TargetName="border" 
+                                            Value="#FF569DE5"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsInactiveSelectionHighlightEnabled" 
+                                       Value="true"/>
+                                        <Condition Property="IsSelectionActive" 
+                                       Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="SelectionBrush" 
+                                Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                                </MultiTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+
+                <TextBlock Text="Name Recycler"
+               FontFamily="Gilroy"
+               FontWeight="SemiBold"
+               FontSize="13"
+               Margin="0,20,0,0"
+       />
+                <TextBox x:Name="Name_Recycler"
+             FontSize="11"
+             FontWeight="Medium"
+             BorderThickness="0,0,0,2"
+             FontFamily="Gilroy"
+             Height="28"
+             VerticalContentAlignment="Center"
+             Margin="0,5,0,0"
+             Padding="5,0,0,0"
+             Text="{Binding RecyclerName}">
+                    <TextBox.Style>
+                        <Style TargetType="{x:Type TextBox}">
+                            <Style.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" 
+                                Value="8" />
+                                </Style>
+                            </Style.Resources>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type TextBox}">
+                                        <Border x:Name="border" 
                                     CornerRadius="8" 
                                     BorderBrush="{TemplateBinding BorderBrush}" 
                                     BorderThickness="{TemplateBinding BorderThickness}" 
                                     Background="{TemplateBinding Background}" 
                                     SnapsToDevicePixels="True">
-                                        <ScrollViewer x:Name="PART_ContentHost" 
+                                            <ScrollViewer x:Name="PART_ContentHost" 
                                               Focusable="false" 
                                               HorizontalScrollBarVisibility="Hidden" 
                                               VerticalScrollBarVisibility="Hidden"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsEnabled" 
-                                                 Value="false">
-                                            <Setter Property="Opacity" 
-                                                    TargetName="border" 
-                                                    Value="0.56"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" 
-                                                 Value="true">
-                                            <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="#FF7EB4EA"/>
-                                        </Trigger>
-                                        <Trigger Property="IsKeyboardFocused" 
-                                                 Value="true">
-                                            <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="#FF569DE5"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="IsInactiveSelectionHighlightEnabled" 
-                                               Value="true"/>
-                                    <Condition Property="IsSelectionActive" 
-                                               Value="false"/>
-                                </MultiTrigger.Conditions>
-                                <Setter Property="SelectionBrush" 
-                                        Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-                            </MultiTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
-            </TextBox>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsEnabled" 
+                                         Value="false">
+                                                <Setter Property="Opacity" 
+                                            TargetName="border" 
+                                            Value="0.56"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" 
+                                         Value="true">
+                                                <Setter Property="BorderBrush" 
+                                            TargetName="border" 
+                                            Value="#FF7EB4EA"/>
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocused" 
+                                         Value="true">
+                                                <Setter Property="BorderBrush" 
+                                            TargetName="border" 
+                                            Value="#FF569DE5"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsInactiveSelectionHighlightEnabled" 
+                                       Value="true"/>
+                                        <Condition Property="IsSelectionActive" 
+                                       Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="SelectionBrush" 
+                                Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                                </MultiTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
 
+                <TextBlock Text="Address"
+               FontFamily="Gilroy"
+               FontWeight="SemiBold"
+               FontSize="13"
+               Margin="0,20,0,0"
+       />
+                <TextBox x:Name="Address"
+             FontSize="11"
+             FontWeight="Medium"
+             BorderThickness="0,0,0,2"
+             FontFamily="Gilroy"
+             Height="28"
+             VerticalContentAlignment="Center"
+             Margin="0,5,0,0"
+             Padding="5,0,0,0"
+             Text="{Binding RecyclerAddress}">
+                    <TextBox.Style>
+                        <Style TargetType="{x:Type TextBox}">
+                            <Style.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" 
+                    Value="8" />
+                                </Style>
+                            </Style.Resources>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type TextBox}">
+                                        <Border x:Name="border" 
+                                    CornerRadius="8" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    Background="{TemplateBinding Background}" 
+                                    SnapsToDevicePixels="True">
+                                            <ScrollViewer x:Name="PART_ContentHost" 
+                                  Focusable="false" 
+                                  HorizontalScrollBarVisibility="Hidden" 
+                                  VerticalScrollBarVisibility="Hidden"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsEnabled" 
+                                         Value="false">
+                                                <Setter Property="Opacity" 
+                                            TargetName="border" 
+                                            Value="0.56"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" 
+                                         Value="true">
+                                                <Setter Property="BorderBrush" 
+                                            TargetName="border" 
+                                            Value="#FF7EB4EA"/>
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocused" 
+                                         Value="true">
+                                                <Setter Property="BorderBrush" 
+                                            TargetName="border" 
+                                            Value="#FF569DE5"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsInactiveSelectionHighlightEnabled" 
+                                       Value="true"/>
+                                        <Condition Property="IsSelectionActive" 
+                                       Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="SelectionBrush" 
+                                Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                                </MultiTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
 
-            <TextBlock Text="Name Recycler"
-                       FontFamily="Gilroy"
-                       FontWeight="SemiBold"
-                       FontSize="13"
-                       Margin="0,20,0,0"
+                <TextBlock Text="Password"
+               FontFamily="Gilroy"
+               FontWeight="SemiBold"
+               FontSize="13"
+               Margin="0,20,0,0"
                />
-            <TextBox x:Name="Name_Recycler"
-                     FontSize="11"
-                     FontWeight="Medium"
-                     BorderThickness="0,0,0,2"
-                     FontFamily="Gilroy"
-                     Height="28"
-                     VerticalContentAlignment="Center"
-                     Margin="0,5,0,0"
-                     Padding="5,0,0,0"
-                     Text="{Binding RecyclerName}">
-                <TextBox.Style>
-                    <Style TargetType="{x:Type TextBox}">
-                        <Style.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" 
-                                        Value="8" />
-                            </Style>
-                        </Style.Resources>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type TextBox}">
-                                    <Border x:Name="border" 
-                                            CornerRadius="8" 
-                                            BorderBrush="{TemplateBinding BorderBrush}" 
-                                            BorderThickness="{TemplateBinding BorderThickness}" 
-                                            Background="{TemplateBinding Background}" 
-                                            SnapsToDevicePixels="True">
-                                        <ScrollViewer x:Name="PART_ContentHost" 
-                                                      Focusable="false" 
-                                                      HorizontalScrollBarVisibility="Hidden" 
-                                                      VerticalScrollBarVisibility="Hidden"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsEnabled" 
-                                                 Value="false">
-                                            <Setter Property="Opacity" 
-                                                    TargetName="border" 
-                                                    Value="0.56"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" 
-                                                 Value="true">
-                                            <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="#FF7EB4EA"/>
-                                        </Trigger>
-                                        <Trigger Property="IsKeyboardFocused" 
-                                                 Value="true">
-                                            <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="#FF569DE5"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="IsInactiveSelectionHighlightEnabled" 
-                                               Value="true"/>
-                                    <Condition Property="IsSelectionActive" 
-                                               Value="false"/>
-                                </MultiTrigger.Conditions>
-                                <Setter Property="SelectionBrush" 
-                                        Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-                            </MultiTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
-            </TextBox>
+                <PasswordBox x:Name="Password_signup"
+                 FontSize="11"
+                 FontWeight="Medium"
+                 FontFamily="Gilroy"
+                 BorderThickness="0,0,0,2"
+                 Height="28"
+                 VerticalContentAlignment="Center"
+                 Margin="0,5,0,0"
+                 Padding="5,0,0,0"
+                 PasswordChanged="PasswordBox_PasswordChanged">
+                    <PasswordBox.Style>
+                        <Style TargetType="{x:Type PasswordBox}">
+                            <Style.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" 
+                                Value="8" />
+                                </Style>
+                            </Style.Resources>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type PasswordBox}">
+                                        <Border x:Name="border" 
+                                    CornerRadius="8" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    Background="{TemplateBinding Background}" 
+                                    SnapsToDevicePixels="True">
+                                            <ScrollViewer x:Name="PART_ContentHost" 
+                                              Focusable="false" 
+                                              HorizontalScrollBarVisibility="Hidden" 
+                                              VerticalScrollBarVisibility="Hidden"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsEnabled" 
+                                         Value="false">
+                                                <Setter Property="Opacity" 
+                                            TargetName="border" 
+                                            Value="0.56"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" 
+                                         Value="true">
+                                                <Setter Property="BorderBrush" 
+                                            TargetName="border" 
+                                            Value="#FF7EB4EA"/>
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocused" 
+                                         Value="true">
+                                                <Setter Property="BorderBrush" 
+                                            TargetName="border" 
+                                            Value="#FF569DE5"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsInactiveSelectionHighlightEnabled" 
+                                       Value="true"/>
+                                        <Condition Property="IsSelectionActive" 
+                                       Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                                </MultiTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </PasswordBox.Style>
+                </PasswordBox>
 
-            <TextBlock Text="Address"
-                       FontFamily="Gilroy"
-                       FontWeight="SemiBold"
-                       FontSize="13"
-                       Margin="0,20,0,0"
+                <TextBlock Text="Confirm Password"
+               FontFamily="Gilroy"
+               FontWeight="SemiBold"
+               FontSize="13"
+               Margin="0,20,0,0"
                />
-            <TextBox x:Name="Address"
-                     FontSize="11"
-                     FontWeight="Medium"
-                     BorderThickness="0,0,0,2"
-                     FontFamily="Gilroy"
-                     Height="28"
-                     VerticalContentAlignment="Center"
-                     Margin="0,5,0,0"
-                     Padding="5,0,0,0"
-                     Text="{Binding RecyclerAddress}">
-                <TextBox.Style>
-                    <Style TargetType="{x:Type TextBox}">
-                        <Style.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" 
-                            Value="8" />
-                            </Style>
-                        </Style.Resources>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type TextBox}">
-                                    <Border x:Name="border" 
-                                            CornerRadius="8" 
-                                            BorderBrush="{TemplateBinding BorderBrush}" 
-                                            BorderThickness="{TemplateBinding BorderThickness}" 
-                                            Background="{TemplateBinding Background}" 
-                                            SnapsToDevicePixels="True">
-                                        <ScrollViewer x:Name="PART_ContentHost" 
-                                          Focusable="false" 
-                                          HorizontalScrollBarVisibility="Hidden" 
-                                          VerticalScrollBarVisibility="Hidden"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsEnabled" 
-                                                 Value="false">
-                                            <Setter Property="Opacity" 
-                                                    TargetName="border" 
-                                                    Value="0.56"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" 
-                                                 Value="true">
-                                            <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="#FF7EB4EA"/>
-                                        </Trigger>
-                                        <Trigger Property="IsKeyboardFocused" 
-                                                 Value="true">
-                                            <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="#FF569DE5"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="IsInactiveSelectionHighlightEnabled" 
-                                               Value="true"/>
-                                    <Condition Property="IsSelectionActive" 
-                                               Value="false"/>
-                                </MultiTrigger.Conditions>
-                                <Setter Property="SelectionBrush" 
-                                        Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-                            </MultiTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
-            </TextBox>
+                <PasswordBox x:Name="TxtConfirmPassword"
+                 FontSize="11"
+                 FontWeight="Medium"
+                 FontFamily="Gilroy"
+                 BorderThickness="0,0,0,2"
+                 Height="28"
+                 VerticalContentAlignment="Center"
+                 Margin="0,5,0,0"
+                 Padding="5,0,0,0"
+                 PasswordChanged="ConfirmPasswordBox_PasswordChanged">
+                    <PasswordBox.Style>
+                        <Style TargetType="{x:Type PasswordBox}">
+                            <Style.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" 
+                                Value="8" />
+                                </Style>
+                            </Style.Resources>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type PasswordBox}">
+                                        <Border x:Name="border" CornerRadius="8" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    Background="{TemplateBinding Background}" 
+                                    SnapsToDevicePixels="True">
+                                            <ScrollViewer x:Name="PART_ContentHost" 
+                                              Focusable="false" 
+                                              HorizontalScrollBarVisibility="Hidden" 
+                                              VerticalScrollBarVisibility="Hidden"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsEnabled" 
+                                         Value="false">
+                                                <Setter Property="Opacity" 
+                                            TargetName="border" 
+                                            Value="0.56"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" 
+                                         Value="true">
+                                                <Setter Property="BorderBrush" 
+                                            TargetName="border" 
+                                            Value="#FF7EB4EA"/>
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocused" 
+                                         Value="true">
+                                                <Setter Property="BorderBrush" 
+                                            TargetName="border" 
+                                            Value="#FF569DE5"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsInactiveSelectionHighlightEnabled" 
+                                       Value="true"/>
+                                        <Condition Property="IsSelectionActive" 
+                                       Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="SelectionBrush" 
+                                Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                                </MultiTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </PasswordBox.Style>
+                </PasswordBox>
 
-            <TextBlock Text="Password"
-                       FontFamily="Gilroy"
-                       FontWeight="SemiBold"
-                       FontSize="13"
-                       Margin="0,20,0,0"
-                       />
-            <PasswordBox x:Name="Password_signup"
-                         FontSize="11"
-                         FontWeight="Medium"
-                         FontFamily="Gilroy"
-                         BorderThickness="0,0,0,2"
-                         Height="28"
-                         VerticalContentAlignment="Center"
-                         Margin="0,5,0,0"
-                         Padding="5,0,0,0"
-                         PasswordChanged="PasswordBox_PasswordChanged">
-                <PasswordBox.Style>
-                    <Style TargetType="{x:Type PasswordBox}">
-                        <Style.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" 
-                                        Value="8" />
-                            </Style>
-                        </Style.Resources>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type PasswordBox}">
-                                    <Border x:Name="border" 
-                                            CornerRadius="8" 
-                                            BorderBrush="{TemplateBinding BorderBrush}" 
-                                            BorderThickness="{TemplateBinding BorderThickness}" 
-                                            Background="{TemplateBinding Background}" 
-                                            SnapsToDevicePixels="True">
-                                        <ScrollViewer x:Name="PART_ContentHost" 
-                                                      Focusable="false" 
-                                                      HorizontalScrollBarVisibility="Hidden" 
-                                                      VerticalScrollBarVisibility="Hidden"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsEnabled" 
-                                                 Value="false">
-                                            <Setter Property="Opacity" 
-                                                    TargetName="border" 
-                                                    Value="0.56"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" 
-                                                 Value="true">
-                                            <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="#FF7EB4EA"/>
-                                        </Trigger>
-                                        <Trigger Property="IsKeyboardFocused" 
-                                                 Value="true">
-                                            <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="#FF569DE5"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="IsInactiveSelectionHighlightEnabled" 
-                                               Value="true"/>
-                                    <Condition Property="IsSelectionActive" 
-                                               Value="false"/>
-                                </MultiTrigger.Conditions>
-                                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-                            </MultiTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </PasswordBox.Style>
-            </PasswordBox>
+                <TextBlock Text="Location (Click on the map)"
+                           FontFamily="Gilroy"
+                           FontWeight="SemiBold"
+                           FontSize="13"
+                           Margin="0,20,0,0"
+                />
+                <m:Map x:Name="BingMap"
+                       Height="200"
+                       Margin="0 20 0 0"
+                       MouseLeftButtonDown="BingMap_MouseLeftButtonDown"
+                       Center="-7.771317095452585, 110.37772145337762"
+                       ZoomLevel="13"/>
+                <TextBlock Name ="Coordinate"
+                           FontFamily="Gilroy"
+                           FontWeight="SemiBold"
+                           FontSize="13"
+                           Margin="0,20,0,0"
+                />
 
-            <TextBlock Text="Confirm Password"
-                       FontFamily="Gilroy"
-                       FontWeight="SemiBold"
-                       FontSize="13"
-                       Margin="0,20,0,0"
-                       />
-            <PasswordBox x:Name="TxtConfirmPassword"
-                         FontSize="11"
-                         FontWeight="Medium"
-                         FontFamily="Gilroy"
-                         BorderThickness="0,0,0,2"
-                         Height="28"
-                         VerticalContentAlignment="Center"
-                         Margin="0,5,0,0"
-                         Padding="5,0,0,0"
-                         PasswordChanged="ConfirmPasswordBox_PasswordChanged">
-                <PasswordBox.Style>
-                    <Style TargetType="{x:Type PasswordBox}">
-                        <Style.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" 
-                                        Value="8" />
-                            </Style>
-                        </Style.Resources>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type PasswordBox}">
-                                    <Border x:Name="border" CornerRadius="8" 
-                                            BorderBrush="{TemplateBinding BorderBrush}" 
-                                            BorderThickness="{TemplateBinding BorderThickness}" 
-                                            Background="{TemplateBinding Background}" 
-                                            SnapsToDevicePixels="True">
-                                        <ScrollViewer x:Name="PART_ContentHost" 
-                                                      Focusable="false" 
-                                                      HorizontalScrollBarVisibility="Hidden" 
-                                                      VerticalScrollBarVisibility="Hidden"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsEnabled" 
-                                                 Value="false">
-                                            <Setter Property="Opacity" 
-                                                    TargetName="border" 
-                                                    Value="0.56"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" 
-                                                 Value="true">
-                                            <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="#FF7EB4EA"/>
-                                        </Trigger>
-                                        <Trigger Property="IsKeyboardFocused" 
-                                                 Value="true">
-                                            <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="#FF569DE5"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="IsInactiveSelectionHighlightEnabled" 
-                                               Value="true"/>
-                                    <Condition Property="IsSelectionActive" 
-                                               Value="false"/>
-                                </MultiTrigger.Conditions>
-                                <Setter Property="SelectionBrush" 
-                                        Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-                            </MultiTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </PasswordBox.Style>
-            </PasswordBox>
-
-
-
-        </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+        
 
         <StackPanel x:Name="tombol"
-                     Grid.Row="14"
                      Orientation="Horizontal"
                      FlowDirection="RightToLeft"
                      Background="Transparent"
-                     Margin="20,500,20,20">
+                     Margin="20,0,20,20"
+                    Grid.Row="2">
 
             <Button x:Name="btnDelete"
                     Content="Delete"

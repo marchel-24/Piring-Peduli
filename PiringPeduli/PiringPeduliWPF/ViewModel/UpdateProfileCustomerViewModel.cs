@@ -24,6 +24,8 @@ namespace PiringPeduliWPF.ViewModel
         private string _customerInstance;
         private string _customerAddress;
         private string _confirmPassword;
+        private double lat;
+        private double lon;
 
         public string Username
         {
@@ -82,6 +84,26 @@ namespace PiringPeduliWPF.ViewModel
             {
                 _confirmPassword = value;
                 OnPropertyChanged(nameof(ConfirmPassword));
+            }
+        }
+
+        public double Lat
+        {
+            get => lat;
+            set
+            {
+                lat = value;
+                OnPropertyChanged(nameof(Lat));
+            }
+        }
+
+        public double Lon
+        {
+            get => lon;
+            set
+            {
+                lon = value;
+                OnPropertyChanged(nameof(Lon));
             }
         }
 
@@ -161,7 +183,9 @@ namespace PiringPeduliWPF.ViewModel
                     CustomerName = CustomerName,
                     CustomerInstance = CustomerInstance,
                     Type = UserSessionService.Account.Type,
-                    CustomerAddress = CustomerAddress
+                    CustomerAddress = CustomerAddress,
+                    Lat = Lat,
+                    Lon = Lon
                 };
 
                 var success = await _accountService.UpdateCustomerAsync(UserSessionService.Account.Username, updatedAccount);

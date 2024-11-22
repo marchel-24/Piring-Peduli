@@ -4,417 +4,426 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PiringPeduliWPF.View.UserControls"
+             xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800"
              Background="White">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.8*"/>
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
         <TextBlock Text="Update Profile Courier" 
                    FontSize="28" 
                    FontFamily="Gilroy"
                    FontWeight="Bold" 
-                   Margin="10,30,0,0"/>
-
+                   Margin="10,30,0,0"
+                   Grid.Row="0"/>
         <StackPanel Orientation="Vertical"
-                    Margin="20,107,20,26">
-            <TextBlock Text="Username"
-                       FontFamily="Gilroy"
-                       FontWeight="SemiBold"
-                       FontSize="13"
-                       Margin="0,20,0,0"
-                       />   
-            <TextBox x:Name="Username_signup"
-                      FontSize="11"
-                      FontWeight="Medium"
-                      FontFamily="Gilroy"
-                      BorderThickness="0,0,0,2"
-                      Height="30"
-                      VerticalContentAlignment="Center"
-                      Margin="0,5,0,0"
-                      Padding="5,0,0,0"
-                      Text="{Binding Username}"
+                    Grid.Row="1"
+            Margin="20, 0,20,26">
+
+                <TextBlock Text="Username"
+               FontFamily="Gilroy"
+               FontWeight="SemiBold"
+               FontSize="13"
+               Margin="0,20,0,0"
+               />
+                <TextBox x:Name="Username_signup"
+              FontSize="11"
+              FontWeight="Medium"
+              FontFamily="Gilroy"
+              BorderThickness="0,0,0,2"
+              Height="30"
+              VerticalContentAlignment="Center"
+              Margin="0,5,0,0"
+              Padding="5,0,0,0"
+              Text="{Binding Username}"
+     >
+                    <TextBox.Style>
+                        <Style TargetType="{x:Type TextBox}">
+                            <Style.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="8" />
+                                </Style>
+                            </Style.Resources>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type TextBox}">
+                                        <Border x:Name="border" 
+                            CornerRadius="8" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            Background="{TemplateBinding Background}" 
+                            SnapsToDevicePixels="True">
+                                            <ScrollViewer x:Name="PART_ContentHost" 
+                                      Focusable="false" 
+                                      HorizontalScrollBarVisibility="Hidden" 
+                                      VerticalScrollBarVisibility="Hidden"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsEnabled" 
+                                         Value="false">
+                                                <Setter Property="Opacity" 
+                                            TargetName="border" 
+                                            Value="0.56"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" 
+                                         Value="true">
+                                                <Setter Property="BorderBrush" 
+                                            TargetName="border" 
+                                            Value="#FF7EB4EA"/>
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocused" 
+                                         Value="true">
+                                                <Setter Property="BorderBrush" 
+                                            TargetName="border" 
+                                            Value="#FF569DE5"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsInactiveSelectionHighlightEnabled" 
+                                       Value="true"/>
+                                        <Condition Property="IsSelectionActive" 
+                                       Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="SelectionBrush" 
+                                Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                                </MultiTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+
+                <TextBlock Text="Name Courier"
+               FontFamily="Gilroy"
+               FontWeight="SemiBold"
+               FontSize="13"
+               Margin="0,20,0,0"
+       />
+                <TextBox x:Name="Name_Courier"
+             FontSize="11"
+             FontWeight="Medium"
+             BorderThickness="0,0,0,2"
+             FontFamily="Gilroy"
+             Height="28"
+             VerticalContentAlignment="Center"
+             Margin="0,5,0,0"
+             Padding="5,0,0,0"
+              Text="{Binding CourierName}"
              >
-                <TextBox.Style>
-                    <Style TargetType="{x:Type TextBox}">
-                        <Style.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="8" />
-                            </Style>
-                        </Style.Resources>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type TextBox}">
-                                    <Border x:Name="border" 
+                    <TextBox.Style>
+                        <Style TargetType="{x:Type TextBox}">
+                            <Style.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" 
+                                Value="8" />
+                                </Style>
+                            </Style.Resources>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type TextBox}">
+                                        <Border x:Name="border" 
                                     CornerRadius="8" 
                                     BorderBrush="{TemplateBinding BorderBrush}" 
                                     BorderThickness="{TemplateBinding BorderThickness}" 
                                     Background="{TemplateBinding Background}" 
                                     SnapsToDevicePixels="True">
-                                        <ScrollViewer x:Name="PART_ContentHost" 
+                                            <ScrollViewer x:Name="PART_ContentHost" 
                                               Focusable="false" 
                                               HorizontalScrollBarVisibility="Hidden" 
                                               VerticalScrollBarVisibility="Hidden"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsEnabled" 
-                                                 Value="false">
-                                            <Setter Property="Opacity" 
-                                                    TargetName="border" 
-                                                    Value="0.56"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" 
-                                                 Value="true">
-                                            <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="#FF7EB4EA"/>
-                                        </Trigger>
-                                        <Trigger Property="IsKeyboardFocused" 
-                                                 Value="true">
-                                            <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="#FF569DE5"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="IsInactiveSelectionHighlightEnabled" 
-                                               Value="true"/>
-                                    <Condition Property="IsSelectionActive" 
-                                               Value="false"/>
-                                </MultiTrigger.Conditions>
-                                <Setter Property="SelectionBrush" 
-                                        Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-                            </MultiTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
-            </TextBox>
-
-
-            <TextBlock Text="Name Courier"
-                       FontFamily="Gilroy"
-                       FontWeight="SemiBold"
-                       FontSize="13"
-                       Margin="0,20,0,0"
-               />
-            <TextBox x:Name="Name_Courier"
-                     FontSize="11"
-                     FontWeight="Medium"
-                     BorderThickness="0,0,0,2"
-                     FontFamily="Gilroy"
-                     Height="28"
-                     VerticalContentAlignment="Center"
-                     Margin="0,5,0,0"
-                     Padding="5,0,0,0"
-                      Text="{Binding CourierName}"
-                     >
-                <TextBox.Style>
-                    <Style TargetType="{x:Type TextBox}">
-                        <Style.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" 
-                                        Value="8" />
-                            </Style>
-                        </Style.Resources>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type TextBox}">
-                                    <Border x:Name="border" 
-                                            CornerRadius="8" 
-                                            BorderBrush="{TemplateBinding BorderBrush}" 
-                                            BorderThickness="{TemplateBinding BorderThickness}" 
-                                            Background="{TemplateBinding Background}" 
-                                            SnapsToDevicePixels="True">
-                                        <ScrollViewer x:Name="PART_ContentHost" 
-                                                      Focusable="false" 
-                                                      HorizontalScrollBarVisibility="Hidden" 
-                                                      VerticalScrollBarVisibility="Hidden"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsEnabled" 
-                                                 Value="false">
-                                            <Setter Property="Opacity" 
-                                                    TargetName="border" 
-                                                    Value="0.56"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" 
-                                                 Value="true">
-                                            <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="#FF7EB4EA"/>
-                                        </Trigger>
-                                        <Trigger Property="IsKeyboardFocused" 
-                                                 Value="true">
-                                            <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="#FF569DE5"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="IsInactiveSelectionHighlightEnabled" 
-                                               Value="true"/>
-                                    <Condition Property="IsSelectionActive" 
-                                               Value="false"/>
-                                </MultiTrigger.Conditions>
-                                <Setter Property="SelectionBrush" 
-                                        Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-                            </MultiTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
-            </TextBox>
-            
-            <TextBlock Text="Vehicle Type"
-                       FontFamily="Gilroy"
-                       FontWeight="SemiBold"
-                       FontSize="13"
-                       Margin="0,20,0,0"
-            />
-
-            <ComboBox x:Name="VehicleTypeQuestionComboBox"
-                      SelectionChanged="VehicleTypeQuestionComboBox_SelectionChanged"
-                      Background="White"
-                      FontSize="11"
-                      FontWeight="Medium"
-                      FontFamily="Gilroy"
-                      Height="30"
-                      VerticalContentAlignment="Center"
-                      Margin="0,5,0,0"
-                      Padding="5,0,0,0">
-                <ComboBox.Style>
-                    <Style TargetType="ComboBox">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ComboBox">
-                                    <Grid>
-                                        
-                                        <Border x:Name="Border"
-                                                Background="White"
-                                                BorderBrush="Gray"
-                                                BorderThickness="1"
-                                                CornerRadius="8"
-                                                MouseLeftButtonDown="ArrowIcon_Click">
-                                            
-                                            <ContentPresenter HorizontalAlignment="Stretch"
-                                                              VerticalAlignment="Center"
-                                                              Margin="5,0,0,0"
-                                                              IsHitTestVisible="False"    
-                                                              Content="{TemplateBinding SelectionBoxItem}" />
                                         </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsEnabled" 
+                                         Value="false">
+                                                <Setter Property="Opacity" 
+                                            TargetName="border" 
+                                            Value="0.56"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" 
+                                         Value="true">
+                                                <Setter Property="BorderBrush" 
+                                            TargetName="border" 
+                                            Value="#FF7EB4EA"/>
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocused" 
+                                         Value="true">
+                                                <Setter Property="BorderBrush" 
+                                            TargetName="border" 
+                                            Value="#FF569DE5"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsInactiveSelectionHighlightEnabled" 
+                                       Value="true"/>
+                                        <Condition Property="IsSelectionActive" 
+                                       Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="SelectionBrush" 
+                                Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                                </MultiTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
 
-                                        <Path x:Name="ArrowIcon"
-                                              Data="M 0 0 L 4 4 L 8 0 Z"
-                                              Fill="Black"
-                                              Width="10"
-                                              Height="8"
-                                              HorizontalAlignment="Right"
-                                              VerticalAlignment="Center"
-                                              Margin="0,0,10,0"
-                                              MouseLeftButtonDown="ArrowIcon_Click"/>
+                <TextBlock Text="Vehicle Type"
+               FontFamily="Gilroy"
+               FontWeight="SemiBold"
+               FontSize="13"
+               Margin="0,20,0,0"
+    />
 
-                                        <Popup x:Name="PART_Popup"
-                                               Placement="Bottom"
-                                               IsOpen="{TemplateBinding IsDropDownOpen}"
-                                               AllowsTransparency="True"
-                                               Focusable="False"
-                                               PopupAnimation="Slide"
-                                               HorizontalOffset="-1" 
-                                               Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ComboBox}}">
-                                            <Border x:Name="DropDownBorder"
-                                                    CornerRadius="8"
-                                                    BorderBrush="Gray"
-                                                    BorderThickness="1"
-                                                    Background="White">
-                                                <ScrollViewer>
-                                                    <StackPanel IsItemsHost="True"
-                                                                HorizontalAlignment="Stretch"
-                                                                KeyboardNavigation.DirectionalNavigation="Contained"/>
-                                                </ScrollViewer>
+                <ComboBox x:Name="VehicleTypeQuestionComboBox"
+              SelectionChanged="VehicleTypeQuestionComboBox_SelectionChanged"
+              Background="White"
+              FontSize="11"
+              FontWeight="Medium"
+              FontFamily="Gilroy"
+              Height="30"
+              VerticalContentAlignment="Center"
+              Margin="0,5,0,0"
+              Padding="5,0,0,0">
+                    <ComboBox.Style>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ComboBox">
+                                        <Grid>
+
+                                            <Border x:Name="Border"
+                                        Background="White"
+                                        BorderBrush="Gray"
+                                        BorderThickness="1"
+                                        CornerRadius="8"
+                                        MouseLeftButtonDown="ArrowIcon_Click">
+
+                                                <ContentPresenter HorizontalAlignment="Stretch"
+                                                      VerticalAlignment="Center"
+                                                      Margin="5,0,0,0"
+                                                      IsHitTestVisible="False"    
+                                                      Content="{TemplateBinding SelectionBoxItem}" />
                                             </Border>
-                                        </Popup>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ComboBox.Style>
 
-                <!-- ComboBox Items -->
-                <ComboBoxItem Content="Car"/>
-                <ComboBoxItem Content="Motorcycle"/>
-                <ComboBoxItem Content="Truck"/>
-            </ComboBox>
+                                            <Path x:Name="ArrowIcon"
+                                      Data="M 0 0 L 4 4 L 8 0 Z"
+                                      Fill="Black"
+                                      Width="10"
+                                      Height="8"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,10,0"
+                                      MouseLeftButtonDown="ArrowIcon_Click"/>
 
-            <TextBlock Text="Password"
-                       FontFamily="Gilroy"
-                       FontWeight="SemiBold"
-                       FontSize="13"
-                       Margin="0,20,0,0"
-                       />
-            <PasswordBox x:Name="Password_signup"
-                         FontSize="11"
-                         FontWeight="Medium"
-                         FontFamily="Gilroy"
-                         BorderThickness="0,0,0,2"
-                         Height="28"
-                         VerticalContentAlignment="Center"
-                         Margin="0,5,0,0"
-                         Padding="5,0,0,0"
-                         PasswordChanged="PasswordBox_PasswordChanged">
-                <PasswordBox.Style>
-                    <Style TargetType="{x:Type PasswordBox}">
-                        <Style.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" 
-                                        Value="8" />
-                            </Style>
-                        </Style.Resources>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type PasswordBox}">
-                                    <Border x:Name="border" 
-                                            CornerRadius="8" 
-                                            BorderBrush="{TemplateBinding BorderBrush}" 
-                                            BorderThickness="{TemplateBinding BorderThickness}" 
-                                            Background="{TemplateBinding Background}" 
-                                            SnapsToDevicePixels="True"> 
-                                        <ScrollViewer x:Name="PART_ContentHost" 
-                                                      Focusable="false" 
-                                                      HorizontalScrollBarVisibility="Hidden" 
-                                                      VerticalScrollBarVisibility="Hidden"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsEnabled" 
-                                                 Value="false">
-                                            <Setter Property="Opacity" 
-                                                    TargetName="border" 
-                                                    Value="0.56"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" 
-                                                 Value="true">
-                                            <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="#FF7EB4EA"/>
-                                        </Trigger>
-                                        <Trigger Property="IsKeyboardFocused" 
-                                                 Value="true">
-                                            <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="#FF569DE5"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="IsInactiveSelectionHighlightEnabled" 
-                                               Value="true"/>
-                                    <Condition Property="IsSelectionActive" 
-                                               Value="false"/>
-                                </MultiTrigger.Conditions>
-                                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-                            </MultiTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </PasswordBox.Style>
-            </PasswordBox>
+                                            <Popup x:Name="PART_Popup"
+                                       Placement="Bottom"
+                                       IsOpen="{TemplateBinding IsDropDownOpen}"
+                                       AllowsTransparency="True"
+                                       Focusable="False"
+                                       PopupAnimation="Slide"
+                                       HorizontalOffset="-1" 
+                                       Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                                                <Border x:Name="DropDownBorder"
+                                            CornerRadius="8"
+                                            BorderBrush="Gray"
+                                            BorderThickness="1"
+                                            Background="White">
+                                                    <ScrollViewer>
+                                                        <StackPanel IsItemsHost="True"
+                                                        HorizontalAlignment="Stretch"
+                                                        KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                                    </ScrollViewer>
+                                                </Border>
+                                            </Popup>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ComboBox.Style>
 
-            <TextBlock Text="Confirm Password"
-                       FontFamily="Gilroy"
-                       FontWeight="SemiBold"
-                       FontSize="13"
-                       Margin="0,20,0,0"
-                       />
-            <PasswordBox x:Name="TxtConfirmPassword"
-                         FontSize="11"
-                         FontWeight="Medium"
-                         FontFamily="Gilroy"
-                         BorderThickness="0,0,0,2"
-                         Height="28"
-                         VerticalContentAlignment="Center"
-                         Margin="0,5,0,0"
-                         Padding="5,0,0,0"
-                         PasswordChanged="ConfirmPasswordBox_PasswordChanged">
-                <PasswordBox.Style>
-                    <Style TargetType="{x:Type PasswordBox}">
-                        <Style.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" 
-                                        Value="8" />
-                            </Style>
-                        </Style.Resources>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type PasswordBox}">
-                                    <Border x:Name="border" CornerRadius="8" 
-                                            BorderBrush="{TemplateBinding BorderBrush}" 
-                                            BorderThickness="{TemplateBinding BorderThickness}" 
-                                            Background="{TemplateBinding Background}" 
-                                            SnapsToDevicePixels="True">
-                                        <ScrollViewer x:Name="PART_ContentHost" 
-                                                      Focusable="false" 
-                                                      HorizontalScrollBarVisibility="Hidden" 
-                                                      VerticalScrollBarVisibility="Hidden"/>    
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsEnabled" 
-                                                 Value="false">
-                                            <Setter Property="Opacity" 
-                                                    TargetName="border" 
-                                                    Value="0.56"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" 
-                                                 Value="true">
-                                            <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="#FF7EB4EA"/>
-                                        </Trigger>
-                                        <Trigger Property="IsKeyboardFocused" 
-                                                 Value="true">
-                                            <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="#FF569DE5"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="IsInactiveSelectionHighlightEnabled" 
-                                               Value="true"/>
-                                    <Condition Property="IsSelectionActive" 
-                                               Value="false"/>
-                                </MultiTrigger.Conditions>
-                                <Setter Property="SelectionBrush" 
-                                        Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-                            </MultiTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </PasswordBox.Style>
-            </PasswordBox>
+                    <!-- ComboBox Items -->
+                    <ComboBoxItem Content="Car"/>
+                    <ComboBoxItem Content="Motorcycle"/>
+                    <ComboBoxItem Content="Truck"/>
+                </ComboBox>
+
+                <TextBlock Text="Password"
+                            FontFamily="Gilroy"
+                            FontWeight="SemiBold"
+                            FontSize="13"
+                            Margin="0,20,0,0"
+               />
+                <PasswordBox x:Name="Password_signup"
+                             FontSize="11"
+                             FontWeight="Medium"
+                             FontFamily="Gilroy"
+                             BorderThickness="0,0,0,2"
+                             Height="28"
+                             VerticalContentAlignment="Center"
+                             Margin="0,5,0,0"
+                             Padding="5,0,0,0"
+                             PasswordChanged="PasswordBox_PasswordChanged">
+                    <PasswordBox.Style>
+                        <Style TargetType="{x:Type PasswordBox}">
+                            <Style.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" 
+                                Value="8" />
+                                </Style>
+                            </Style.Resources>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type PasswordBox}">
+                                        <Border x:Name="border" 
+                                                CornerRadius="8" 
+                                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                                Background="{TemplateBinding Background}" 
+                                                SnapsToDevicePixels="True">
+                                            <ScrollViewer x:Name="PART_ContentHost" 
+                                              Focusable="false" 
+                                              HorizontalScrollBarVisibility="Hidden" 
+                                              VerticalScrollBarVisibility="Hidden"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsEnabled" 
+                                         Value="false">
+                                                <Setter Property="Opacity" 
+                                            TargetName="border" 
+                                            Value="0.56"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" 
+                                         Value="true">
+                                                <Setter Property="BorderBrush" 
+                                            TargetName="border" 
+                                            Value="#FF7EB4EA"/>
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocused" 
+                                         Value="true">
+                                                <Setter Property="BorderBrush" 
+                                            TargetName="border" 
+                                            Value="#FF569DE5"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsInactiveSelectionHighlightEnabled" 
+                                       Value="true"/>
+                                        <Condition Property="IsSelectionActive" 
+                                       Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                                </MultiTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </PasswordBox.Style>
+                </PasswordBox>
+
+                <TextBlock Text="Confirm Password"
+                           FontFamily="Gilroy"
+                           FontWeight="SemiBold"
+                           FontSize="13"
+                           Margin="0,20,0,0"
+               />
+                <PasswordBox x:Name="TxtConfirmPassword"
+                             FontSize="11"
+                             FontWeight="Medium"
+                             FontFamily="Gilroy"
+                             BorderThickness="0,0,0,2"
+                             Height="28"
+                             VerticalContentAlignment="Center"
+                             Margin="0,5,0,0"
+                             Padding="5,0,0,0"
+                             PasswordChanged="ConfirmPasswordBox_PasswordChanged">
+                    <PasswordBox.Style>
+                        <Style TargetType="{x:Type PasswordBox}">
+                            <Style.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" 
+                                Value="8" />
+                                </Style>
+                            </Style.Resources>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type PasswordBox}">
+                                        <Border x:Name="border" CornerRadius="8" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    Background="{TemplateBinding Background}" 
+                                    SnapsToDevicePixels="True">
+                                            <ScrollViewer x:Name="PART_ContentHost" 
+                                              Focusable="false" 
+                                              HorizontalScrollBarVisibility="Hidden" 
+                                              VerticalScrollBarVisibility="Hidden"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsEnabled" 
+                                         Value="false">
+                                                <Setter Property="Opacity" 
+                                            TargetName="border" 
+                                            Value="0.56"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" 
+                                         Value="true">
+                                                <Setter Property="BorderBrush" 
+                                            TargetName="border" 
+                                            Value="#FF7EB4EA"/>
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocused" 
+                                         Value="true">
+                                                <Setter Property="BorderBrush" 
+                                            TargetName="border" 
+                                            Value="#FF569DE5"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsInactiveSelectionHighlightEnabled" 
+                                       Value="true"/>
+                                        <Condition Property="IsSelectionActive" 
+                                       Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="SelectionBrush" 
+                                Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                                </MultiTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </PasswordBox.Style>
+                </PasswordBox>
 
 
 
-        </StackPanel>
-        
-        <StackPanel x:Name="tombol"
-                     Grid.Row="14"
+            </StackPanel>
+
+
+            <StackPanel x:Name="tombol"
+                     Grid.Row="2"
                      Orientation="Horizontal"
                      FlowDirection="RightToLeft"
                      Background="Transparent"
-                     Margin="20,500,20,20">
+                    >
 
             <Button x:Name="btnDelete"
                     Content="Delete"

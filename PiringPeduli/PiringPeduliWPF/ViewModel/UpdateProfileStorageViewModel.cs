@@ -20,6 +20,8 @@ namespace PiringPeduliWPF.ViewModel
         private string _storagename;
         private string _storageaddress;
         private string _confirmPassword;
+        private double lat;
+        private double lon;
 
         public string Username
         {
@@ -68,6 +70,26 @@ namespace PiringPeduliWPF.ViewModel
             {
                 _confirmPassword = value;
                 OnPropertyChanged(nameof(ConfirmPassword));
+            }
+        }
+
+        public double Lat
+        {
+            get => lat;
+            set
+            {
+                lat = value;
+                OnPropertyChanged(nameof(Lat));
+            }
+        }
+
+        public double Lon
+        {
+            get => lon;
+            set
+            {
+                lon = value;
+                OnPropertyChanged(nameof(Lon));
             }
         }
 
@@ -140,7 +162,9 @@ namespace PiringPeduliWPF.ViewModel
                     Password = Password,
                     Type = UserSessionService.Account.Type,
                     StorageName = StorageName,
-                    StorageAddress = StorageAddress
+                    StorageAddress = StorageAddress,
+                    Lat = Lat,
+                    Lon = Lon
                 };
 
                 var success = await _accountService.UpdateTempStorage(UserSessionService.Account.Username, updatedAccount);

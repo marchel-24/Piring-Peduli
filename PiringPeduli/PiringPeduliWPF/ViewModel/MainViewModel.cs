@@ -53,6 +53,7 @@ namespace PiringPeduliWPF.ViewModel
             ShowAccountViewCommand = new ViewModeCommand(ExecuteAccountView);
             ShowSettingsViewCommand = new ViewModeCommand(ExecuteSettingsView);
 
+
             ExecuteMainScreenView(null);
         }
 
@@ -63,7 +64,22 @@ namespace PiringPeduliWPF.ViewModel
 
         private void ExecutePickUpView(object obj)
         {
-            CurrentChildView = new PickUpViewModel();
+            if (UserSessionService.Account.Type == AccountType.Customer)
+            {
+                CurrentChildView = new PickUpViewModel();
+            }
+            else if (UserSessionService.Account.Type == AccountType.Courier)
+            {
+                CurrentChildView = new PickUpCourierViewModel();
+            }
+            else if (UserSessionService.Account.Type == AccountType.TemporaryStorage)
+            {
+                CurrentChildView = new TemporaryStorageViewModel();
+            }
+            else if (UserSessionService.Account.Type == AccountType.Recycler)
+            {
+                CurrentChildView = new RecyclerViewViewModel();
+            }
         }
 
         private void ExecuteAccountView(object obj)
