@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PiringPeduliWPF.View.UserControls"
+             xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800"
              Background="White">
@@ -11,16 +12,16 @@
         <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.2*"/>
-            <RowDefinition Height="0.6*"/>
-            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.8*"/>
+            <RowDefinition Height="0.1*"/>
         </Grid.RowDefinitions>
 
             <TextBlock Text="Update Profile Customer" 
                    FontSize="28" 
                    FontFamily="Gilroy"
                    FontWeight="Bold" 
-                   Margin="10,30,0,0"
+                   Margin="10,25,0,0"
                        Grid.Row="0"/>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
@@ -185,7 +186,7 @@
                 
 
 
-                <TextBlock Text="Type Instance"
+                <TextBlock Text="Name Instance"
            FontFamily="Gilroy"
            FontWeight="SemiBold"
            FontSize="13"
@@ -490,7 +491,24 @@
                         </Style>
                     </PasswordBox.Style>
                 </PasswordBox>
-
+                <TextBlock Text="Location (Click on the map)"
+                           FontFamily="Gilroy"
+                           FontWeight="SemiBold"
+                           FontSize="13"
+                           Margin="0,20,0,0"
+/>
+                <m:Map x:Name="BingMap"
+                        Height="200"
+                        Margin="0 20 0 0"
+                        MouseLeftButtonDown="BingMap_MouseLeftButtonDown"
+                        Center="-7.771317095452585, 110.37772145337762"
+                        ZoomLevel="13"/>
+                <TextBlock Name ="Coordinate"
+                           FontFamily="Gilroy"
+                           FontWeight="SemiBold"
+                           FontSize="13"
+                           Margin="0,20,0,0"
+/>
 
 
             </StackPanel>

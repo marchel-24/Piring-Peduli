@@ -123,7 +123,7 @@ namespace PiringPeduliClass.Repository
                     await connection.OpenAsync();  // Use async version for opening the connection
 
                     using (var command = new NpgsqlCommand(
-                        "INSERT INTO account (accountid, username, password, type, lat, lon) VALUES (@accountid, @username, @password, @type::account_type, @lat, @lon)", connection))
+                        "INSERT INTO account (accountid, username, password, type) VALUES (@accountid, @username, @password, @type::account_type)", connection))
                     {
                         command.Parameters.AddWithValue("@accountid", account.AccountId);
                         command.Parameters.AddWithValue("@username", account.Username);
@@ -158,12 +158,14 @@ namespace PiringPeduliClass.Repository
                     await connection.OpenAsync();
 
                     using (var command = new NpgsqlCommand(
-                        "UPDATE account SET username = @username, password = @password, type = @type::account_type WHERE accountid = @accountid", connection))
+                        "UPDATE account SET username = @username, password = @password, type = @type::account_type, lat = @lat, lon = @lon WHERE accountid = @accountid", connection))
                     {
                         command.Parameters.AddWithValue("@accountid", account.AccountId);
                         command.Parameters.AddWithValue("@username", account.Username);
                         command.Parameters.AddWithValue("@password", account.Password);
                         command.Parameters.AddWithValue("@type", account.Type.ToString());
+                        command.Parameters.AddWithValue("@lat", account.Lat);
+                        command.Parameters.AddWithValue("@lon", account.Lon);
 
                         await command.ExecuteNonQueryAsync();
                     }

@@ -1,4 +1,5 @@
-﻿using PiringPeduliClass.Repository;
+﻿using Microsoft.Maps.MapControl.WPF;
+using PiringPeduliClass.Repository;
 using PiringPeduliClass.Service;
 using PiringPeduliWPF.ViewModel;
 using System;

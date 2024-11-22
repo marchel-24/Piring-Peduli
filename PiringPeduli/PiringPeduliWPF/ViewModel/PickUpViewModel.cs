@@ -34,16 +34,23 @@ namespace PiringPeduliWPF.ViewModel
         {
             try
             {
-                // Attempt to create the order asynchronously
-                bool isOrderCreated = await _orderService.CreateOrderCustomerAsync(StatusType.Processing, UserSessionService.Account, "TES2");
-
-                if (!isOrderCreated)
+                if (UserSessionService.Account.Lat != 0.0)
                 {
-                    throw new Exception("Failed to create order.");
-                }
 
-                // Optionally, provide feedback to the user upon success
-                MessageBox.Show("Order created successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    bool isOrderCreated = await _orderService.CreateOrderCustomerAsync(StatusType.Processing, UserSessionService.Account, "TES2");
+
+                    if (!isOrderCreated)
+                    {
+                        throw new Exception("Failed to create order.");
+                    }
+
+                    // Optionally, provide feedback to the user upon success
+                    MessageBox.Show("Order created successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }else
+                {
+                    MessageBox.Show("Update Akun anda terlebih dahulu", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                // Attempt to create the order asynchronously
             }
             catch (Exception ex)
             {

@@ -29,7 +29,7 @@ namespace PiringPeduliClass.Service
         }
 
 
-        public async Task<bool> RegisterNewAccountAsync(string username, string password, AccountType type, double lat, double lon)
+        public async Task<bool> RegisterNewAccountAsync(string username, string password, AccountType type)
         {
             try
             {
@@ -42,9 +42,7 @@ namespace PiringPeduliClass.Service
                     AccountId = newAccountId,
                     Username = username,
                     Password = password,
-                    Type = type,
-                    Lat = lat,
-                    Lon = lon
+                    Type = type
                 };
 
                 // Create the account asynchronously

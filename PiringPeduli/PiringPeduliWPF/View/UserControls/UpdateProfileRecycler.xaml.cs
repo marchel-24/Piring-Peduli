@@ -1,4 +1,5 @@
-﻿using PiringPeduliClass.Repository;
+﻿using Microsoft.Maps.MapControl.WPF;
+using PiringPeduliClass.Repository;
 using PiringPeduliClass.Service;
 using PiringPeduliWPF.ViewModel;
 using System;
@@ -25,6 +26,8 @@ namespace PiringPeduliWPF.View.UserControls
     /// </summary>
     public partial class UpdateProfileRecycler : UserControl
     {
+        private Pushpin currentPushpin;
+
         public UpdateProfileRecycler()
         {
             InitializeComponent();
@@ -36,6 +39,14 @@ namespace PiringPeduliWPF.View.UserControls
             var recycleService = new RecyclerService(recyclerRepository);
             DataContext = new UpdateProfileRecyclerViewModel(recycleService);
             //Debug.Print((UpdateProfileViewModel)DataContext.));
+            var apiKey = ConfigurationManager.AppSettings["BingMapsApiKey"];
+            if (string.IsNullOrEmpty(apiKey))
+            {
+                MessageBox.Show("API Key Bing Maps tidak ditemukan. Tambahkan ke App.config.");
+                return;
+            }
+
+            BingMap.CredentialsProvider = new ApplicationIdCredentialsProvider(apiKey);
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
@@ -72,6 +83,43 @@ namespace PiringPeduliWPF.View.UserControls
             if (parentFrame != null)
             {
                 parentFrame.ContentControl.Content = new SettingsFrame();
+            }
+        }
+
+        private void BingMap_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Konversi titik piksel ke lokasi geografis (koordinat)
+            var mousePosition = e.GetPosition(BingMap);
+            Location pinLocation = BingMap.ViewportPointToLocation(mousePosition);
+
+            // Tampilkan koordinat di TextBlock
+            Coordinate.Text = $"Latitude: {pinLocation.Latitude}, Longitude: {pinLocation.Longitude}";
+
+            if (DataContext is UpdateProfileRecyclerViewModel viewModel)
+            {
+                viewModel.Lat = pinLocation.Latitude;
+                viewModel.Long = pinLocation.Longitude;
+            }
+
+            // Tambahkan atau pindahkan pin ke lokasi yang diklik
+            UpdatePushpin(pinLocation);
+        }
+
+        private void UpdatePushpin(Location location)
+        {
+            // Jika pin sudah ada, pindahkan ke lokasi baru
+            if (currentPushpin != null)
+            {
+                currentPushpin.Location = location;
+            }
+            else
+            {
+                // Jika belum ada pin, buat pin baru dan tambahkan ke peta
+                currentPushpin = new Pushpin
+                {
+                    Location = location
+                };
+                BingMap.Children.Add(currentPushpin);
             }
         }
     }
