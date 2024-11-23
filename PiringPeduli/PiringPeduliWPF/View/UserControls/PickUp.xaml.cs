@@ -1,4 +1,5 @@
-﻿using PiringPeduliClass.Repository;
+﻿using Microsoft.Maps.MapControl.WPF;
+using PiringPeduliClass.Repository;
 using PiringPeduliClass.Service;
 using PiringPeduliWPF.ViewModel;
 using System;
@@ -35,11 +36,41 @@ namespace PiringPeduliWPF.View.UserControls
             var accountRepository = new AccountRepository(connectionString);
             var orderService = new OrderService(orderRepository, accountRepository);
             DataContext = new PickUpViewModel(orderService);
+
+            var apikey = ConfigurationManager.AppSettings["BingMapsApiKey"];
+            BingMap.CredentialsProvider = new ApplicationIdCredentialsProvider(apikey);
+            DescriptionBox.GotFocus += DescriptionBox_GotFocus;
+            DescriptionBox.LostFocus += DescriptionBox_LostFocus;
         }
 
         private void TxtWeight_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
+
+        private void ArrowIcon_Click(object sender, MouseButtonEventArgs e)
+        {
+            //MessageBox.Show("Arrow icon clicked!");
+            QuestionComboBox.IsDropDownOpen = !QuestionComboBox.IsDropDownOpen;
+        }
+
+        private void DescriptionBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (DescriptionBox.Text == "Enter your description...")
+            {
+                DescriptionBox.Text = string.Empty;
+                DescriptionBox.Foreground = new SolidColorBrush(Colors.Black);  // Warna teks ketika mulai mengetik
+            }
+        }
+
+        private void DescriptionBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(DescriptionBox.Text))
+            {
+                DescriptionBox.Text = "Enter your description...";  // Placeholder
+                DescriptionBox.Foreground = new SolidColorBrush(Colors.Gray);  // Warna placeholder
+            }
+        }
+
     }
 }
