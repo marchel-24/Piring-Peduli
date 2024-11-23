@@ -16,7 +16,6 @@ namespace PiringPeduliWPF.ViewModel
 {
     public class UpdateProfileCourierViewModel : ViewModelBase
     {
-        private readonly CourierService _accountService;
 
         private string _username;
         private string _password;
@@ -79,9 +78,8 @@ namespace PiringPeduliWPF.ViewModel
         public ICommand CancelCommand { get; }
 
 
-        public UpdateProfileCourierViewModel(CourierService accountService)
+        public UpdateProfileCourierViewModel()
         {
-            _accountService = accountService;
             UpdateCommand = new ViewModeCommand(Update);
             DeleteCommand = new ViewModeCommand(Delete);
         }
@@ -118,7 +116,7 @@ namespace PiringPeduliWPF.ViewModel
                     throw new Exception("Confirm Password Failed");
                 }
 
-                var account = await _accountService.GetUserByUsernameAsync(Username);
+                var account = await DatabaseService.courierService.GetUserByUsernameAsync(Username);
 
                 if (Username != UserSessionService.Account.Username)
                 {
@@ -146,7 +144,7 @@ namespace PiringPeduliWPF.ViewModel
                     Vehicle = vehicleType
                 };
 
-                var success = await _accountService.UpdateCourier(UserSessionService.Account.Username, updatedAccount);
+                var success = await DatabaseService.courierService.UpdateCourier(UserSessionService.Account.Username, updatedAccount);
                 if (success)
                 {
                     MessageBox.Show($"Update done, navigate to Login", "Update Account Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -191,7 +189,7 @@ namespace PiringPeduliWPF.ViewModel
                 {
                     throw new Exception("Validation failed");
                 }
-                var success = await _accountService.DeleteCourier(Username);
+                var success = await DatabaseService.courierService.RemoveAccountByUsernameAsync(Username);
                 
                 if (success)
                 {

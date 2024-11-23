@@ -79,23 +79,6 @@ namespace PiringPeduliClass.Service
             }
         }
 
-        public async Task<bool> DeleteCourier(string username)
-        {
-            try
-            {
-                var accountid = await _courierRepository.GetIdFromUsernameAsync(username);
-
-                bool isDeleteCourier = await _courierRepository.DeleteCourierByAccountID(accountid);
-                bool isDeleteAccount = await _courierRepository.DeleteAccountById(accountid);
-
-                if (!isDeleteAccount || !isDeleteCourier)
-                {
-                    throw new Exception("Delete Account Failed");
-                }
-                return true;
-            }catch (Exception ex) { throw new Exception( ex.Message); }
-        }
-
         public void AssignOrderToCourier(string username, Courier courier, Order order)
         {
             courier.AcceptOrder(order);

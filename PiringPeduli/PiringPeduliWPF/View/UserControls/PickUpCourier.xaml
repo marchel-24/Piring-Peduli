@@ -8,109 +8,34 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800"
              Background="White">
-
-    <UserControl.Resources>
-        <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBox}">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="Gray"/>
-            <Setter Property="Padding" Value="6 3"/>
-            <Setter Property="Cursor" Value="IBeam"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="Width" Value="auto"/>
-            <Setter Property="FontFamily" Value="Gilroy"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="Medium"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TextBox}">
-                        <Border x:Name="txtBorder"
-                                Background="{TemplateBinding Background}"
-                                CornerRadius="5"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                SnapsToDevicePixels="True">
-                            <Grid Margin="{TemplateBinding Padding}">
-                                <ScrollViewer x:Name="PART_ContentHost"
-                                              Focusable="False"
-                                              HorizontalScrollBarVisibility="Hidden"
-                                              VerticalScrollBarVisibility="Hidden"/>
-                                <Label x:Name="LabelBox"
-                                       Content="{TemplateBinding Tag}"
-                                       FontWeight="{TemplateBinding FontWeight}"
-                                       VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                       HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                       Visibility="Collapsed"
-                                       Foreground="Gray"
-                                       Padding="{TemplateBinding Padding}"/>
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="Text" Value=""/>
-                                </MultiTrigger.Conditions>
-                                <Setter Property="Visibility"
-                                        TargetName="LabelBox"
-                                        Value="Visible"/>
-                            </MultiTrigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>
-
     <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.4*"/>
+            <RowDefinition Height="0.4*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Available Order"
+                   FontFamily="Gilroy"
+                   FontSize="28"
+                   FontWeight="SemiBold"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Grid.Row="0"
+                   Margin="10"/>
         <!-- Map Section with Bing Maps -->
-        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Margin="20,20,20,20" VerticalAlignment="Top" Height="400">
-            <StackPanel Margin="0">
-                <m:Map x:Name="BingMap" 
-                       CredentialsProvider="Ukvn2x9fOIi94SdkUHg3~9wMsqEevY0pBK0FXcu7a4w~AtShfaln4nbX5fauwr5cQq8u2iZVFWj8xGijPvKbetae5Hu0JJEiH_xbFtVROl76"
-                       Height="398"
-                       Center="-7.771317095452585, 110.37772145337762"
-                       ZoomLevel="13"/>
-            </StackPanel>
-        </Border>
+        <Viewbox Grid.Row="1" Stretch="Uniform">
+            <Border BorderBrush="Gray" CornerRadius="10" Background="White" BorderThickness="1" Height="300" Width="800">
+                <m:Map x:Name="BingMap"
+               Center="-7.771317095452585, 110.37772145337762"
+               ZoomLevel="13"
+               Margin="2"
+               />
+            </Border>
+        </Viewbox>
+        
 
-        <!-- Bottom Section -->
-        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Margin="20,460,20,20" VerticalAlignment="Bottom">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200"/>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="170"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Name Restaurant" 
-                           Grid.Column="0"
-                           HorizontalAlignment="Center"
-                           Margin="0,10,0,10"
-                           FontSize="18" 
-                           FontWeight="Bold"/>
-                <TextBlock Text="Type"
-                           Grid.Column="1"
-                           Margin="0,10,0,10"
-                           FontSize="18"
-                           FontWeight="Bold"
-                           HorizontalAlignment="Center"/>
-                <TextBlock Text="Weight"
-                           Grid.Column="2"
-                           Margin="0,10,0,10"
-                           FontSize="18"
-                           FontWeight="Bold"
-                           HorizontalAlignment="Center"/>
-                <Button Grid.Column="3"
-                        Width="150"
-                        Height="40"
-                        Content="Pick Up"
-                        Background="Green"
-                        Foreground="White"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Center"/>
-            </Grid>
-        </Border>
+        <ScrollViewer Grid.Row="2">
+            <StackPanel Grid.Row="2" Name="OrderList" Margin="5"/>
+        </ScrollViewer>
     </Grid>
 </UserControl>

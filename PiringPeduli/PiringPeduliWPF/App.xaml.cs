@@ -5,6 +5,7 @@ using System.Windows;
 using PiringPeduliClass.Model;
 using PiringPeduliClass.Repository;
 using PiringPeduliClass.Service;
+using PiringPeduliWPF.Services;
 
 namespace PiringPeduliWPF
 {
@@ -17,31 +18,8 @@ namespace PiringPeduliWPF
         {
             base.OnStartup(e);
 
-            // Get the connection string from App.config
-            string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
+            new DatabaseService();
 
-            // Pass the connection string to the UserRepository and UserService
-            var sortRepo = new SortedWasteRepository(connectionString);
-            var AccountRepo = new AccountRepository(connectionString);
-            var TempoRepo = new TemporaryStorageRepository(connectionString);
-            var TempoServ = new TemporaryStorageService(TempoRepo);
-            var AccountService = new AccountService(AccountRepo);
-            var sortService = new SortedWasteService(sortRepo);
-            var wasteInStorageRepo = new WasteInStorageRepository(connectionString);
-            var wasteInStorageService = new WasteInStorageService(wasteInStorageRepo);
-            var requiredWasteRepository = new RequiredWasteRepository(connectionString);
-            var requiredWasteService = new RequiredWasteService(requiredWasteRepository);
-
-
-
-            try
-            {
-                
-            }
-            catch (Exception ex) 
-            {
-                Debug.WriteLine(ex.Message);
-            }
         }
     }
 

@@ -16,11 +16,6 @@ namespace PiringPeduliWPF.ViewModel
 {
     public class SignUpViewModel : ViewModelBase
     {
-        private readonly AccountService _accountService;
-        private readonly CourierService _courierService;
-        private readonly CustomerService _customerService;
-        private readonly RecyclerService _recyclerService;
-        private readonly TemporaryStorageService _temporaryStorage;
 
         private string _username;
         private string _password;
@@ -177,17 +172,6 @@ namespace PiringPeduliWPF.ViewModel
         }
 
 
-        public SignUpViewModel(AccountService accountService, CourierService courierService, CustomerService customerService, RecyclerService recyclerService, TemporaryStorageService temporaryStorage)
-        {
-            _accountService = accountService;
-            _courierService = courierService;
-            _customerService = customerService;
-            _recyclerService = recyclerService;
-            _temporaryStorage = temporaryStorage;
-
-            RegisterCommand = new ViewModeCommand(Register);
-        }
-
 
         private async void Register(object obj)
         {
@@ -221,7 +205,7 @@ namespace PiringPeduliWPF.ViewModel
                     throw new Exception("Confirm Password Failed");
                 }
 
-                var account = await _accountService.GetUserByUsernameAsync(Username);
+                var account = await DatabaseService.accountService.GetUserByUsernameAsync(Username);
 
                 if (account != null) 
                 {
@@ -286,7 +270,7 @@ namespace PiringPeduliWPF.ViewModel
                 }
 
                 AccountType AccountType = (AccountType)Enum.Parse(typeof(AccountType), AccountTypeStr);
-                var successmadeAccount = await _accountService.RegisterNewAccountAsync(Username, Password, AccountType);
+                var successmadeAccount = await DatabaseService.accountService.RegisterNewAccountAsync(Username, Password, AccountType);
 
                 if (successmadeAccount)
                 {
@@ -295,7 +279,7 @@ namespace PiringPeduliWPF.ViewModel
                         VehicleType vehicleType = (VehicleType)Enum.Parse(typeof(VehicleType), VehicleTypestr);
                         Courier createdAccount = new Courier { Name = CourierName, Vehicle = vehicleType };
 
-                        var successmadeCourier = await _courierService.CreateCourierAsync(createdAccount, Username);
+                        var successmadeCourier = await DatabaseService.courierService.CreateCourierAsync(createdAccount, Username);
                         // After successful registration, navigate to the login view
 
                         if (successmadeCourier)
@@ -316,7 +300,7 @@ namespace PiringPeduliWPF.ViewModel
                             CustomerInstance = CustomerInstance
                         };
 
-                        var successmadeCustomer = await _customerService.CreateCustomerAsync(Username, createdAccount);
+                        var successmadeCustomer = await DatabaseService.customerService.CreateCustomerAsync(Username, createdAccount);
 
                         if (successmadeCustomer)
                         {
@@ -334,7 +318,7 @@ namespace PiringPeduliWPF.ViewModel
                             RecyclerAddress = RecyclerAddress
                         };
 
-                        var successmadeRecycler = await _recyclerService.CreateRecyclerAsync(createdAccount, Username);
+                        var successmadeRecycler = await DatabaseService.recyclerService.CreateRecyclerAsync(createdAccount, Username);
 
                         if (successmadeRecycler)
                         {
@@ -351,7 +335,7 @@ namespace PiringPeduliWPF.ViewModel
                             StorageAddress = TemporaryStorageAddress
                         };
 
-                        var successmadeTemporary = await _temporaryStorage.CreateTemporaryStorageAsync(createdAccount, Username);
+                        var successmadeTemporary = await DatabaseService.temporaryStorageService.CreateTemporaryStorageAsync(createdAccount, Username);
 
                         if (successmadeTemporary)
                         {

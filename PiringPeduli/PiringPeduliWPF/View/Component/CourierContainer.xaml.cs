@@ -1,9 +1,5 @@
-﻿using PiringPeduliClass.Repository;
-using PiringPeduliClass.Service;
-using PiringPeduliWPF.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,22 +13,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PiringPeduliWPF.View.UserControls
+namespace PiringPeduliWPF.View.Component
 {
     /// <summary>
-    /// Interaction logic for AccountView.xaml
+    /// Interaction logic for CourierContainer.xaml
     /// </summary>
-    public partial class AccountView : UserControl
+    public partial class CourierContainer : UserControl
     {
-        public AccountView()
+        public CourierContainer()
         {
             InitializeComponent();
-            DataContext = new AccountViewModel();
         }
 
-
-
-        private void OrderTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
 
         }

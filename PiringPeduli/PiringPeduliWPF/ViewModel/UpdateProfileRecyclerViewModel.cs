@@ -13,15 +13,14 @@ namespace PiringPeduliWPF.ViewModel
 {
     public class UpdateProfileRecyclerViewModel:ViewModelBase
     {
-        private readonly RecyclerService _accountService;
 
         private string _username;
         private string _password;
         private string _recyclerName;
         private string _recycleraddress;
         private string _confirmPassword;
-        private double lat;
-        private double lon;
+        private double? lat;
+        private double? lon;
 
         public string Username
         {
@@ -73,7 +72,7 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
-        public double Lat
+        public double? Lat
         {
             get => lat;
             set
@@ -83,13 +82,13 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
-        public double Long
+        public double? Lon
         {
             get => lon;
             set
             {
                 lon = value;
-                OnPropertyChanged(nameof(Long));
+                OnPropertyChanged(nameof(Lon));
             }
         }
 
@@ -98,9 +97,8 @@ namespace PiringPeduliWPF.ViewModel
         public ICommand CancelCommand { get; }
 
 
-        public UpdateProfileRecyclerViewModel(RecyclerService accountService)
+        public UpdateProfileRecyclerViewModel()
         {
-            _accountService = accountService;
             UpdateCommand = new ViewModeCommand(Update);
             DeleteCommand = new ViewModeCommand(Delete);
         }
@@ -142,7 +140,7 @@ namespace PiringPeduliWPF.ViewModel
                     throw new Exception("Confirm Password Failed");
                 }
 
-                var account = await _accountService.GetUserByUsernameAsync(Username);
+                var account = await DatabaseService.recyclerService.GetUserByUsernameAsync(Username);
 
                 if (Username != UserSessionService.Account.Username)
                 {
@@ -157,6 +155,11 @@ namespace PiringPeduliWPF.ViewModel
                     throw new Exception("Please change your password");
                 }
 
+                if (Lat == null || Lon == null)
+                {
+                    throw new Exception("Please choose a location");
+                }
+
                 Recycler updatedAccount = new Recycler
                 {
                     Username = Username,
@@ -164,11 +167,11 @@ namespace PiringPeduliWPF.ViewModel
                     Type = UserSessionService.Account.Type,
                     RecyclerName = RecyclerName,
                     RecyclerAddress = RecyclerAddress,
-                    Lat = Lat,
-                    Lon = Long
+                    Lat = (double)Lat,
+                    Lon = (double)Lon
                 };
 
-                var success = await _accountService.UpdateRecycler(UserSessionService.Account.Username, updatedAccount);
+                var success = await DatabaseService.recyclerService.UpdateRecycler(UserSessionService.Account.Username, updatedAccount);
                 if (success)
                 {
                     MessageBox.Show($"Update done, navigate to Login", "Update Account Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -211,7 +214,7 @@ namespace PiringPeduliWPF.ViewModel
                     throw new Exception("Validation failed");
                 }
 
-                var success = await _accountService.DeleteRecycler(Username);
+                var success = await DatabaseService.recyclerService.RemoveAccountByUsernameAsync(Username);
                 if (success)
                 {
                     MessageBox.Show($"Delete done, navigate to Login", "Delete Account Succeed", MessageBoxButton.OK, MessageBoxImage.Information);

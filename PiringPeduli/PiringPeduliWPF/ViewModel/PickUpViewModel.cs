@@ -3,6 +3,7 @@ using PiringPeduliClass.Service;
 using PiringPeduliWPF.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -14,21 +15,51 @@ namespace PiringPeduliWPF.ViewModel
 {
     public class PickUpViewModel:ViewModelBase
     {
-        private readonly OrderService _orderService;
+
+        private ObservableCollection<TemporaryStorage> _temporaryStorages;
+        private string _sizeStr;
+        private string _description = "Enter your description...";
+
+        public ObservableCollection<TemporaryStorage> TemporaryStorages
+        {
+            get => _temporaryStorages;
+            set
+            {
+                _temporaryStorages = value;
+                OnPropertyChanged(nameof(TemporaryStorages));
+            }
+        }
+
+        public string SizeStr
+        {
+            get => _sizeStr;
+            set {
+                _sizeStr = value;
+                OnPropertyChanged(nameof(SizeStr));
+            }
+        }
+
+        public string Description
+        {
+            get => _description;
+            set
+            {
+                _description = value;
+                OnPropertyChanged(Description);
+            }
+        }
 
         public PickUpViewModel()
         {
             OrderCommand = new ViewModeCommand(Order);
+            LoadTemporaryStorageCommand = new ViewModeCommand(async _ => await LoadTemporaryStorageAsync());
+
+            TemporaryStorages = new ObservableCollection<TemporaryStorage>();
         }
 
-        public PickUpViewModel(OrderService orderService) 
-        {
-            _orderService = orderService;
-
-            OrderCommand = new ViewModeCommand(Order);
-        }
 
         public ICommand OrderCommand { get; }
+        public ICommand LoadTemporaryStorageCommand { get; }
 
         private async void Order(object obj)
         {
@@ -36,8 +67,12 @@ namespace PiringPeduliWPF.ViewModel
             {
                 if (UserSessionService.Account.Lat != 0.0)
                 {
-
-                    bool isOrderCreated = await _orderService.CreateOrderCustomerAsync(StatusType.Processing, UserSessionService.Account, "TES2");
+                    if (SizeStr ==  null)
+                    {
+                        throw new Exception("Size is required");
+                    }
+                    PiringPeduliClass.Model.Size size = (PiringPeduliClass.Model.Size)Enum.Parse(typeof(PiringPeduliClass.Model.Size), SizeStr);
+                    bool isOrderCreated = await DatabaseService.orderService.CreateOrderCustomerAsync(StatusType.Processing, UserSessionService.Account, Description, size);
 
                     if (!isOrderCreated)
                     {
@@ -56,6 +91,27 @@ namespace PiringPeduliWPF.ViewModel
             {
                 // Handle any errors and provide feedback to the user
                 MessageBox.Show($"An error occurred: {ex.Message}", "Order Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+            }   
+        }
+
+        private async Task LoadTemporaryStorageAsync()
+        {
+            try
+            {
+
+                var storages = await DatabaseService.temporaryStorageService.GetAllTemporaryStorageAsync();
+
+                TemporaryStorages.Clear();
+                foreach (var storage in storages)
+                {
+                    TemporaryStorages.Add(storage);
+
+                    //Debug.WriteLine(TemporaryStorages[0]);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to load temporary storages: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

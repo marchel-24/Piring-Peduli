@@ -16,8 +16,6 @@ namespace PiringPeduliWPF.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-        private readonly AccountService _accountService;
-        private readonly NavigationService _navigationService;
 
         private string _username;
         private string _password;
@@ -48,12 +46,6 @@ namespace PiringPeduliWPF.ViewModel
         public LoginViewModel()
         {
             LoginCommand = new ViewModeCommand(Login);
-        }
-
-        public LoginViewModel(AccountService accountService)
-        {
-            _accountService = accountService;
-            LoginCommand = new ViewModeCommand(Login);
             NavigateSignUpCommand = new ViewModeCommand(NavigateSignUp);
         }
 
@@ -73,7 +65,7 @@ namespace PiringPeduliWPF.ViewModel
                 }
 
                 // Attempt login asynchronously
-                var account = await _accountService.Login(Username, Password);
+                var account = await DatabaseService.accountService.Login(Username, Password);
 
                 if (account != null)
                 {

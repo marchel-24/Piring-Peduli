@@ -139,26 +139,5 @@ namespace PiringPeduliClass.Repository
                 }
             }
         }
-
-        public async Task<bool> DeleteCourierByAccountID(int accountID)
-        {
-            try
-            {
-                using (var connection = new NpgsqlConnection(_connectionString))
-                {
-                    string query = "DELETE FROM courier WHERE accountid = @accountid";
-
-                    using (var command = new NpgsqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@accountid", accountID);
-                    }
-                }
-
-                Debug.WriteLine("Dapat dihapus");
-                return true;
-            }
-            catch (Exception ex)
-            { return false; }
-        }
     }
 }

@@ -29,13 +29,7 @@ namespace PiringPeduliWPF.View.UserControls
         public UpdateProfileCourier()
         {
             InitializeComponent();
-
-            string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
-
-            // Pass the connection string to the UserRepository and UserService
-            var courierRepository = new CourierRepository(connectionString);
-            var userService = new CourierService(courierRepository);
-            DataContext = new UpdateProfileCourierViewModel(userService);
+            DataContext = new UpdateProfileCourierViewModel();
             //Debug.Print((UpdateProfileViewModel)DataContext.));
         }
 

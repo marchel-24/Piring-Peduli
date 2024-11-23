@@ -16,7 +16,6 @@ namespace PiringPeduliWPF.ViewModel
 {
     public class UpdateProfileCustomerViewModel : ViewModelBase
     {
-        private readonly CustomerService _accountService;
 
         private string _username;
         private string _password;
@@ -24,8 +23,8 @@ namespace PiringPeduliWPF.ViewModel
         private string _customerInstance;
         private string _customerAddress;
         private string _confirmPassword;
-        private double lat;
-        private double lon;
+        private double? lat = null;
+        private double? lon = null;
 
         public string Username
         {
@@ -87,7 +86,7 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
-        public double Lat
+        public double? Lat
         {
             get => lat;
             set
@@ -97,7 +96,7 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
-        public double Lon
+        public double? Lon
         {
             get => lon;
             set
@@ -112,9 +111,8 @@ namespace PiringPeduliWPF.ViewModel
         public ICommand CancelCommand { get; }
 
 
-        public UpdateProfileCustomerViewModel(CustomerService accountService)
+        public UpdateProfileCustomerViewModel()
         {
-            _accountService = accountService;
             UpdateCommand = new ViewModeCommand(Update);
             DeleteCommand = new ViewModeCommand(Delete);
         }
@@ -161,7 +159,7 @@ namespace PiringPeduliWPF.ViewModel
                     throw new Exception("Confirm Password Failed");
                 }
 
-                var account = await _accountService.GetUserByUsernameAsync(Username);
+                var account = await DatabaseService.customerService.GetUserByUsernameAsync(Username);
 
                 if (Username != UserSessionService.Account.Username)
                 {
@@ -176,6 +174,11 @@ namespace PiringPeduliWPF.ViewModel
                     throw new Exception("Please change your password");
                 }
 
+                if(Lat == null || Lon == null)
+                {
+                    throw new Exception("Please choose a location");
+                }
+
                 Customer updatedAccount = new Customer
                 {
                     Username = Username,
@@ -184,11 +187,11 @@ namespace PiringPeduliWPF.ViewModel
                     CustomerInstance = CustomerInstance,
                     Type = UserSessionService.Account.Type,
                     CustomerAddress = CustomerAddress,
-                    Lat = Lat,
-                    Lon = Lon
+                    Lat = (double)Lat,
+                    Lon = (double)Lon
                 };
 
-                var success = await _accountService.UpdateCustomerAsync(UserSessionService.Account.Username, updatedAccount);
+                var success = await DatabaseService.customerService.UpdateCustomerAsync(UserSessionService.Account.Username, updatedAccount);
                 if (success)
                 {
                     MessageBox.Show($"Update done, navigate to Login", "Update Account Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -232,7 +235,7 @@ namespace PiringPeduliWPF.ViewModel
                     throw new Exception("Validation failed");
                 }
 
-                var success = await _accountService.DeleteCustomer(Username);
+                var success = await DatabaseService.customerService.RemoveAccountByUsernameAsync(Username);
                 if (success)
                 {
                     MessageBox.Show($"Delete done, navigate to Login", "Delete Account Succeed", MessageBoxButton.OK, MessageBoxImage.Information);

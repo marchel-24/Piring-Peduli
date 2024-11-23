@@ -31,13 +31,7 @@ namespace PiringPeduliWPF.View.UserControls
         public UpdateProfileRecycler()
         {
             InitializeComponent();
-
-            string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
-
-            // Pass the connection string to the UserRepository and UserService
-            var recyclerRepository = new RecyclerRepository(connectionString);
-            var recycleService = new RecyclerService(recyclerRepository);
-            DataContext = new UpdateProfileRecyclerViewModel(recycleService);
+            DataContext = new UpdateProfileRecyclerViewModel();
             //Debug.Print((UpdateProfileViewModel)DataContext.));
             var apiKey = ConfigurationManager.AppSettings["BingMapsApiKey"];
             if (string.IsNullOrEmpty(apiKey))
@@ -98,7 +92,7 @@ namespace PiringPeduliWPF.View.UserControls
             if (DataContext is UpdateProfileRecyclerViewModel viewModel)
             {
                 viewModel.Lat = pinLocation.Latitude;
-                viewModel.Long = pinLocation.Longitude;
+                viewModel.Lon = pinLocation.Longitude;
             }
 
             // Tambahkan atau pindahkan pin ke lokasi yang diklik

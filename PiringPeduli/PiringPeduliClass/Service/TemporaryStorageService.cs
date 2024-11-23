@@ -76,5 +76,26 @@ namespace PiringPeduliClass.Service
             }
         }
 
+        public async Task<List<TemporaryStorage>> GetAllTemporaryStorageAsync()
+        {
+            try
+            {
+                // Fetch all temporary storage data using the repository
+                var temporaryStorageList = await _temporaryStorageRepository.GetAllTemporaryStorageAsync();
+
+                if (temporaryStorageList == null || !temporaryStorageList.Any())
+                {
+                    throw new Exception("No temporary storage data found.");
+                }
+
+                return temporaryStorageList;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error retrieving temporary storage data: {ex.Message}");
+            }
+        }
+
+
     }
 }

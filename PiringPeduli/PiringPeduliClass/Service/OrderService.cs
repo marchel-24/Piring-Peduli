@@ -12,18 +12,13 @@ namespace PiringPeduliClass.Service
         private readonly OrderRepository _orderRepository;
         private readonly AccountRepository _accountRepository;
 
-        public OrderService(OrderRepository orderRepository)
-        {
-            _orderRepository = orderRepository;
-        }
-
         public OrderService(OrderRepository orderRepository, AccountRepository accountRepository)
         {
             _orderRepository = orderRepository;
             _accountRepository = accountRepository;
         }
 
-        public async Task<bool> CreateOrderCustomerAsync(StatusType status, Account source, string description)
+        public async Task<bool> CreateOrderCustomerAsync(StatusType status, Account source, string description, Size size)
         {
             try
             {
@@ -39,7 +34,8 @@ namespace PiringPeduliClass.Service
                     Status = status,
                     Source = source.AccountId,
                     Destination = destinationAccount.AccountId,
-                    Description = description
+                    Description = description,
+                    Size = size
                 };
 
                 // Add the order asynchronously
@@ -85,6 +81,12 @@ namespace PiringPeduliClass.Service
         public List<Order> GetOrderById(int sourceorderId)
         {
             List<Order> orders = _orderRepository.GetOrdersBySourceId(sourceorderId);
+            return orders;
+        }
+
+        public List<Order> GetOrders()
+        {
+            List<Order> orders = _orderRepository.GetAllDetailedOrders();
             return orders;
         }
     }

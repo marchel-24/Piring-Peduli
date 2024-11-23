@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PiringPeduliWPF.View.Component;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,31 @@ namespace PiringPeduliWPF.View.UserControls
         public RecyclerView()
         {
             InitializeComponent();
+            LoadSorted();
+        }
+
+        private void ArrowIcon_Click(object sender, MouseButtonEventArgs e)
+        {
+            //MessageBox.Show("Arrow icon clicked!");
+            QuestionComboBox.IsDropDownOpen = !QuestionComboBox.IsDropDownOpen;
+        }
+
+        private void LoadSorted()
+        {
+            var Data = new[]
+            {
+                new{TypeSorted = "Liquid", Size = "Small", Address = "Jalan Duku"},
+                new{TypeSorted = "Leaves", Size = "Large", Address = "Jalan Duku"}
+            };
+
+            foreach (var item in Data)
+            {
+                var container = new RecyclerContainer
+                {
+                    DataContext = item
+                };
+                SortedList.Children.Add(container);
+            }
         }
     }
 }

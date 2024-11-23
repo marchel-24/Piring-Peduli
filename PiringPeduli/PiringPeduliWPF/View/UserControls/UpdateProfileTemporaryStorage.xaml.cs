@@ -31,13 +31,7 @@ namespace PiringPeduliWPF.View.UserControls
         public UpdateProfileTemporaryStorage()
         {
             InitializeComponent();
-
-            string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
-
-            // Pass the connection string to the UserRepository and UserService
-            var userRepository = new TemporaryStorageRepository(connectionString);
-            var userService = new TemporaryStorageService(userRepository);
-            DataContext = new UpdateProfileStorageViewModel(userService);
+            DataContext = new UpdateProfileStorageViewModel();
             //Debug.Print((UpdateProfileViewModel)DataContext.));
 
             var apiKey = ConfigurationManager.AppSettings["BingMapsApiKey"];

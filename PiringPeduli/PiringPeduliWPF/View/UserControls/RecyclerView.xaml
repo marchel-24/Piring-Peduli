@@ -7,41 +7,91 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.9*"/>
+        </Grid.RowDefinitions>
 
-    <StackPanel Margin="10,50,10,10">
-        <Border Background="#D3D3D3" CornerRadius="10" Padding="10" Margin="0,0,0,10">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+        <!-- ComboBox -->
+        <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="13">
+            <ComboBox Background="White"
+                      x:Name="QuestionComboBox"
+                      FontSize="11"
+                      FontWeight="Medium"
+                      FontFamily="Gilroy"
+                      HorizontalAlignment="Left"
+                      Height="30"
+                      Width="200"
+                      VerticalContentAlignment="Center">
+                <ComboBox.Style>
+                    <Style TargetType="ComboBox">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ComboBox">
+                                    <Grid>
+                                        <!-- Border around ComboBox -->
+                                        <Border x:Name="Border"
+                                                Background="White"
+                                                BorderBrush="Gray"
+                                                BorderThickness="1"
+                                                CornerRadius="8"
+                                                MouseLeftButtonDown="ArrowIcon_Click">
+                                            <!-- Content Presenter for selected item -->
+                                            <ContentPresenter HorizontalAlignment="Left"
+                                                              VerticalAlignment="Center"
+                                                              Margin="5,0,0,0"
+                                                              IsHitTestVisible="False"
+                                                              Content="{TemplateBinding SelectionBoxItem}" />
+                                        </Border>
 
-                <TextBlock Text="Type" 
-                       FontSize="16" 
-                       VerticalAlignment="Center" 
-                       HorizontalAlignment="Left"/>
-                <TextBlock Text="Berat" 
-                       Grid.Column="1" 
-                       FontSize="16" 
-                       VerticalAlignment="Center" 
-                       HorizontalAlignment="Left"/>
-                <TextBlock Text="Alamat"
-                           Grid.Column="2"
-                           FontSize="16"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Left"/>
-                <Button Grid.Column="3"
-                        Width="120"
-                        Height="40"
-                        Content="Order"
-                        Background="Green"
-                        Foreground="White"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Center"/>   
-            </Grid>
-        </Border>
+                                        <!-- Down Arrow Icon (without ToggleButton) -->
+                                        <Path x:Name="ArrowIcon"
+                                              Data="M 0 0 L 4 4 L 8 0 Z"
+                                              Fill="Black"
+                                              Width="8"
+                                              Height="8"
+                                              HorizontalAlignment="Right"
+                                              VerticalAlignment="Center"
+                                              Margin="0,0,10,0"
+                                              MouseLeftButtonDown="ArrowIcon_Click"/>
 
-    </StackPanel>
+                                        <!-- Dropdown Popup -->
+                                        <Popup x:Name="PART_Popup"
+                                               Placement="Bottom"
+                                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                                               AllowsTransparency="True"
+                                               Focusable="False"
+                                               PopupAnimation="Slide">
+                                            <Border x:Name="DropDownBorder"
+                                                    CornerRadius="8"
+                                                    BorderBrush="Gray"
+                                                    BorderThickness="1"
+                                                    Background="White">
+                                                <ScrollViewer>
+                                                    <StackPanel IsItemsHost="True"
+                                                    KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                                </ScrollViewer>
+                                            </Border>
+                                        </Popup>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ComboBox.Style>
+
+                <!-- ComboBox Items -->
+                <ComboBoxItem Content="Liquid"/>
+                <ComboBoxItem Content="Meat"/>
+                <ComboBoxItem Content="Other"/>
+                <ComboBoxItem Content="Leaves"/>
+            </ComboBox>
+        </Viewbox>
+        
+
+        <!-- StackPanel -->
+        <StackPanel Margin="10" Grid.Row="1" Name="SortedList">
+        </StackPanel>
+    </Grid>
 </UserControl>
