@@ -71,5 +71,66 @@ namespace PiringPeduliClass.Repository
                 return false;
             }
         }
+
+        public async Task<List<TemporaryStorage>> GetAllTemporaryStorageAsync()
+        {
+            var temporaryStorageList = new List<TemporaryStorage>();
+
+            try
+            {
+                using (var connection = new NpgsqlConnection(_connectionString))
+                {
+                    await connection.OpenAsync();
+
+                    string query = @"
+                    SELECT 
+                        ts.storageid,
+                        ts.storageaddress,
+                        ts.accountid,
+                        ts.storagename,
+                        a.username,
+                        a.password,
+                        a.type,
+                        a.lat,
+                        a.lon
+                    FROM 
+                        temporarystorage ts
+                    INNER JOIN 
+                        account a
+                    ON 
+                        ts.accountid = a.accountid";
+
+                    using (var command = new NpgsqlCommand(query, connection))
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var temporaryStorage = new TemporaryStorage
+                            {
+                                StorageId = reader.GetInt32(0),
+                                StorageAddress = reader.GetString(1),
+                                AccountId = reader.GetInt32(2),
+                                StorageName = reader.GetString(3),
+                                Username = reader.GetString(4),
+                                Password = reader.GetString(5),
+                                Type = (AccountType)Enum.Parse(typeof(AccountType), reader.GetString(6)),
+                                Lat = reader.GetDouble(7),
+                                Lon = reader.GetDouble(8)
+                            };
+
+                            temporaryStorageList.Add(temporaryStorage);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.Print($"Error fetching temporary storage with account: {ex.Message}");
+            }
+
+            return temporaryStorageList;
+        }
+
+
     }
 }

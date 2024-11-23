@@ -67,11 +67,12 @@
         <!-- MapView Placeholder -->
         <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Margin="20,20,20,20" VerticalAlignment="Top" Height="400">
             <StackPanel Margin="0">
-                <m:Map x:Name="BingMap" 
-                CredentialsProvider="Ukvn2x9fOIi94SdkUHg3~9wMsqEevY0pBK0FXcu7a4w~AtShfaln4nbX5fauwr5cQq8u2iZVFWj8xGijPvKbetae5Hu0JJEiH_xbFtVROl76"
+                <m:Map x:Name="BingMap"
                 Height="399"
                 Center="-7.771317095452585, 110.37772145337762"
-                ZoomLevel="13"/>
+                ZoomLevel="13">
+                    <m:MapLayer x:Name="PinLayer" />
+                </m:Map>
             </StackPanel>
         </Border>
 

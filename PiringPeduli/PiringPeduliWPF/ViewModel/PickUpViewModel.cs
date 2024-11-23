@@ -3,6 +3,7 @@ using PiringPeduliClass.Service;
 using PiringPeduliWPF.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -15,20 +16,40 @@ namespace PiringPeduliWPF.ViewModel
     public class PickUpViewModel:ViewModelBase
     {
         private readonly OrderService _orderService;
+        private readonly TemporaryStorageService _temporaryStorageService;
+
+        private ObservableCollection<TemporaryStorage> _temporaryStorages;
+        public ObservableCollection<TemporaryStorage> TemporaryStorages
+        {
+            get => _temporaryStorages;
+            set
+            {
+                _temporaryStorages = value;
+                OnPropertyChanged(nameof(TemporaryStorages));
+            }
+        }
 
         public PickUpViewModel()
         {
             OrderCommand = new ViewModeCommand(Order);
         }
 
-        public PickUpViewModel(OrderService orderService) 
+        // Constructor for Dependency Injection
+        public PickUpViewModel(OrderService orderService, TemporaryStorageService temporaryStorageService)
         {
             _orderService = orderService;
+            _temporaryStorageService = temporaryStorageService;
 
             OrderCommand = new ViewModeCommand(Order);
+            LoadTemporaryStorageCommand = new ViewModeCommand(async _ => await LoadTemporaryStorageAsync());
+
+            TemporaryStorages = new ObservableCollection<TemporaryStorage>();
+
         }
 
+
         public ICommand OrderCommand { get; }
+        public ICommand LoadTemporaryStorageCommand { get; }
 
         private async void Order(object obj)
         {
@@ -56,6 +77,27 @@ namespace PiringPeduliWPF.ViewModel
             {
                 // Handle any errors and provide feedback to the user
                 MessageBox.Show($"An error occurred: {ex.Message}", "Order Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+            }   
+        }
+
+        private async Task LoadTemporaryStorageAsync()
+        {
+            try
+            {
+
+                var storages = await _temporaryStorageService.GetAllTemporaryStorageAsync();
+
+                TemporaryStorages.Clear();
+                foreach (var storage in storages)
+                {
+                    TemporaryStorages.Add(storage);
+
+                    //Debug.WriteLine(TemporaryStorages[0]);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to load temporary storages: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
