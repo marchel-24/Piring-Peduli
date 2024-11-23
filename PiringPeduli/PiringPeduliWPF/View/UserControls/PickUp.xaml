@@ -179,8 +179,8 @@
                              Margin="3" LostFocus="DescriptionBox_LostFocus" GotFocus="DescriptionBox_GotFocus"
                              />
                 </Border>
-                
-                         
+
+
 
                 <Button 
                         Width="100"
@@ -193,11 +193,6 @@
                         Command="{Binding OrderCommand}"/>
             </StackPanel>
 
-            <!-- TextBox for weight input -->
-                
-
-                <!-- Button for order submission -->
-            
         </Viewbox>
         
     </Grid>
