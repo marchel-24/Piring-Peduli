@@ -20,8 +20,8 @@ namespace PiringPeduliWPF.ViewModel
         private string _recyclerName;
         private string _recycleraddress;
         private string _confirmPassword;
-        private double lat;
-        private double lon;
+        private double? lat;
+        private double? lon;
 
         public string Username
         {
@@ -73,7 +73,7 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
-        public double Lat
+        public double? Lat
         {
             get => lat;
             set
@@ -83,13 +83,13 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
-        public double Long
+        public double? Lon
         {
             get => lon;
             set
             {
                 lon = value;
-                OnPropertyChanged(nameof(Long));
+                OnPropertyChanged(nameof(Lon));
             }
         }
 
@@ -157,6 +157,11 @@ namespace PiringPeduliWPF.ViewModel
                     throw new Exception("Please change your password");
                 }
 
+                if (Lat == null || Lon == null)
+                {
+                    throw new Exception("Please choose a location");
+                }
+
                 Recycler updatedAccount = new Recycler
                 {
                     Username = Username,
@@ -164,8 +169,8 @@ namespace PiringPeduliWPF.ViewModel
                     Type = UserSessionService.Account.Type,
                     RecyclerName = RecyclerName,
                     RecyclerAddress = RecyclerAddress,
-                    Lat = Lat,
-                    Lon = Long
+                    Lat = (double)Lat,
+                    Lon = (double)Lon
                 };
 
                 var success = await _accountService.UpdateRecycler(UserSessionService.Account.Username, updatedAccount);

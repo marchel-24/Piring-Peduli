@@ -20,8 +20,8 @@ namespace PiringPeduliWPF.ViewModel
         private string _storagename;
         private string _storageaddress;
         private string _confirmPassword;
-        private double lat;
-        private double lon;
+        private double? lat;
+        private double? lon;
 
         public string Username
         {
@@ -73,7 +73,7 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
-        public double Lat
+        public double? Lat
         {
             get => lat;
             set
@@ -83,7 +83,7 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
-        public double Lon
+        public double? Lon
         {
             get => lon;
             set
@@ -156,6 +156,11 @@ namespace PiringPeduliWPF.ViewModel
                     throw new Exception("Please change your password");
                 }
 
+                if (Lat == null || Lon == null)
+                {
+                    throw new Exception("Please choose a location");
+                }
+
                 TemporaryStorage updatedAccount = new TemporaryStorage
                 {
                     Username = Username,
@@ -163,8 +168,8 @@ namespace PiringPeduliWPF.ViewModel
                     Type = UserSessionService.Account.Type,
                     StorageName = StorageName,
                     StorageAddress = StorageAddress,
-                    Lat = Lat,
-                    Lon = Lon
+                    Lat = (double)Lat,
+                    Lon = (double)Lon
                 };
 
                 var success = await _accountService.UpdateTempStorage(UserSessionService.Account.Username, updatedAccount);

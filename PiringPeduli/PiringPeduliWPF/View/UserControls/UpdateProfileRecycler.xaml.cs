@@ -98,7 +98,7 @@ namespace PiringPeduliWPF.View.UserControls
             if (DataContext is UpdateProfileRecyclerViewModel viewModel)
             {
                 viewModel.Lat = pinLocation.Latitude;
-                viewModel.Long = pinLocation.Longitude;
+                viewModel.Lon = pinLocation.Longitude;
             }
 
             // Tambahkan atau pindahkan pin ke lokasi yang diklik
