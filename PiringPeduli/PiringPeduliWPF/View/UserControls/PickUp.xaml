@@ -84,6 +84,7 @@
             <StackPanel Orientation="Vertical" Height="300" Width="800">
                 <ComboBox Background="White"
                           x:Name="QuestionComboBox"
+                          SelectionChanged="QuestionComboBox_SelectionChanged"
                           FontSize="11"
                           FontWeight="Medium"
                           FontFamily="Gilroy"
@@ -171,10 +172,11 @@
                              Height="Auto"
                              TextWrapping="Wrap"
                              AcceptsReturn="True"
-                             Text="Enter your description..."
+                             Foreground="Gray"
+                             Text="{Binding Description}"
                              FontFamily="Gilroy"
                              FontWeight="Normal"
-                             Margin="3"
+                             Margin="3" LostFocus="DescriptionBox_LostFocus" GotFocus="DescriptionBox_GotFocus"
                              />
                 </Border>
                 

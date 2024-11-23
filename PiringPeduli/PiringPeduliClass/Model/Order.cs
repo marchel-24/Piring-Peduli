@@ -11,12 +11,23 @@ namespace PiringPeduliClass.Model
     }
 
     /// <summary>
+    /// Enumeration for types of accounts
+    /// </summary>
+    public enum Size
+    {
+        Small,
+        Medium,
+        Large
+    }
+
+    /// <summary>
     /// Represents an order in the system.
     /// </summary>
     public class Order
     {
         private int orderId;
         private StatusType status;
+        private Size size;
         private int sourceAccountId;
         private int destinationAccountId;
         private int courierAccountId;
@@ -71,6 +82,12 @@ namespace PiringPeduliClass.Model
         {
             get { return description; }
             set { description = value; }
+        }
+
+        public Size Size
+        {
+            get { return size; }
+            set { size = value; }
         }
 
         /// <summary>

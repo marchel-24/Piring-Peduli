@@ -75,7 +75,7 @@ namespace PiringPeduliWPF.View.UserControls
         {
             try
             {
-                
+
                 if (DataContext is PickUpViewModel viewModel)
                 {
                     // Fetch temporary storage data
@@ -123,5 +123,18 @@ namespace PiringPeduliWPF.View.UserControls
             }
         }
 
+        private void QuestionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Ambil pilihan yang dipilih dari ComboBox
+            ComboBoxItem selectedItem = (ComboBoxItem)QuestionComboBox.SelectedItem;
+            string selectedOption = selectedItem.Content.ToString();
+
+            Debug.WriteLine(selectedOption);
+
+            if (DataContext is PickUpViewModel viewModel)
+            {
+                viewModel.SizeStr = selectedOption;
+            }
+        }
     }
 }

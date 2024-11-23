@@ -23,12 +23,13 @@ namespace PiringPeduliClass.Repository
                 {
                     await connection.OpenAsync(); // Use async version for opening the connection
 
-                    string query = "INSERT INTO Orders (status, sourceid, destinationid, courierid, description) " +
-                                   "VALUES (@Status::status, @SourceAccountId, @DestinationAccountId, @CourierAccountId, @Description)";
+                    string query = "INSERT INTO Orders (status, sourceid, destinationid, courierid, description, size) " +
+                                   "VALUES (@Status::status, @SourceAccountId, @DestinationAccountId, @CourierAccountId, @Description, @Size::size)";
 
                     using (var command = new NpgsqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Status", order.Status.ToString());
+                        command.Parameters.AddWithValue("@Size", order.Size.ToString());
                         command.Parameters.AddWithValue("@SourceAccountId", order.Source);
                         command.Parameters.AddWithValue("@DestinationAccountId", order.Destination);
 

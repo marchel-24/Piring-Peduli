@@ -19,6 +19,9 @@ namespace PiringPeduliWPF.ViewModel
         private readonly TemporaryStorageService _temporaryStorageService;
 
         private ObservableCollection<TemporaryStorage> _temporaryStorages;
+        private string _sizeStr;
+        private string _description = "Enter your description...";
+
         public ObservableCollection<TemporaryStorage> TemporaryStorages
         {
             get => _temporaryStorages;
@@ -26,6 +29,25 @@ namespace PiringPeduliWPF.ViewModel
             {
                 _temporaryStorages = value;
                 OnPropertyChanged(nameof(TemporaryStorages));
+            }
+        }
+
+        public string SizeStr
+        {
+            get => _sizeStr;
+            set {
+                _sizeStr = value;
+                OnPropertyChanged(nameof(SizeStr));
+            }
+        }
+
+        public string Description
+        {
+            get => _description;
+            set
+            {
+                _description = value;
+                OnPropertyChanged(Description);
             }
         }
 
@@ -57,8 +79,12 @@ namespace PiringPeduliWPF.ViewModel
             {
                 if (UserSessionService.Account.Lat != 0.0)
                 {
-
-                    bool isOrderCreated = await _orderService.CreateOrderCustomerAsync(StatusType.Processing, UserSessionService.Account, "TES2");
+                    if (SizeStr ==  null)
+                    {
+                        throw new Exception("Size is required");
+                    }
+                    PiringPeduliClass.Model.Size size = (PiringPeduliClass.Model.Size)Enum.Parse(typeof(PiringPeduliClass.Model.Size), SizeStr);
+                    bool isOrderCreated = await _orderService.CreateOrderCustomerAsync(StatusType.Processing, UserSessionService.Account, Description, size);
 
                     if (!isOrderCreated)
                     {

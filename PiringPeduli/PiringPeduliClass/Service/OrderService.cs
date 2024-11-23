@@ -23,7 +23,7 @@ namespace PiringPeduliClass.Service
             _accountRepository = accountRepository;
         }
 
-        public async Task<bool> CreateOrderCustomerAsync(StatusType status, Account source, string description)
+        public async Task<bool> CreateOrderCustomerAsync(StatusType status, Account source, string description, Size size)
         {
             try
             {
@@ -39,7 +39,8 @@ namespace PiringPeduliClass.Service
                     Status = status,
                     Source = source.AccountId,
                     Destination = destinationAccount.AccountId,
-                    Description = description
+                    Description = description,
+                    Size = size
                 };
 
                 // Add the order asynchronously
