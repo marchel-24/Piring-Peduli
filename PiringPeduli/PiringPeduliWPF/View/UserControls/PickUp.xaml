@@ -62,8 +62,11 @@
         </Style>
     </UserControl.Resources>
     <Grid Margin="10">
-        
-        
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
+        </Grid.RowDefinitions>
         <!-- MapView Placeholder -->
         <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Margin="20,20,20,20" VerticalAlignment="Top" Height="400">
             <StackPanel Margin="0">
@@ -77,36 +80,123 @@
         </Border>
 
         <!-- Layout with Grid to align TextBox and Button -->
-        <Grid VerticalAlignment="Bottom" Margin="50,0,50,50" HorizontalAlignment="Left">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150"/>
-                <!-- TextBox Column -->
-                <ColumnDefinition Width="350"/>
-                <!-- Spacer -->
-                <ColumnDefinition Width="100"/>
-                <!-- Button Column -->
-            </Grid.ColumnDefinitions>
+        <Viewbox Grid.Row="1" Stretch="Uniform">
+            <StackPanel Orientation="Vertical" Height="300" Width="800">
+                <ComboBox Background="White"
+                          x:Name="QuestionComboBox"
+                          FontSize="11"
+                          FontWeight="Medium"
+                          FontFamily="Gilroy"
+                          HorizontalAlignment="Left"
+                          Height="40"
+                          Width="150"
+                          VerticalContentAlignment="Center"
+                          Margin="10">
+                    <ComboBox.Style>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ComboBox">
+                                        <Grid>
+                                            <!-- Border around ComboBox -->
+                                            <Border x:Name="Border"
+                                                    Background="White"
+                                                    BorderBrush="Gray"
+                                                    BorderThickness="1"
+                                                    CornerRadius="8"
+                                                    MouseLeftButtonDown="ArrowIcon_Click">
+                                                <!-- Content Presenter for selected item -->
+                                                <ContentPresenter HorizontalAlignment="Left"
+                                                                  VerticalAlignment="Center"
+                                                                  Margin="5,0,0,0"
+                                                                  IsHitTestVisible="False"
+                                                                  Content="{TemplateBinding SelectionBoxItem}" />
+                                            </Border>
+
+                                            <!-- Down Arrow Icon (without ToggleButton) -->
+                                            <Path x:Name="ArrowIcon"
+                                                  Data="M 0 0 L 4 4 L 8 0 Z"
+                                                  Fill="Black"
+                                                  Width="8"
+                                                  Height="8"
+                                                  HorizontalAlignment="Right"
+                                                  VerticalAlignment="Center"
+                                                  Margin="0,0,10,0"
+                                                  MouseLeftButtonDown="ArrowIcon_Click"/>
+
+                                            <!-- Dropdown Popup -->
+                                            <Popup x:Name="PART_Popup"
+                                                   Placement="Bottom"
+                                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                                   AllowsTransparency="True"
+                                                   Focusable="False"
+                                                   PopupAnimation="Slide">
+                                                <Border x:Name="DropDownBorder"
+                                                        CornerRadius="8"
+                                                        BorderBrush="Gray"
+                                                        BorderThickness="1"
+                                                        Background="White">
+                                                    <ScrollViewer>
+                                                        <StackPanel IsItemsHost="True"
+                                                                    KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                                    </ScrollViewer>
+                                                </Border>
+                                            </Popup>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ComboBox.Style>
+
+                    <!-- ComboBox Items -->
+                    <ComboBoxItem Content="Small"/>
+                    <ComboBoxItem Content="Medium"/>
+                    <ComboBoxItem Content="Large"/>
+                </ComboBox>
+
+                <Border CornerRadius="10" 
+                        Background="White" 
+                        Height="150" 
+                        Width="780" 
+                        Margin="10" 
+                        HorizontalAlignment="Left"
+                        BorderBrush="Gray"
+                        BorderThickness="1">
+                    <TextBox x:Name="DescriptionBox"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"
+                             VerticalContentAlignment="Top"
+                             HorizontalContentAlignment="Left"
+                             Height="Auto"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             Text="Enter your description..."
+                             FontFamily="Gilroy"
+                             FontWeight="Normal"
+                             Margin="3"
+                             />
+                </Border>
+                
+                         
+
+                <Button 
+                        Width="100"
+                        Height="40"
+                        Content="Order"
+                        Background="Green"
+                        Foreground="White"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"
+                        Command="{Binding OrderCommand}"/>
+            </StackPanel>
 
             <!-- TextBox for weight input -->
-            <TextBox x:Name="tbPostContent"
-             VerticalScrollBarVisibility="auto"
-             HorizontalAlignment="Stretch"
-             TextWrapping="Wrap"
-             AcceptsReturn="True"
-             Tag="Weight"
-             Style="{StaticResource TextBoxStyle}"
-             Margin="5"/>   
+                
 
-            <!-- Button for order submission -->
-            <Button Grid.Column="2"
-                    Width="100"
-                    Height="40"
-                    Content="Order"
-                    Background="Green"
-                    Foreground="White"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Left"
-                    Command="{Binding OrderCommand}"/>
-        </Grid>
+                <!-- Button for order submission -->
+            
+        </Viewbox>
+        
     </Grid>
 </UserControl>

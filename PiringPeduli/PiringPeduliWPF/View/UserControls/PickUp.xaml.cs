@@ -98,5 +98,30 @@ namespace PiringPeduliWPF.View.UserControls
                 MessageBox.Show($"Error loading map pins: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void ArrowIcon_Click(object sender, MouseButtonEventArgs e)
+        {
+            //MessageBox.Show("Arrow icon clicked!");
+            QuestionComboBox.IsDropDownOpen = !QuestionComboBox.IsDropDownOpen;
+        }
+
+        private void DescriptionBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (DescriptionBox.Text == "Enter your description...")
+            {
+                DescriptionBox.Text = string.Empty;
+                DescriptionBox.Foreground = new SolidColorBrush(Colors.Black);  // Warna teks ketika mulai mengetik
+            }
+        }
+
+        private void DescriptionBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(DescriptionBox.Text))
+            {
+                DescriptionBox.Text = "Enter your description...";  // Placeholder
+                DescriptionBox.Foreground = new SolidColorBrush(Colors.Gray);  // Warna placeholder
+            }
+        }
+
     }
 }
