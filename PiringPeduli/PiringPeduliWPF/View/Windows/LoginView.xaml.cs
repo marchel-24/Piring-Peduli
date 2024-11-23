@@ -27,17 +27,13 @@ namespace PiringPeduliWPF.View.Windows
         public LoginView()
         {
             InitializeComponent();
-            string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
-
-            // Pass the connection string to the UserRepository and UserService
-            var userRepository = new AccountRepository(connectionString);
-            var userService = new AccountService(userRepository);
+            
             if (NavigationService.CurrentWindow == null)
             {
 
                 NavigationService.CurrentWindow = this;
             }
-            DataContext = new LoginViewModel(userService);
+            DataContext = new LoginViewModel();
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)

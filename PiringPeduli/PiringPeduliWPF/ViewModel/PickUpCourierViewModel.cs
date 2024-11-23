@@ -12,15 +12,8 @@ namespace PiringPeduliWPF.ViewModel
 {
     public class PickUpCourierViewModel: ViewModelBase
     {
-        private readonly OrderService _orderService;
-
         public PickUpCourierViewModel()
         {
-        }
-
-        public PickUpCourierViewModel(OrderService orderService)
-        {
-            _orderService = orderService;
             _orders = new ObservableCollection<Order>();
             LoadOrder();
         }
@@ -39,7 +32,7 @@ namespace PiringPeduliWPF.ViewModel
 
         private void LoadOrder()
         {
-            var orders = _orderService.GetOrders();
+            var orders = DatabaseService.orderService.GetOrders();
 
             Orders.Clear();
 

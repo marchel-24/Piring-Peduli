@@ -31,12 +31,7 @@ namespace PiringPeduliWPF.View.UserControls
         public PickUpCourier()
         {
             InitializeComponent();
-            string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
-
-            // Pass the connection string to the UserRepository and UserService
-            var orderRepository = new OrderRepository(connectionString);
-            var orderService = new OrderService(orderRepository);
-            DataContext = new PickUpCourierViewModel(orderService);
+            DataContext = new PickUpCourierViewModel();
 
             var apikey = ConfigurationManager.AppSettings["BingMapsApiKey"];
             BingMap.CredentialsProvider = new ApplicationIdCredentialsProvider(apikey);

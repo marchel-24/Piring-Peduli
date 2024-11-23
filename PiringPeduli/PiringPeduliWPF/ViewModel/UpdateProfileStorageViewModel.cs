@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
+using System.Diagnostics;
 
 namespace PiringPeduliWPF.ViewModel
 {
     public class UpdateProfileStorageViewModel:ViewModelBase
     {
-        private readonly TemporaryStorageService _accountService;
 
         private string _username;
         private string _password;
@@ -98,11 +98,10 @@ namespace PiringPeduliWPF.ViewModel
         public ICommand CancelCommand { get; }
 
 
-        public UpdateProfileStorageViewModel(TemporaryStorageService accountService)
+        public UpdateProfileStorageViewModel()
         {
-            _accountService = accountService;
             UpdateCommand = new ViewModeCommand(Update);
-            //DeleteCommand = new ViewModeCommand(Delete);
+            DeleteCommand = new ViewModeCommand(Delete);
         }
 
 
@@ -141,7 +140,7 @@ namespace PiringPeduliWPF.ViewModel
                     throw new Exception("Confirm Password Failed");
                 }
 
-                var account = await _accountService.GetUserByUsernameAsync(Username);
+                var account = await DatabaseService.temporaryStorageService.GetUserByUsernameAsync(Username);
 
                 if (Username != UserSessionService.Account.Username)
                 {
@@ -172,7 +171,7 @@ namespace PiringPeduliWPF.ViewModel
                     Lon = (double)Lon
                 };
 
-                var success = await _accountService.UpdateTempStorage(UserSessionService.Account.Username, updatedAccount);
+                var success = await DatabaseService.temporaryStorageService.UpdateTempStorage(UserSessionService.Account.Username, updatedAccount);
                 if (success)
                 {
                     MessageBox.Show($"Update done, navigate to Login", "Update Account Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -189,6 +188,49 @@ namespace PiringPeduliWPF.ViewModel
                 MessageBox.Show($"An error occurred: {ex.Message}", "Update Account Failed", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
+        }
+
+        private async void Delete(object obj)
+        {
+            try
+            {
+                Debug.WriteLine("alskdnvsv");
+                if (string.IsNullOrWhiteSpace(Username))
+                {
+                    throw new Exception("Username is required.");
+                }
+
+                if (string.IsNullOrWhiteSpace(Password))
+                {
+                    throw new Exception("Password is required.");
+                }
+
+                if (Password != ConfirmPassword)
+                {
+                    throw new Exception("Confirm Password Failed");
+                }
+
+                if (Username != UserSessionService.Account.Username || Password != UserSessionService.Account.Password)
+                {
+                    throw new Exception("Validation failed");
+                }
+
+                var success = await DatabaseService.temporaryStorageService.RemoveAccountByUsernameAsync(Username);
+                if (success)
+                {
+                    MessageBox.Show($"Delete done, navigate to Login", "Delete Account Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
+                    UserSessionService.LogOut();
+                    NavigationService.NavigateTo("LoginView");
+                }
+                else
+                {
+                    throw new Exception("Delete profile failed, please try again.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Delete Account Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

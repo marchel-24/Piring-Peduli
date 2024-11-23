@@ -29,16 +29,7 @@ namespace PiringPeduliWPF.View.UserControls
         public PickUp()
         {
             InitializeComponent();
-
-            string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
-
-            // Pass the connection string to the UserRepository and UserService
-            var orderRepository = new OrderRepository(connectionString);
-            var accountRepository = new AccountRepository(connectionString);
-            var temporaryStorageRepository = new TemporaryStorageRepository(connectionString);
-            var orderService = new OrderService(orderRepository, accountRepository);
-            var temporaryServiceStorage = new TemporaryStorageService(temporaryStorageRepository);
-            DataContext = new PickUpViewModel(orderService, temporaryServiceStorage);
+            DataContext = new PickUpViewModel();
 
             var apiKey = ConfigurationManager.AppSettings["BingMapsApiKey"];
             if (string.IsNullOrEmpty(apiKey))

@@ -31,13 +31,7 @@ namespace PiringPeduliWPF.View.UserControls
         public UpdateProfileCustomer()
         {
             InitializeComponent();
-
-            string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
-
-            // Pass the connection string to the UserRepository and UserService
-            var userRepository = new CustomerRepository(connectionString);
-            var userService = new CustomerService(userRepository);
-            DataContext = new UpdateProfileCustomerViewModel(userService);
+            DataContext = new UpdateProfileCustomerViewModel();
             //Debug.Print((UpdateProfileViewModel)DataContext.));
 
             var apiKey = ConfigurationManager.AppSettings["BingMapsApiKey"];

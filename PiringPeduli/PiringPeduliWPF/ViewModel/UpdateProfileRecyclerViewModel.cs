@@ -13,7 +13,6 @@ namespace PiringPeduliWPF.ViewModel
 {
     public class UpdateProfileRecyclerViewModel:ViewModelBase
     {
-        private readonly RecyclerService _accountService;
 
         private string _username;
         private string _password;
@@ -98,9 +97,8 @@ namespace PiringPeduliWPF.ViewModel
         public ICommand CancelCommand { get; }
 
 
-        public UpdateProfileRecyclerViewModel(RecyclerService accountService)
+        public UpdateProfileRecyclerViewModel()
         {
-            _accountService = accountService;
             UpdateCommand = new ViewModeCommand(Update);
             DeleteCommand = new ViewModeCommand(Delete);
         }
@@ -142,7 +140,7 @@ namespace PiringPeduliWPF.ViewModel
                     throw new Exception("Confirm Password Failed");
                 }
 
-                var account = await _accountService.GetUserByUsernameAsync(Username);
+                var account = await DatabaseService.recyclerService.GetUserByUsernameAsync(Username);
 
                 if (Username != UserSessionService.Account.Username)
                 {
@@ -173,7 +171,7 @@ namespace PiringPeduliWPF.ViewModel
                     Lon = (double)Lon
                 };
 
-                var success = await _accountService.UpdateRecycler(UserSessionService.Account.Username, updatedAccount);
+                var success = await DatabaseService.recyclerService.UpdateRecycler(UserSessionService.Account.Username, updatedAccount);
                 if (success)
                 {
                     MessageBox.Show($"Update done, navigate to Login", "Update Account Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -216,7 +214,7 @@ namespace PiringPeduliWPF.ViewModel
                     throw new Exception("Validation failed");
                 }
 
-                var success = await _accountService.DeleteRecycler(Username);
+                var success = await DatabaseService.recyclerService.RemoveAccountByUsernameAsync(Username);
                 if (success)
                 {
                     MessageBox.Show($"Delete done, navigate to Login", "Delete Account Succeed", MessageBoxButton.OK, MessageBoxImage.Information);

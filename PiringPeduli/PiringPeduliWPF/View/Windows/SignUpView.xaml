@@ -346,7 +346,7 @@
 
                             <!-- ComboBox Items -->
                             <ComboBoxItem Content="Car"/>
-                            <ComboBoxItem Content="Mototrcycle"/>
+                            <ComboBoxItem Content="Motorcycle"/>
                             <ComboBoxItem Content="Truck"/>
                         </ComboBox>
 

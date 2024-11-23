@@ -30,20 +30,7 @@ namespace PiringPeduliWPF.View.Windows
         {
             InitializeComponent();
 
-            string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDB"].ConnectionString;
-
-            // Pass the connection string to the UserRepository and UserService
-            var userRepository = new AccountRepository(connectionString);
-            var userService = new AccountService(userRepository);
-            var courierRepository = new CourierRepository(connectionString);
-            var courierService = new CourierService(courierRepository);
-            var customerRepository = new CustomerRepository(connectionString);
-            var customerService = new CustomerService(customerRepository);
-            var recyclerRepository = new RecyclerRepository(connectionString);
-            var recyclerService = new RecyclerService(recyclerRepository);
-            var tempRepository = new TemporaryStorageRepository(connectionString);
-            var tempService = new TemporaryStorageService(tempRepository);
-            DataContext = new SignUpViewModel(userService, courierService, customerService, recyclerService, tempService);
+            DataContext = new SignUpViewModel();
         }
 
         private void BtnMinimized_click(object sender, RoutedEventArgs e)

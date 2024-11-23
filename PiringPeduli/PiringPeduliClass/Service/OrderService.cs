@@ -12,11 +12,6 @@ namespace PiringPeduliClass.Service
         private readonly OrderRepository _orderRepository;
         private readonly AccountRepository _accountRepository;
 
-        public OrderService(OrderRepository orderRepository)
-        {
-            _orderRepository = orderRepository;
-        }
-
         public OrderService(OrderRepository orderRepository, AccountRepository accountRepository)
         {
             _orderRepository = orderRepository;

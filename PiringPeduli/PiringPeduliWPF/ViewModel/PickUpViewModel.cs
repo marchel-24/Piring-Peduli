@@ -15,8 +15,6 @@ namespace PiringPeduliWPF.ViewModel
 {
     public class PickUpViewModel:ViewModelBase
     {
-        private readonly OrderService _orderService;
-        private readonly TemporaryStorageService _temporaryStorageService;
 
         private ObservableCollection<TemporaryStorage> _temporaryStorages;
         private string _sizeStr;
@@ -54,19 +52,9 @@ namespace PiringPeduliWPF.ViewModel
         public PickUpViewModel()
         {
             OrderCommand = new ViewModeCommand(Order);
-        }
-
-        // Constructor for Dependency Injection
-        public PickUpViewModel(OrderService orderService, TemporaryStorageService temporaryStorageService)
-        {
-            _orderService = orderService;
-            _temporaryStorageService = temporaryStorageService;
-
-            OrderCommand = new ViewModeCommand(Order);
             LoadTemporaryStorageCommand = new ViewModeCommand(async _ => await LoadTemporaryStorageAsync());
 
             TemporaryStorages = new ObservableCollection<TemporaryStorage>();
-
         }
 
 
@@ -84,7 +72,7 @@ namespace PiringPeduliWPF.ViewModel
                         throw new Exception("Size is required");
                     }
                     PiringPeduliClass.Model.Size size = (PiringPeduliClass.Model.Size)Enum.Parse(typeof(PiringPeduliClass.Model.Size), SizeStr);
-                    bool isOrderCreated = await _orderService.CreateOrderCustomerAsync(StatusType.Processing, UserSessionService.Account, Description, size);
+                    bool isOrderCreated = await DatabaseService.orderService.CreateOrderCustomerAsync(StatusType.Processing, UserSessionService.Account, Description, size);
 
                     if (!isOrderCreated)
                     {
@@ -111,7 +99,7 @@ namespace PiringPeduliWPF.ViewModel
             try
             {
 
-                var storages = await _temporaryStorageService.GetAllTemporaryStorageAsync();
+                var storages = await DatabaseService.temporaryStorageService.GetAllTemporaryStorageAsync();
 
                 TemporaryStorages.Clear();
                 foreach (var storage in storages)

@@ -28,10 +28,7 @@ namespace PiringPeduliWPF.View.UserControls
         public HomeScreen()
         {
             InitializeComponent();
-            string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
-            var orderRepository = new OrderRepository(connectionString);
-            var orderService = new OrderService(orderRepository);
-            DataContext = new AccountViewModel(orderService);
+            DataContext = new AccountViewModel();
         }
 
         private void OpenWebsiteCNN(object sender, RoutedEventArgs e)
