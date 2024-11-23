@@ -30,8 +30,10 @@ namespace PiringPeduliClass.Model
         private Size size;
         private int sourceAccountId;
         private int destinationAccountId;
-        private int courierAccountId;
+        private int? courierAccountId;
         private string description;
+        private string sourceAddress;
+        private string destinationAddress;
 
         /// <summary>
         /// Gets or sets the order's ID.
@@ -69,7 +71,7 @@ namespace PiringPeduliClass.Model
             set { destinationAccountId = value; }
         }
 
-        public int Courier
+        public int? Courier
         {
             get { return courierAccountId; }
             set { courierAccountId = value; }
@@ -88,6 +90,24 @@ namespace PiringPeduliClass.Model
         {
             get { return size; }
             set { size = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the source location of the order.
+        /// </summary>
+        public string SourceAddress
+        {
+            get { return sourceAddress; }
+            set { sourceAddress = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the destination location of the order.
+        /// </summary>
+        public string DestinationAddress
+        {
+            get { return destinationAddress; }
+            set { destinationAddress = value; }
         }
 
         /// <summary>

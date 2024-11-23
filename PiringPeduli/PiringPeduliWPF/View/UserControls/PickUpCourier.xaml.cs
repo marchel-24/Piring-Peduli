@@ -1,5 +1,9 @@
 ﻿using Microsoft.Maps.MapControl.WPF;
+using PiringPeduliClass.Model;
+using PiringPeduliClass.Repository;
+using PiringPeduliClass.Service;
 using PiringPeduliWPF.View.Component;
+using PiringPeduliWPF.ViewModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,6 +31,13 @@ namespace PiringPeduliWPF.View.UserControls
         public PickUpCourier()
         {
             InitializeComponent();
+            string connectionString = ConfigurationManager.ConnectionStrings["PiringPeduliDb"].ConnectionString;
+
+            // Pass the connection string to the UserRepository and UserService
+            var orderRepository = new OrderRepository(connectionString);
+            var orderService = new OrderService(orderRepository);
+            DataContext = new PickUpCourierViewModel(orderService);
+
             var apikey = ConfigurationManager.AppSettings["BingMapsApiKey"];
             BingMap.CredentialsProvider = new ApplicationIdCredentialsProvider(apikey);
             LoadOrder();
@@ -39,19 +50,24 @@ namespace PiringPeduliWPF.View.UserControls
 
         private void LoadOrder()
         {
-            var Data = new[]
-            {
-                new{Asal = "Jauh", Type= "Small", Deskripsi = "Lumayan Banyak ni", Tujuan = "Dekat"},
-                new{Asal = "Mana", Type = "Bagus", Deskripsi = "Ini adalah salah satu contoh deskripsi yang lumayan panjangppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp", Tujuan = "Sini"}
-            };
+            OrderList.Children.Clear(); // Clear existing items
 
-            foreach (var item in Data)
+            if(DataContext is PickUpCourierViewModel viewmodel)
             {
-                var container = new CourierContainer
+                foreach (var order in viewmodel.Orders)
                 {
-                    DataContext = item
-                };
-                OrderList.Children.Add(container);
+                    var container = new CourierContainer
+                    {
+                        DataContext = new
+                        {
+                            Asal = order.SourceAddress,
+                            Type = order.Size.ToString(),
+                            Deskripsi = order.Description,
+                            Tujuan = order.DestinationAddress
+                        }
+                    };
+                    OrderList.Children.Add(container);
+                }
             }
         }
     }

@@ -88,6 +88,12 @@ namespace PiringPeduliClass.Service
             List<Order> orders = _orderRepository.GetOrdersBySourceId(sourceorderId);
             return orders;
         }
+
+        public List<Order> GetOrders()
+        {
+            List<Order> orders = _orderRepository.GetAllDetailedOrders();
+            return orders;
+        }
     }
 }
 

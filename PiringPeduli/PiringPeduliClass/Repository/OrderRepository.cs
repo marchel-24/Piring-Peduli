@@ -34,11 +34,7 @@ namespace PiringPeduliClass.Repository
                         command.Parameters.AddWithValue("@DestinationAccountId", order.Destination);
 
                         // Handle null for courierAccountId
-                        if (order.Courier == 0)
-                            command.Parameters.AddWithValue("@CourierAccountId", DBNull.Value);
-                        else
-                            command.Parameters.AddWithValue("@CourierAccountId", order.Courier);
-
+                        command.Parameters.AddWithValue("@CourierAccountId", DBNull.Value);
                         command.Parameters.AddWithValue("@Description", order.Description);
 
                         // Use async version of ExecuteNonQuery
@@ -102,14 +98,13 @@ namespace PiringPeduliClass.Repository
             }
         }
 
-        public List<Order> GetAllOrders()
+        public List<Order> GetAllDetailedOrders()
         {
             var orders = new List<Order>();
 
             using (var connection = new NpgsqlConnection(_connectionString))
             {
-                string query = "SELECT orderid, status, sourceid, destinationid, courierid, Description FROM Orders";
-
+                string query = "SELECT \r\n    o.orderid,\r\n    o.status,\r\n    o.sourceid,\r\n    COALESCE(s.storageaddress, c.customeraddress, r.recycleraddress) AS source_address,\r\n    o.destinationid,\r\n    COALESCE(s2.storageaddress, c2.customeraddress, r2.recycleraddress) AS destination_address,\r\n    o.courierid,\r\n    o.description,\r\n    o.size\r\nFROM \r\n    public.orders o\r\nLEFT JOIN public.temporarystorage s ON o.sourceid = s.accountid\r\nLEFT JOIN public.customer c ON o.sourceid = c.accountid\r\nLEFT JOIN public.recycler r ON o.sourceid = r.accountid\r\nLEFT JOIN public.temporarystorage s2 ON o.destinationid = s2.accountid\r\nLEFT JOIN public.customer c2 ON o.destinationid = c2.accountid\r\nLEFT JOIN public.recycler r2 ON o.destinationid = r.accountid;\r\n";
                 using (var command = new NpgsqlCommand(query, connection))
                 {
                     connection.Open();
@@ -117,15 +112,18 @@ namespace PiringPeduliClass.Repository
                     {
                         while (reader.Read())
                         {
+
                             orders.Add(new Order
                             {
                                 OrderId = reader.GetInt32(0),
-                                //(SortedType)Enum.Parse(typeof(SortedType), reader.GetString(reader.GetOrdinal("wastedtype"))
-                                Status = (StatusType)Enum.Parse(typeof(StatusType), reader.GetString(reader.GetOrdinal("status"))),
+                                Status = (StatusType)Enum.Parse(typeof(StatusType), reader.GetString(1)),
                                 Source = reader.GetInt32(2),
-                                Destination = reader.GetInt32(3),
-                                Courier = reader.GetInt32(4),
-                                Description = reader.GetString(5)
+                                SourceAddress = reader.GetString(3),
+                                Destination = reader.GetInt32(4),
+                                DestinationAddress = reader.GetString(5),
+                                Courier = reader.IsDBNull(6) ? (int?)null : reader.GetInt32(6),
+                                Description = reader.GetString(7),
+                                Size = (Size)Enum.Parse(typeof(Size), reader.GetString(8))
                             });
                         }
                     }
@@ -141,7 +139,7 @@ namespace PiringPeduliClass.Repository
 
             using (var connection = new NpgsqlConnection(_connectionString))
             {
-                string query = "SELECT orderid, status, sourceid, destinationid, courierid, Description FROM Orders WHERE sourceid = @sourceid";
+                string query = "SELECT orderid, status, sourceid, destinationid, courierid, Description FROM orders WHERE sourceid = @sourceid";
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {
