@@ -14,7 +14,8 @@
         WindowStyle="None" 
         ResizeMode="NoResize" 
         Background="{x:Null}" 
-        AllowsTransparency="True">
+        AllowsTransparency="True"
+        Icon="../Assets/LogoPiringPeduli.ico">
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:AccountViewModel}">

@@ -32,29 +32,16 @@
         <Border Background="White" CornerRadius="10" Padding="10" Margin="0,0,0,10" BorderBrush="LightGray" BorderThickness="1">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="0.4*"/>
+                    <ColumnDefinition Width="0.4*"/>
+                    <ColumnDefinition Width="0.1*"/>
+                    <ColumnDefinition Width="0.1*"/>
                 </Grid.ColumnDefinitions>
 
                 <!-- TextBlock for Jenis -->
                 <TextBlock Text="{Binding Jenis}" 
                        VerticalAlignment="Center" 
-                       HorizontalAlignment="Center" 
-                       Visibility="{Binding TextBlockVisibility}"/>
-
-                <!-- TextBox for Jenis -->
-                <Border BorderThickness="1"
-                    BorderBrush="LightGray"
-                    CornerRadius="5"
-                    Grid.Column="0"
-                    Name="BoxJenis"
-                    Width="auto"
-                    Visibility="{Binding TextBoxVisibility}">
-                    <TextBox Text="{Binding Jenis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                         VerticalAlignment="Center" 
-                         HorizontalAlignment="Center"/>
-                </Border>
+                       HorizontalAlignment="Center"/>
 
                 <!-- TextBlock for Berat -->
                 <TextBlock Text="{Binding Berat}" 
@@ -79,18 +66,35 @@
 
                 <!-- Edit Button -->
                 <Button Grid.Column="2"
-                    Name="EditButton"
-                    Width="30" 
-                    Height="30" 
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Right"
-                    Style="{StaticResource CircularButtonStyle}"
-                    Background="Green"
-                    Command="{Binding ToggleEditCommand}">
+                        Name="EditButton"
+                        Width="30" 
+                        Height="30" 
+                        VerticalAlignment="Center"
+                        BorderThickness="0"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource CircularButtonStyle}"
+                        Background="Green"
+                        Command="{Binding ToggleEditCommand}">
                     <materialDesign:PackIcon Kind="Pencil" 
                                          Width="20" 
                                          Height="20" 
                                          Foreground="White"/>
+                </Button>
+
+                <Button Grid.Column="3"
+                        Name="DeleteButton"
+                        Width="30" 
+                        Height="30" 
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        BorderThickness="0"
+                        Style="{StaticResource CircularButtonStyle}"
+                        Background="Red"
+                        Command="{Binding ToggleEditCommand}">
+                    <materialDesign:PackIcon Kind="Trash" 
+                         Width="20" 
+                         Height="20" 
+                         Foreground="White"/>
                 </Button>
             </Grid>
         </Border>
