@@ -16,7 +16,7 @@
                     <ColumnDefinition Width="0.2*"/>
                     <ColumnDefinition Width="0.2*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding Asal}" 
+                <TextBlock Text="{Binding SourceAddress}" 
                            Grid.Column="0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
@@ -25,7 +25,7 @@
                            FontWeight="Normal"
                            TextAlignment="Center"
                            TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding Type}"
+                <TextBlock Text="{Binding Size}"
                            Grid.Column="1"
                            FontSize="14"
                            FontFamily="Gilroy"
@@ -33,7 +33,7 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"/>
                 <ScrollViewer Grid.Column="2">
-                    <TextBlock Text="{Binding Deskripsi}"
+                    <TextBlock Text="{Binding Description}"
                                FontSize="14"
                                FontFamily="Gilroy"
                                FontWeight="Normal"
@@ -42,8 +42,8 @@
                                TextAlignment="Center"
                                TextWrapping="Wrap"/>
                 </ScrollViewer>
-                
-                <TextBlock Text="{Binding Tujuan}"
+
+                <TextBlock Text="{Binding DestinationAddress}"
                            Grid.Column="3"
                            FontFamily="Gilroy"
                            FontWeight="Normal"
@@ -56,11 +56,13 @@
                 <Button Grid.Column="4"
                         Width="80"
                         Height="30"
-                        Content="Pick Up"
+                        Content="{Binding DataContext.BtnTxt, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                         Background="Green"
                         Foreground="White"
                         VerticalAlignment="Center"
-                        HorizontalAlignment="Center" Click="Button_Click"/>
+                        HorizontalAlignment="Center"
+                        Command="{Binding DataContext.PickUpCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                        CommandParameter="{Binding}" />
             </Grid>
         </Border>
     </Grid>

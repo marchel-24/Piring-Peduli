@@ -24,10 +24,5 @@ namespace PiringPeduliWPF.View.Component
         {
             InitializeComponent();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

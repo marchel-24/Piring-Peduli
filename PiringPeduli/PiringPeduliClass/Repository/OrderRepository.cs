@@ -61,19 +61,21 @@ namespace PiringPeduliClass.Repository
             {
                 string query = "UPDATE Orders SET " +
                                "status = @Status::status, " +
-                               "sourceid = @SourceAccountId, " +
-                               "destinationid = @DestinationAccountId, " +
-                               "courierid = @CourierAccountId, " +
-                               "Description = @Description " +
+                               "courierid = @CourierAccountId " +
                                "WHERE orderid = @OrderId";
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@OrderId", order.OrderId);
                     command.Parameters.AddWithValue("@Status", order.Status.ToString());
-                    command.Parameters.AddWithValue("@SourceAccountId", order.Source);
-                    command.Parameters.AddWithValue("@DestinationAccountId", order.Destination);
-                    command.Parameters.AddWithValue("@CourierAccountId", order.Courier);
+                    if(order.Courier != null)
+                    {
+                        command.Parameters.AddWithValue("@CourierAccountId", order.Courier);
+                    }
+                    else
+                    {
+                        command.Parameters.AddWithValue("@CourierAccountId", DBNull.Value);
+                    }
                     command.Parameters.AddWithValue("@Description", order.Description);
 
                     connection.Open();
@@ -104,7 +106,28 @@ namespace PiringPeduliClass.Repository
 
             using (var connection = new NpgsqlConnection(_connectionString))
             {
-                string query = "SELECT \r\n    o.orderid,\r\n    o.status,\r\n    o.sourceid,\r\n    COALESCE(s.storageaddress, c.customeraddress, r.recycleraddress) AS source_address,\r\n    o.destinationid,\r\n    COALESCE(s2.storageaddress, c2.customeraddress, r2.recycleraddress) AS destination_address,\r\n    o.courierid,\r\n    o.description,\r\n    o.size\r\nFROM \r\n    public.orders o\r\nLEFT JOIN public.temporarystorage s ON o.sourceid = s.accountid\r\nLEFT JOIN public.customer c ON o.sourceid = c.accountid\r\nLEFT JOIN public.recycler r ON o.sourceid = r.accountid\r\nLEFT JOIN public.temporarystorage s2 ON o.destinationid = s2.accountid\r\nLEFT JOIN public.customer c2 ON o.destinationid = c2.accountid\r\nLEFT JOIN public.recycler r2 ON o.destinationid = r.accountid;\r\n";
+                string query = @"
+            SELECT 
+                o.orderid,
+                o.status,
+                o.sourceid,
+                COALESCE(s.storageaddress, c.customeraddress, r.recycleraddress) AS source_address,
+                o.destinationid,
+                COALESCE(s2.storageaddress, c2.customeraddress, r2.recycleraddress) AS destination_address,
+                o.courierid,
+                o.description,
+                o.size
+            FROM 
+                public.orders o
+            LEFT JOIN public.temporarystorage s ON o.sourceid = s.accountid
+            LEFT JOIN public.customer c ON o.sourceid = c.accountid
+            LEFT JOIN public.recycler r ON o.sourceid = r.accountid
+            LEFT JOIN public.temporarystorage s2 ON o.destinationid = s2.accountid
+            LEFT JOIN public.customer c2 ON o.destinationid = c2.accountid
+            LEFT JOIN public.recycler r2 ON o.destinationid = r2.accountid
+            WHERE o.courierid IS NULL
+            AND o.status = 'Processing';";
+
                 using (var command = new NpgsqlCommand(query, connection))
                 {
                     connection.Open();
@@ -112,7 +135,6 @@ namespace PiringPeduliClass.Repository
                     {
                         while (reader.Read())
                         {
-
                             orders.Add(new Order
                             {
                                 OrderId = reader.GetInt32(0),
@@ -132,6 +154,65 @@ namespace PiringPeduliClass.Repository
 
             return orders;
         }
+
+
+        public Order? GetOrderByCourierId(int courierId)
+        {
+            Order? order = null;
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                string query = @"
+            SELECT 
+                o.orderid,
+                o.status,
+                o.sourceid,
+                COALESCE(s.storageaddress, c.customeraddress, r.recycleraddress) AS source_address,
+                o.destinationid,
+                COALESCE(s2.storageaddress, c2.customeraddress, r2.recycleraddress) AS destination_address,
+                o.courierid,
+                o.description,
+                o.size
+            FROM 
+                public.orders o
+            LEFT JOIN public.temporarystorage s ON o.sourceid = s.accountid
+            LEFT JOIN public.customer c ON o.sourceid = c.accountid
+            LEFT JOIN public.recycler r ON o.sourceid = r.accountid
+            LEFT JOIN public.temporarystorage s2 ON o.destinationid = s2.accountid
+            LEFT JOIN public.customer c2 ON o.destinationid = c2.accountid
+            LEFT JOIN public.recycler r2 ON o.destinationid = r2.accountid
+            WHERE o.courierid = @courierid;
+        ";
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@courierid", courierId);
+                    connection.Open();
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows && reader.Read())
+                        {
+                            order = new Order
+                            {
+                                OrderId = reader.GetInt32(0),
+                                Status = (StatusType)Enum.Parse(typeof(StatusType), reader.GetString(1)),
+                                Source = reader.GetInt32(2),
+                                SourceAddress = reader.GetString(3),
+                                Destination = reader.GetInt32(4),
+                                DestinationAddress = reader.GetString(5),
+                                Courier = reader.IsDBNull(6) ? (int?)null : reader.GetInt32(6),
+                                Description = reader.GetString(7),
+                                Size = (Size)Enum.Parse(typeof(Size), reader.GetString(8))
+                            };
+                        }
+                    }
+                }
+            }
+
+            return order;
+        }
+
 
         public List<Order> GetOrdersBySourceId(int sourceId)
         {

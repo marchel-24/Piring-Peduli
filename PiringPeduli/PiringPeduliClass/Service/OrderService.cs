@@ -58,17 +58,8 @@ namespace PiringPeduliClass.Service
         }
 
 
-        public void UpdateOrder(int orderId, StatusType status, int source, int destination, int courier, string description)
+        public void UpdateOrder(Order order)
         {
-            var order = new Order
-            {
-                OrderId = orderId,
-                Status = status,
-                Source = source,
-                Destination = destination,
-                Courier = courier,
-                Description = description
-            };
 
             _orderRepository.UpdateOrder(order);
         }
@@ -78,7 +69,7 @@ namespace PiringPeduliClass.Service
             _orderRepository.DeleteOrder(orderId);
         }
 
-        public List<Order> GetOrderById(int sourceorderId)
+        public List<Order> GetOrderBySourceId(int sourceorderId)
         {
             List<Order> orders = _orderRepository.GetOrdersBySourceId(sourceorderId);
             return orders;
@@ -87,6 +78,12 @@ namespace PiringPeduliClass.Service
         public List<Order> GetOrders()
         {
             List<Order> orders = _orderRepository.GetAllDetailedOrders();
+            return orders;
+        }
+
+        public Order? GetOrderByCourierId(int courierId)
+        {
+            Order? orders = _orderRepository.GetOrderByCourierId(courierId);
             return orders;
         }
     }

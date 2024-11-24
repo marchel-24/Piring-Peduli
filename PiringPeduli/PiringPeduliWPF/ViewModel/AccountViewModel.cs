@@ -75,7 +75,7 @@ namespace PiringPeduliWPF.ViewModel
 
         private void LoadOrder()
         {
-            var orders = DatabaseService.orderService.GetOrderById(UserSessionService.Account.AccountId);
+            var orders = DatabaseService.orderService.GetOrderBySourceId(UserSessionService.Account.AccountId);
 
             Orders.Clear();
 

@@ -76,7 +76,6 @@ namespace PiringPeduliWPF.View.UserControls
                     }
 
                     // Add pins for each temporary storage
-                    Debug.WriteLine(viewModel.TemporaryStorages.Count);
                     foreach (var storage in viewModel.TemporaryStorages)
                     {
                         AddPushpin(storage.Lat, storage.Lon);

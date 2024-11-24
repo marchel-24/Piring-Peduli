@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,39 +32,53 @@ namespace PiringPeduliWPF.View.UserControls
         public PickUpCourier()
         {
             InitializeComponent();
-            DataContext = new PickUpCourierViewModel();
+            DataContext = new PickUpCourierViewModel(this);
 
             var apikey = ConfigurationManager.AppSettings["BingMapsApiKey"];
             BingMap.CredentialsProvider = new ApplicationIdCredentialsProvider(apikey);
-            LoadOrder();
+
+            Loaded +=  (s, e) => InitializeMapPinsAsync();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        public void InitializeMapPinsAsync()
         {
-
-        }
-
-        private void LoadOrder()
-        {
-            OrderList.Children.Clear(); // Clear existing items
-
-            if(DataContext is PickUpCourierViewModel viewmodel)
+            try
             {
-                foreach (var order in viewmodel.Orders)
+                if (DataContext is PickUpCourierViewModel viewModel)
                 {
-                    var container = new CourierContainer
+                    PinLayer.Children.Clear();
+                    // Fetch temporary storage data
+                    if (viewModel.LoadSourceDestinationCommand.CanExecute(null))
                     {
-                        DataContext = new
-                        {
-                            Asal = order.SourceAddress,
-                            Type = order.Size.ToString(),
-                            Deskripsi = order.Description,
-                            Tujuan = order.DestinationAddress
-                        }
-                    };
-                    OrderList.Children.Add(container);
+                        ((ViewModeCommand)viewModel.LoadSourceDestinationCommand).Execute(null); // Triggers LoadTemporaryStorageAsync
+                    }
+
+                    if(viewModel.SourceAccount != null && viewModel.DestinationAccount != null)
+                    {
+                        AddPushpin(viewModel.SourceAccount.Lat, viewModel.SourceAccount.Lon, Colors.Blue);
+                        AddPushpin(viewModel.DestinationAccount.Lat, viewModel.DestinationAccount.Lon, Colors.Red);
+
+                    }
                 }
+
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading map pins: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void AddPushpin(double latitude, double longitude, Color color)
+        {
+            // Create a pushpin
+            var pushpin = new Pushpin
+            {
+                Location = new Location(latitude, longitude),
+                Background = new SolidColorBrush(color)
+            };
+
+            // Add the pushpin to the PinLayer
+            PinLayer.Children.Add(pushpin);
         }
     }
 }
