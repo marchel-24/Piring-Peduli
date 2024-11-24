@@ -3,12 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using static PiringPeduliClass.Model.NewsModel;
-using static System.Net.WebRequestMethods;
 
 namespace PiringPeduliClass.Service
 {
@@ -24,26 +21,37 @@ namespace PiringPeduliClass.Service
 
         public async Task<List<Article>> GetTopHeadlinesAsync(string category = "food")
         {
-            string url = $"{baseUrl}everything?q={category}&language=en&apiKey={apiKey}";
-            Debug.WriteLine($"Requesting URL: {url}");
+            string categoryQuery = string.IsNullOrEmpty(category) ? "food" : category;
+            string url = $"{baseUrl}everything?q={categoryQuery}&language=en&apiKey={apiKey}";
+            Debug.WriteLine($"Constructed URL: {url}");
 
-
-            using (HttpClient client = new HttpClient())
+            using (HttpClient client = new HttpClient { Timeout = TimeSpan.FromSeconds(300) })
             {
-                HttpResponseMessage response = await client.GetAsync(url);
+                client.DefaultRequestHeaders.Add("User-Agent", "PiringPeduliApp/1.0");
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                client.DefaultRequestHeaders.Add("Cache-Control", "no-cache");
 
-                Debug.WriteLine(response);
-
-
-                if (response.IsSuccessStatusCode)
+                try
                 {
-                    string jsonResponse = await response.Content.ReadAsStringAsync();
-                    var newsResponse = JsonConvert.DeserializeObject<NewsResponse>(jsonResponse);
-                    return newsResponse.Articles;
+                    HttpResponseMessage response = await client.GetAsync(url);
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine($"Response Status: {response.StatusCode}");
+                    Debug.WriteLine($"Response Content: {responseContent}");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var newsResponse = JsonConvert.DeserializeObject<NewsResponse>(responseContent);
+                        return newsResponse.Articles;
+                    }
+                    else
+                    {
+                        throw new HttpRequestException($"Error fetching news: {response.StatusCode}, Content: {responseContent}");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    throw new HttpRequestException($"Error fetching news: {response.StatusCode}");
+                    Debug.WriteLine($"Exception: {ex.Message}");
+                    throw;
                 }
             }
         }
