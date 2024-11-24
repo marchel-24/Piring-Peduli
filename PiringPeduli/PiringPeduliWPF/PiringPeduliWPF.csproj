@@ -15,6 +15,7 @@
     <None Remove="View\Assets\background.png" />
     <None Remove="View\Assets\BackgroundDaun.png" />
     <None Remove="View\Assets\CNN_Indonesia_logo.svg.png" />
+    <None Remove="View\Assets\LogoPiringPeduli.ico" />
     <None Remove="View\Assets\LogoPiringPeduli.png" />
     <None Remove="View\Font\Calistoga-Regular.ttf" />
     <PackageReference Include="MaterialDesignColors" Version="3.1.0" />
@@ -44,6 +45,7 @@
     </Resource>
     <Resource Include="View\Assets\BackgroundDaun.png" />
     <Resource Include="View\Assets\CNN_Indonesia_logo.svg.png" />
+    <Resource Include="View\Assets\LogoPiringPeduli.ico" />
     <Resource Include="View\Assets\LogoPiringPeduli.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

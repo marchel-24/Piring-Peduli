@@ -8,6 +8,12 @@
              d:DesignHeight="600" d:DesignWidth="800"
              Height="859" 
              Background="White">
+    <UserControl.Resources>
+        <Style TargetType="DataGrid">
+            <Setter Property="FontFamily" Value="Gilroy"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*"/>
@@ -18,37 +24,37 @@
         <!-- User Info Section -->
         <Viewbox Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10">
             <StackPanel Height="100" Width="100">
-                <TextBlock Text="{Binding Username}" FontSize="12" FontWeight="Bold"/>
-                <TextBlock Text="{Binding accountType}" FontSize="12" FontWeight="Light"/>
+                <TextBlock Text="Apaa" FontSize="12" FontWeight="Bold"/>
+                <TextBlock Text="Ipii" FontSize="12" FontWeight="Light"/>
             </StackPanel>
         </Viewbox>
 
-        <!-- Main Content Section -->
-        <Grid Grid.Row="1" Margin="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
+        <Viewbox VerticalAlignment="Bottom" Margin="2" HorizontalAlignment="Center">
+            <Border BorderThickness="0 0 0 1" BorderBrush="Black" Width="800"/>
+        </Viewbox>
+        <!-- Order Table (Scrollable) -->
+            <DataGrid Name="OrderTable" 
+                      Grid.Row="1" 
+                      AutoGenerateColumns="False" 
+                      CanUserAddRows="False" 
+                      Margin="10" 
+                      SelectionChanged="OrderTable_SelectionChanged" 
+                      ItemsSource="{Binding Orders}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Order ID" Binding="{Binding OrderId}" Width="0.15*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Destination" Binding="{Binding Destination}" Width="0.2*"/>
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="0.5*"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="0.2*"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
-            <!-- History Table (Scrollable) -->
-            <DataGrid Name="HistoryTable" Grid.Column="0" AutoGenerateColumns="False" CanUserAddRows="False" Margin="10">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
-                    <DataGridTextColumn Header="Item" Binding="{Binding Item}"/>
-                    <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <!-- Order Table (Scrollable) -->
-            <DataGrid Name="OrderTable" Grid.Column="1" AutoGenerateColumns="False" CanUserAddRows="False" Margin="10" SelectionChanged="OrderTable_SelectionChanged" ItemsSource="{Binding Orders}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Order ID" Binding="{Binding OrderId}"/>
-                        <DataGridTextColumn Header="Destination" Binding="{Binding Destination}"/>
-                        <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
 
 
-
-        </Grid>
     </Grid>
 </UserControl>
