@@ -26,10 +26,6 @@ namespace PiringPeduliWPF.View.UserControls
         {
             InitializeComponent();
             Storage();
-            TypeBox.GotFocus += TypeBox_GotFocus;
-            TypeBox.LostFocus += TypeBox_LostFocus;
-            BeratBox.GotFocus += BeratBox_GotFocus;
-            BeratBox.LostFocus -= BeratBox_LostFocus;
         }
 
         private void Storage()
@@ -47,42 +43,6 @@ namespace PiringPeduliWPF.View.UserControls
                     DataContext = item
                 };
                 WasteStorage.Children.Add(container);
-            }
-        }
-
-
-        private void TypeBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (TypeBox.Text == "Type")
-            {
-                TypeBox.Text = string.Empty;
-                TypeBox.Foreground = new SolidColorBrush(Colors.Black);
-            }
-        }
-
-        private void TypeBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(TypeBox.Text))
-            {
-                TypeBox.Text = "Type";
-                TypeBox.Foreground = new SolidColorBrush(Colors.Gray);
-            }
-        }
-        private void BeratBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (BeratBox.Text == "Weight")
-            {
-                BeratBox.Text = string.Empty;
-                BeratBox.Foreground = new SolidColorBrush(Colors.Black);
-            }
-        }
-
-        private void BeratBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(BeratBox.Text))
-            {
-                BeratBox.Text = "Weight";
-                BeratBox.Foreground = new SolidColorBrush(Colors.Gray);
             }
         }
     }
