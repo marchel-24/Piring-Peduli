@@ -18,17 +18,17 @@ namespace PiringPeduliClass.Repository
             _connectionstring = connectionstring;
         }
 
-        public SortedWaste GetSortedbyID(int id)
+        public SortedWaste? GetSortedByType(string type)
         {
-            SortedWaste sortedWaste = null;
+            SortedWaste? sortedWaste = null;
 
             using (var connection = new NpgsqlConnection(_connectionstring))
             {
                 connection.Open();
 
-                using (var command = new NpgsqlCommand("SELECT * FROM sortedwaste WHERE wasteid = @wasteid", connection))
+                using (var command = new NpgsqlCommand("SELECT * FROM sortedwaste WHERE wastetype = @wastetype", connection))
                 {
-                    command.Parameters.AddWithValue("@wasteid", id);
+                    command.Parameters.AddWithValue("@wastetype", type);
 
                     using (var reader = command.ExecuteReader())
                     {
@@ -37,8 +37,7 @@ namespace PiringPeduliClass.Repository
                             sortedWaste = new SortedWaste 
                             {
                                Wasteid = reader.GetInt32(reader.GetOrdinal("wasteid")),
-                               WasteType = (SortedType)Enum.Parse(typeof(SortedType), reader.GetString(reader.GetOrdinal("wastedtype"))),
-                               Quantity = reader.GetDouble(reader.GetOrdinal("quantity"))
+                               WasteType = reader.GetString(reader.GetOrdinal("wastetype")),
                             };
                         }
                     }
@@ -54,10 +53,10 @@ namespace PiringPeduliClass.Repository
                 connection.Open();
 
                 using (var command = new NpgsqlCommand(
-                    "INSERT INTO sortedwaste (wasteid, wastedtype) VALUES (DEFAULT, @wastedtype::wasted_type)", connection))
+                    "INSERT INTO sortedwaste (wasteid, wastetype) VALUES (DEFAULT, @wastetype)", connection))
                 {
                     //command.Parameters.AddWithValue("@wasteid", sortedWaste.Wasteid);
-                    command.Parameters.AddWithValue("@wastedtype", sortedWaste.WasteType.ToString());
+                    command.Parameters.AddWithValue("@wastetype", sortedWaste.WasteType);
                     //command.Parameters.AddWithValue("@quantity", sortedWaste.Quantity);
 
                     command.ExecuteNonQuery();

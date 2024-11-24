@@ -14,17 +14,18 @@ namespace PiringPeduliClass.Repository
             _connectionString = connectionString;
         }
 
-        public WasteInStorage GetWasteByStorage(int storageId)
+        public WasteInStorage? GetWasteByStorageAndWaste(int storageId, int wasteId)
         {
-            WasteInStorage wasteStorage = null;
+            WasteInStorage? wasteStorage = null;
 
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
-                using (var command = new NpgsqlCommand("SELECT * FROM wasteinstorage WHERE storageid = @storageid", connection))
+                using (var command = new NpgsqlCommand("SELECT * FROM wasteinstorage WHERE storageid = @storageid AND wasteid = @wasteid", connection))
                 {
                     command.Parameters.AddWithValue("@storageid", storageId);
+                    command.Parameters.AddWithValue("@wasteid", wasteId);
 
                     using (var reader = command.ExecuteReader())
                     {
@@ -74,5 +75,23 @@ namespace PiringPeduliClass.Repository
                 }
             }
         }
+
+        public void UpdateWasteInStorage(WasteInStorage wasteInStorage)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand("UPDATE wasteinstorage SET quantity = @quantity WHERE wasteid = @wasteid AND storageid = @storageid", connection))
+                {
+                    command.Parameters.AddWithValue("@quantity", wasteInStorage.Quantity);
+                    command.Parameters.AddWithValue("@wasteid", wasteInStorage.Wasteid);
+                    command.Parameters.AddWithValue("@storageid", wasteInStorage.Storageid);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
     }
 }

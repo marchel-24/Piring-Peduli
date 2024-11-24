@@ -42,7 +42,7 @@
                          Height="Auto"
                          TextWrapping="Wrap"
                          AcceptsReturn="True"
-                         Text="Type"
+                         Text="{Binding Type}"
                          FontFamily="Gilroy"
                          FontWeight="Normal"
                          Margin="3"
@@ -66,7 +66,7 @@
                          Height="Auto"
                          TextWrapping="Wrap"
                          AcceptsReturn="True"
-                         Text="Weight"
+                         Text="{Binding Weight}"
                          FontFamily="Gilroy"
                          FontWeight="Normal"
                          Margin="3"
@@ -80,7 +80,8 @@
                     Background="Green"
                     Foreground="White"
                     VerticalAlignment="Center"
-                    HorizontalAlignment="Center"/>
+                    HorizontalAlignment="Center"
+                    Command="{Binding AddCommand}"/>
         </Grid>
     </Grid>
 </UserControl>

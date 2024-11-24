@@ -29,7 +29,7 @@ namespace PiringPeduliWPF.View.UserControls
             TypeBox.GotFocus += TypeBox_GotFocus;
             TypeBox.LostFocus += TypeBox_LostFocus;
             BeratBox.GotFocus += BeratBox_GotFocus;
-            BeratBox.LostFocus -= BeratBox_LostFocus;
+            BeratBox.LostFocus += BeratBox_LostFocus;
         }
 
         private void Storage()

@@ -19,6 +19,8 @@ namespace PiringPeduliWPF.Services
         private RecyclerRepository recyclerRepository;
         private TemporaryStorageRepository temporaryStorageRepository;
         private OrderRepository orderRepository;
+        private WasteInStorageRepository wasteInStorageRepository;
+        private SortedWasteRepository sortedWasteRepository;
 
         public static AccountService accountService;
         public static CourierService courierService;
@@ -26,6 +28,7 @@ namespace PiringPeduliWPF.Services
         public static RecyclerService recyclerService;
         public static TemporaryStorageService temporaryStorageService;
         public static OrderService orderService;
+        public static WasteService wasteService;
 
         public DatabaseService() 
         {
@@ -36,6 +39,8 @@ namespace PiringPeduliWPF.Services
             recyclerRepository = new RecyclerRepository(connectionString);
             temporaryStorageRepository = new TemporaryStorageRepository(connectionString);
             orderRepository = new OrderRepository(connectionString);
+            wasteInStorageRepository = new WasteInStorageRepository(connectionString);
+            sortedWasteRepository = new SortedWasteRepository(connectionString);
             
 
             accountService = new AccountService(accountRepository);
@@ -44,6 +49,7 @@ namespace PiringPeduliWPF.Services
             recyclerService = new RecyclerService(recyclerRepository);
             temporaryStorageService = new TemporaryStorageService(temporaryStorageRepository);
             orderService = new OrderService(orderRepository, accountRepository);
+            wasteService = new WasteService(sortedWasteRepository, wasteInStorageRepository);
         }
     }
 }

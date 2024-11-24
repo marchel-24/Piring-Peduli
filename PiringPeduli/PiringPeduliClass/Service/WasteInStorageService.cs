@@ -13,10 +13,10 @@ namespace PiringPeduliClass.Service
             _repository = repository;
         }
 
-        public WasteInStorage GetWasteByStorage(int storageId)
-        {
-            return _repository.GetWasteByStorage(storageId);
-        }
+        //public WasteInStorage GetWasteByStorage(int storageId)
+        //{
+        //    return _repository.GetWasteByStorage(storageId);
+        //}
 
         public void AddWasteToStorage(int wasteId, int storageId, double quantity)
         {
