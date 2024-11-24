@@ -13,6 +13,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
@@ -30,14 +31,40 @@
                    FontSize="16"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Left"/>
-                <Button Grid.Column="3"
+                <Border BorderThickness="1"
+                        BorderBrush="LightGray"
+                        Background="White"
+                        CornerRadius="5"
+                        Grid.Column="3"
+                        Name="BoxBerat"
+                        Height="30"
+                        Width="auto">
+                    <TextBox x:Name="QuantityBox"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"
+                             VerticalContentAlignment="Top"
+                             HorizontalContentAlignment="Center"
+                             Height="Auto"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             Foreground="Gray"
+                             Text="{Binding Quantity}"
+                             FontFamily="Gilroy"
+                             FontWeight="Normal"
+                             Margin="3" LostFocus="QuantityBox_LostFocus" 
+                             GotFocus="QuantitiyBox_GotFocus"
+                             PreviewTextInput="NumberOnlyTextBox_PreviewTextInput"
+                    />
+                </Border>
+                <Button Grid.Column="4"
                 Width="120"
                 Height="40"
                 Content="Order"
                 Background="Green"
                 Foreground="White"
                 VerticalAlignment="Center"
-                HorizontalAlignment="Center"/>
+                HorizontalAlignment="Center"
+                        Margin="5"/>
             </Grid>
         </Border>
     </Grid>

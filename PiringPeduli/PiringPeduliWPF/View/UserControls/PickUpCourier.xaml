@@ -11,8 +11,9 @@
              Background="White">
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.05*"/>
             <RowDefinition Height="0.4*"/>
+            <RowDefinition Height="0.12*"/>
             <RowDefinition Height="0.4*"/>
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding HeaderTitle}"
@@ -35,9 +36,59 @@
                 </m:Map>
             </Border>
         </Viewbox>
-        
 
-        <ScrollViewer Grid.Row="2">
+        <Grid Margin="3" Grid.Row="2" Height="100">
+            <Border BorderBrush="Gray" Background="White" CornerRadius="10" Height="50">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.2*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="From" 
+           Grid.Column="0"
+           HorizontalAlignment="Center"
+           VerticalAlignment="Center"
+           FontFamily="Gilroy"
+           FontSize="14" 
+           FontWeight="Normal"
+           TextAlignment="Center"
+           TextWrapping="Wrap"/>
+                    <TextBlock Text="Ukuran"
+           Grid.Column="1"
+           FontSize="14"
+           FontFamily="Gilroy"
+           FontWeight="Normal"
+           HorizontalAlignment="Center"
+           VerticalAlignment="Center"/>
+                    <ScrollViewer Grid.Column="2">
+                        <TextBlock Text="Deskripsi"
+               FontSize="14"
+               FontFamily="Gilroy"
+               FontWeight="Normal"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               TextAlignment="Center"
+               TextWrapping="Wrap"/>
+                    </ScrollViewer>
+
+                    <TextBlock Text="Tujuan"
+           Grid.Column="3"
+           FontFamily="Gilroy"
+           FontWeight="Normal"
+           FontSize="14"
+           HorizontalAlignment="Center"
+           VerticalAlignment="Center"
+           TextAlignment="Center"
+           TextWrapping="NoWrap"
+           TextTrimming="CharacterEllipsis"/>
+                </Grid>
+            </Border>
+        </Grid>
+        <ScrollViewer Grid.Row="3" VerticalAlignment="Top">
             <ItemsControl ItemsSource="{Binding Orders}" Margin="5">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

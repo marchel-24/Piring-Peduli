@@ -24,8 +24,8 @@
         <!-- User Info Section -->
         <Viewbox Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10">
             <StackPanel Height="100" Width="100">
-                <TextBlock Text="Apaa" FontSize="12" FontWeight="Bold"/>
-                <TextBlock Text="Ipii" FontSize="12" FontWeight="Light"/>
+                <TextBlock Text="{Binding Username}" FontSize="12" FontWeight="Bold"/>
+                <TextBlock Text="{Binding accountType}" FontSize="12" FontWeight="Light"/>
             </StackPanel>
         </Viewbox>
 
@@ -48,9 +48,34 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Destination" Binding="{Binding Destination}" Width="0.2*"/>
-                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="0.5*"/>
-                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="0.2*"/>
+                <DataGridTextColumn Header="Destination" Binding="{Binding Destination}" Width="0.2*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Destination" Binding="{Binding Destination}" Width="0.2*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="0.5*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="0.2*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 
