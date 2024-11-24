@@ -34,20 +34,7 @@ namespace PiringPeduliWPF.View.UserControls
 
         private void Storage()
         {
-            var data = new[]
-            {
-                new TemporaryContainerViewModel { Jenis = "Liquid", Berat = "20" },
-                new TemporaryContainerViewModel { Jenis = "Makanan", Berat = "15" }
-            };
-
-            foreach (var item in data)
-            {
-                var container = new TemporaryContainer
-                {
-                    DataContext = item
-                };
-                WasteStorage.Children.Add(container);
-            }
+            
         }
 
 

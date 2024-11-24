@@ -39,12 +39,12 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- TextBlock for Jenis -->
-                <TextBlock Text="{Binding Jenis}" 
+                <TextBlock Text="{Binding Type}" 
                        VerticalAlignment="Center" 
                        HorizontalAlignment="Center"/>
 
                 <!-- TextBlock for Berat -->
-                <TextBlock Text="{Binding Berat}" 
+                <TextBlock Text="{Binding Weight}" 
                        Grid.Column="1" 
                        VerticalAlignment="Center" 
                        HorizontalAlignment="Center"
@@ -58,7 +58,7 @@
                     Name="BoxBerat"
                     Width="auto"
                     Visibility="{Binding TextBoxVisibility}">
-                    <TextBox Text="{Binding Berat}" 
+                    <TextBox Text="{Binding Weight}" 
                          Grid.Column="1" 
                          VerticalAlignment="Center" 
                          HorizontalAlignment="Center"/>
@@ -90,7 +90,7 @@
                         BorderThickness="0"
                         Style="{StaticResource CircularButtonStyle}"
                         Background="Red"
-                        Command="{Binding ToggleEditCommand}">
+                        Command="{Binding ToggleDeleteCommand}">
                     <materialDesign:PackIcon Kind="Trash" 
                          Width="20" 
                          Height="20" 

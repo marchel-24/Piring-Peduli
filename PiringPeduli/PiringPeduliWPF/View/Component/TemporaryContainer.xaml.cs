@@ -24,7 +24,6 @@ namespace PiringPeduliWPF.View.Component
         public TemporaryContainer()
         {
             InitializeComponent();
-            DataContext = new TemporaryContainerViewModel();
         }
 
 

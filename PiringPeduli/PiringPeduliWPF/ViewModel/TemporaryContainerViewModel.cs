@@ -1,37 +1,42 @@
-﻿using PiringPeduliWPF.View.UserControls;
+﻿using PiringPeduliClass.Model;
+using PiringPeduliWPF.Services;
+using PiringPeduliWPF.View.UserControls;
+using PiringPeduliWPF.ViewModel;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 
 public class TemporaryContainerViewModel : INotifyPropertyChanged
 {
-    private string _jenis;
-    private string _berat;
+    private string _type;
+    private string _weight;
+    private TemporaryStorageViewModel _viewModel;
 
-    public string Jenis
+    public string Type
     {
-        get => _jenis;
+        get => _type;
         set
         {
-            if (_jenis != value)
+            if (_type != value)
             {
-                _jenis = value;
-                OnPropertyChanged(nameof(Jenis));
+                _type = value;
+                OnPropertyChanged(nameof(Type));
             }
         }
     }
 
-    public string Berat
+    public string Weight
     {
-        get => _berat;
+        get => _weight;
         set
         {
-            if (_berat != value)
+            if (_weight != value)
             {
-                _berat = value;
-                OnPropertyChanged(nameof(Berat));
+                _weight = value;
+                OnPropertyChanged(nameof(Weight));
             }
         }
     }
@@ -46,6 +51,9 @@ public class TemporaryContainerViewModel : INotifyPropertyChanged
             OnPropertyChanged();
             OnPropertyChanged(nameof(TextBoxVisibility));
             OnPropertyChanged(nameof(TextBlockVisibility));
+
+            // Debugging the state change
+            DebugStateChange();
         }
     }
 
@@ -53,10 +61,17 @@ public class TemporaryContainerViewModel : INotifyPropertyChanged
     public Visibility TextBlockVisibility => IsEditing ? Visibility.Collapsed : Visibility.Visible;
 
     public ICommand ToggleEditCommand { get; }
+    public ICommand ToggleDeleteCommand { get; }
 
-    public TemporaryContainerViewModel()
+    public TemporaryContainerViewModel(WasteInStorage waste, TemporaryStorageViewModel viewModel)
     {
+        // Initialize the properties with the values from WasteInStorage
+        Type = waste.WasteType;
+        Weight = waste.Quantity.ToString();
+        _viewModel = viewModel;
+
         ToggleEditCommand = new RelayCommand(ToggleEdit);
+        ToggleDeleteCommand = new ViewModeCommand(Delete);
     }
 
     private void ToggleEdit()
@@ -69,5 +84,26 @@ public class TemporaryContainerViewModel : INotifyPropertyChanged
     protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    private void DebugStateChange()
+    {
+        // When toggling from editing to non-editing, print the values of Type and Weight
+        if (!IsEditing)
+        {
+            Debug.WriteLine($"Exiting Edit Mode: Type = {Type}, Weight = {Weight}");
+            DatabaseService.wasteService.UpdateWaste(UserSessionService.Account.AccountId, Type, Convert.ToDouble(Weight));
+            Debug.WriteLine($"Done");
+        }
+        else
+        {
+            Debug.WriteLine($"Entering Edit Mode: Type = {Type}, Weight = {Weight}");
+        }
+    }
+
+    private void Delete(object obj)
+    {
+        DatabaseService.wasteService.DeleteWaste(UserSessionService.Account.AccountId, Type);
+        _viewModel.LoadWaste();
     }
 }

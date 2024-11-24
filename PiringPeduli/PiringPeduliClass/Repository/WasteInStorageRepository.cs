@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Npgsql;
 using PiringPeduliClass.Model;
@@ -45,6 +46,51 @@ namespace PiringPeduliClass.Repository
             return wasteStorage;
         }
 
+        public List<WasteInStorage> GetWasteByStorage(int storageId)
+        {
+            List<WasteInStorage> wasteStorage = new List<WasteInStorage>();
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(@"SELECT 
+                                                            ws.storageid,
+                                                            ws.wasteid,
+                                                            ws.quantity,
+                                                            sw.wastetype
+                                                        FROM 
+                                                            public.wasteinstorage ws
+                                                        JOIN 
+                                                            public.sortedwaste sw
+                                                        ON 
+                                                            ws.wasteid = sw.wasteid
+                                                        WHERE
+                                                            ws.storageid = @storageid;", connection))
+                {
+                    command.Parameters.AddWithValue("@storageid", storageId);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            wasteStorage.Add(new WasteInStorage
+                            {
+                                Wasteid = reader.GetInt32(reader.GetOrdinal("wasteid")),
+                                Storageid = reader.GetInt32(reader.GetOrdinal("storageid")),
+                                Quantity = reader.GetDouble(reader.GetOrdinal("quantity")),
+                                WasteType = reader.GetString(reader.GetOrdinal("wastetype"))
+                            });
+
+                            
+                        }
+                    }
+                }
+            }
+
+            return wasteStorage;
+        }
+
         public void AddWasteToStorage(WasteInStorage wasteInStorage)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
@@ -62,15 +108,16 @@ namespace PiringPeduliClass.Repository
             }
         }
 
-        public void DeleteWasteByStorage(int storageId)
+        public void DeleteWasteByStorageAndWaste(int storageId, int wasteId)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
-                using (var command = new NpgsqlCommand("DELETE FROM wasteinstorage WHERE storageid = @storageid", connection))
+                using (var command = new NpgsqlCommand("DELETE FROM wasteinstorage WHERE storageid = @storageid AND wasteid = @wasteid", connection))
                 {
                     command.Parameters.AddWithValue("@storageid", storageId);
+                    command.Parameters.AddWithValue("@wasteid", wasteId);
                     command.ExecuteNonQuery();
                 }
             }
