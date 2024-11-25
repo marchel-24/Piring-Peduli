@@ -23,7 +23,7 @@
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    Grid.Row="0"
-                   Margin="10"/>
+                   Margin="5 0 0 0"/>
         <!-- Map Section with Bing Maps -->
         <Viewbox Grid.Row="1" Stretch="Uniform">
             <Border BorderBrush="Gray" CornerRadius="10" Background="White" BorderThickness="1" Height="300" Width="800">

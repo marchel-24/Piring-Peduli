@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,6 +31,11 @@ namespace PiringPeduliWPF.View.UserControls
             TypeBox.LostFocus += TypeBox_LostFocus;
             BeratBox.GotFocus += BeratBox_GotFocus;
             BeratBox.LostFocus += BeratBox_LostFocus;
+        }
+        private void NumberOnlyTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Gunakan regex untuk memvalidasi input hanya angka
+            e.Handled = !Regex.IsMatch(e.Text, "^[0-9]+$");
         }
 
         private void Storage()

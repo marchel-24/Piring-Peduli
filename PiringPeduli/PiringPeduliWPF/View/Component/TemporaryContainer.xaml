@@ -61,7 +61,8 @@
                     <TextBox Text="{Binding Weight}" 
                          Grid.Column="1" 
                          VerticalAlignment="Center" 
-                         HorizontalAlignment="Center"/>
+                         HorizontalAlignment="Center"
+                             PreviewTextInput="NumberOnlyTextBox_PreviewTextInput"/>
                 </Border>
 
                 <!-- Edit Button -->

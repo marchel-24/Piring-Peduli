@@ -77,6 +77,7 @@
                          FontFamily="Gilroy"
                          FontWeight="Normal"
                          Margin="3"
+                             PreviewTextInput="NumberOnlyTextBox_PreviewTextInput"
                          />
             </Border>
 

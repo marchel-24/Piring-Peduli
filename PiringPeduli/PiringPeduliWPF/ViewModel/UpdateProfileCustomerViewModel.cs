@@ -169,10 +169,7 @@ namespace PiringPeduliWPF.ViewModel
                     }
                 }
 
-                if (Password == UserSessionService.Account.Password)
-                {
-                    throw new Exception("Please change your password");
-                }
+                
 
                 if(Lat == null || Lon == null)
                 {

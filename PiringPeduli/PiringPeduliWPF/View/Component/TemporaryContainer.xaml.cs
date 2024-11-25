@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,6 +25,12 @@ namespace PiringPeduliWPF.View.Component
         public TemporaryContainer()
         {
             InitializeComponent();
+        }
+
+        private void NumberOnlyTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Gunakan regex untuk memvalidasi input hanya angka
+            e.Handled = !Regex.IsMatch(e.Text, "^[0-9]+$");
         }
 
 

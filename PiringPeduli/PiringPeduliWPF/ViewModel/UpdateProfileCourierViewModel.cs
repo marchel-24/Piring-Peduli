@@ -126,11 +126,6 @@ namespace PiringPeduliWPF.ViewModel
                     }
                 }
 
-                if (Password == UserSessionService.Account.Password)
-                {
-                    throw new Exception("Please change your password");
-                }
-
                 
 
                 VehicleType vehicleType = (VehicleType)Enum.Parse(typeof(VehicleType), VehicleTypeStr);
