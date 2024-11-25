@@ -1,4 +1,5 @@
 ﻿using PiringPeduliWPF.View.Component;
+using PiringPeduliWPF.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace PiringPeduliWPF.View.UserControls
         public RecyclerView()
         {
             InitializeComponent();
-            LoadSorted();
+            DataContext = new RecyclerViewModel();
         }
 
         private void ArrowIcon_Click(object sender, MouseButtonEventArgs e)
@@ -33,21 +34,14 @@ namespace PiringPeduliWPF.View.UserControls
             QuestionComboBox.IsDropDownOpen = !QuestionComboBox.IsDropDownOpen;
         }
 
-        private void LoadSorted()
+        private void QuestionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var Data = new[]
-            {
-                new{TypeSorted = "Liquid", Size = "Small", Address = "Jalan Duku"},
-                new{TypeSorted = "Leaves", Size = "Large", Address = "Jalan Duku"}
-            };
+            
+            string selectedOption = (string)QuestionComboBox.SelectedItem;
 
-            foreach (var item in Data)
+            if (DataContext is RecyclerViewModel viewModel)
             {
-                var container = new RecyclerContainer
-                {
-                    DataContext = item
-                };
-                SortedList.Children.Add(container);
+                viewModel.SelectedWaste = selectedOption;
             }
         }
     }

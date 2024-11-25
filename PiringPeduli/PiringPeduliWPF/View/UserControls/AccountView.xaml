@@ -39,7 +39,7 @@
                       CanUserAddRows="False" 
                       Margin="10" 
                       SelectionChanged="OrderTable_SelectionChanged" 
-                      ItemsSource="{Binding Orders}">
+                      ItemsSource="{Binding FilteredOrders}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Order ID" Binding="{Binding OrderId}" Width="0.15*">
                     <DataGridTextColumn.ElementStyle>
@@ -48,14 +48,14 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Destination" Binding="{Binding Destination}" Width="0.2*">
+                <DataGridTextColumn Header="Source" Binding="{Binding SourceName}" Width="0.2*">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Center"/>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Destination" Binding="{Binding Destination}" Width="0.2*">
+                <DataGridTextColumn Header="Destination" Binding="{Binding DestinationName}" Width="0.2*">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Center"/>

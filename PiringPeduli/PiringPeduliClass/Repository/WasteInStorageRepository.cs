@@ -91,6 +91,53 @@ namespace PiringPeduliClass.Repository
             return wasteStorage;
         }
 
+        public List<WasteInStorage> GetAllWaste()
+        {
+            List<WasteInStorage> wasteStorage = new List<WasteInStorage>();
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(@"SELECT 
+                                                            ws.storageid,
+                                                            ts.storagename,
+                                                            ws.wasteid,
+                                                            ws.quantity,
+                                                            sw.wastetype
+                                                        FROM 
+                                                            public.wasteinstorage ws
+                                                        JOIN 
+                                                            public.sortedwaste sw
+                                                        ON 
+                                                            ws.wasteid = sw.wasteid
+                                                        JOIN 
+                                                            public.temporarystorage ts
+                                                        ON 
+                                                            ws.storageid = ts.accountid;", connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            wasteStorage.Add(new WasteInStorage
+                            {
+                                Wasteid = reader.GetInt32(reader.GetOrdinal("wasteid")),
+                                Storageid = reader.GetInt32(reader.GetOrdinal("storageid")),
+                                Quantity = reader.GetDouble(reader.GetOrdinal("quantity")),
+                                WasteType = reader.GetString(reader.GetOrdinal("wastetype")),
+                                StorageName = reader.GetString(reader.GetOrdinal("storagename"))
+                            });
+
+
+                        }
+                    }
+                }
+            }
+
+            return wasteStorage;
+        }
+
         public void AddWasteToStorage(WasteInStorage wasteInStorage)
         {
             using (var connection = new NpgsqlConnection(_connectionString))

@@ -33,7 +33,7 @@
         <DataTemplate DataType="{x:Type viewModel:PickUpCourierViewModel}">
             <local:PickUpCourier/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:RecyclerViewViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:RecyclerViewModel}">
             <local:RecyclerView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:TemporaryStorageViewModel}">

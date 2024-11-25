@@ -18,7 +18,7 @@ namespace PiringPeduliClass.Service
             _accountRepository = accountRepository;
         }
 
-        public async Task<bool> CreateOrderCustomerAsync(StatusType status, Account source, string description, Size size)
+        public async Task<bool> CreateOrderCustomerAsync(StatusType status, Account source, string description, Sizes size)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace PiringPeduliClass.Service
                 };
 
                 // Add the order asynchronously
-                bool isOrderAdded = await _orderRepository.AddOrderAsync(order);
+                bool isOrderAdded = await _orderRepository.AddOrderCustomerAsync(order);
 
                 if (!isOrderAdded)
                 {
@@ -55,6 +55,35 @@ namespace PiringPeduliClass.Service
 
                 return false; // Return false if an error occurs
             }
+        }
+
+        public void CreateOrderRecylcer(StatusType status, int source, int destination, double quantity)
+        {
+            Sizes size;
+            Debug.WriteLine($"Creating order");
+
+            if (quantity < 5)
+            {
+                size = Sizes.Small;
+            }else if(quantity < 10)
+            {
+                size = Sizes.Medium;
+            }
+            else
+            {
+                size = Sizes.Large;
+            }
+
+            var order = new Order
+            {
+                Status = status,
+                Source = source,
+                Destination = destination,
+                Description = quantity.ToString() + " Kg",
+                Size = size,
+                Quantity = quantity
+            };
+            _orderRepository.AddOrderRecycler(order);
         }
 
 
@@ -75,7 +104,13 @@ namespace PiringPeduliClass.Service
             return orders;
         }
 
-        public List<Order> GetOrders()
+        public List<Order> GetOrdersStatusProcessing()
+        {
+            List<Order> orders = _orderRepository.GetAllDetailedOrdersProcessing();
+            return orders;
+        }
+
+        public List<Order> GetOrder()
         {
             List<Order> orders = _orderRepository.GetAllDetailedOrders();
             return orders;

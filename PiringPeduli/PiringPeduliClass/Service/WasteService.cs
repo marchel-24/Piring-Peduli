@@ -73,6 +73,19 @@ namespace PiringPeduliClass.Service
             }
         }
 
+        public List<WasteInStorage> GetAllWaste()
+        {
+            try
+            {
+                List<WasteInStorage> wastes = _wasteInStorageRepository.GetAllWaste();
+                return wastes;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public void UpdateWaste(int storageid, string type, double quantity)
         {
             int wasteId = _sortedWasteRepository.GetSortedByType(type).Wasteid;
@@ -89,6 +102,12 @@ namespace PiringPeduliClass.Service
         {
             int wasteId = _sortedWasteRepository.GetSortedByType(type).Wasteid;
             _wasteInStorageRepository.DeleteWasteByStorageAndWaste(storageId, wasteId);
+        }
+
+        public List<string> GetAllWasteType()
+        {
+            List<string>  wasteTypes = _sortedWasteRepository.GetAllWasteType();
+            return wasteTypes;
         }
     }
 }

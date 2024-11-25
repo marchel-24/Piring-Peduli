@@ -71,7 +71,7 @@ namespace PiringPeduliWPF.ViewModel
                     {
                         throw new Exception("Size is required");
                     }
-                    PiringPeduliClass.Model.Size size = (PiringPeduliClass.Model.Size)Enum.Parse(typeof(PiringPeduliClass.Model.Size), SizeStr);
+                    PiringPeduliClass.Model.Sizes size = (PiringPeduliClass.Model.Sizes)Enum.Parse(typeof(PiringPeduliClass.Model.Sizes), SizeStr);
                     bool isOrderCreated = await DatabaseService.orderService.CreateOrderCustomerAsync(StatusType.Processing, UserSessionService.Account, Description, size);
 
                     if (!isOrderCreated)

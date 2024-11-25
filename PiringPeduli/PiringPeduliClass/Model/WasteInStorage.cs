@@ -7,7 +7,9 @@
             private int wasteid;
             private int storageid;
             private string wasteType;
+            private string storageName;
             private double quantity;
+            private double selectQuantity;
 
             public int Wasteid
             {
@@ -27,14 +29,26 @@
                 set { quantity = value; }
             }
 
-            public string WasteType
+            public double SelectQuantity
+            {
+                get { return selectQuantity; }
+                set { selectQuantity = value; }
+            }
+
+        public string WasteType
             {
                 get { return wasteType; }
                 set { wasteType = value; }
             }
 
-            // Constructor to easily set values
-            public WasteInStorage(int wasteId, int storageId, double quantity)
+            public string StorageName
+            {
+                get { return storageName; }
+                set { storageName = value; }
+            }
+
+        // Constructor to easily set values
+        public WasteInStorage(int wasteId, int storageId, double quantity)
             {
                 this.wasteid = wasteId;
                 this.storageid = storageId;

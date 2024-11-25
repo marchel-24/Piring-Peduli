@@ -2,6 +2,7 @@
 using PiringPeduliClass.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
@@ -98,6 +99,31 @@ namespace PiringPeduliClass.Repository
                     command.ExecuteNonQuery();
                 }
             }
+        }
+
+        public List<string> GetAllWasteType()
+        {
+            var wasteTypes = new List<string>();
+
+            using (var connection = new NpgsqlConnection(_connectionstring))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand("SELECT * FROM sortedwaste", connection))
+                {
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            wasteTypes.Add(reader.GetString(reader.GetOrdinal("wastetype")))
+                            ;
+                        }
+                    }
+                }
+            }
+            Debug.WriteLine(wasteTypes.Count);
+            return wasteTypes;
         }
     }
 }

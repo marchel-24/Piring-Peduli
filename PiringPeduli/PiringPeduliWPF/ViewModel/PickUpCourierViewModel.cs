@@ -112,7 +112,7 @@ namespace PiringPeduliWPF.ViewModel
         private void LoadOrder()
         {
             Orders.Clear();
-            var orders = DatabaseService.orderService.GetOrders();
+            var orders = DatabaseService.orderService.GetOrdersStatusProcessing();
             SelectedOrder = DatabaseService.orderService.GetOrderByCourierId(UserSessionService.Account.AccountId);
 
             if(SelectedOrder == null)
@@ -150,7 +150,7 @@ namespace PiringPeduliWPF.ViewModel
                 else
                 {
                     order.Status = StatusType.Delivered;
-                    order.Courier = null;
+                    order.Courier = UserSessionService.Account.AccountId;
                     SelectedOrder = null;
                     DatabaseService.orderService.UpdateOrder(order);
                     LoadOrder();

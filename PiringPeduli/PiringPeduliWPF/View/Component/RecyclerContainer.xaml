@@ -17,16 +17,16 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="{Binding TypeSorted}" 
+                <TextBlock Text="{Binding WasteType}" 
                    FontSize="16" 
                    VerticalAlignment="Center" 
                    HorizontalAlignment="Left"/>
-                <TextBlock Text="{Binding Size}" 
+                <TextBlock Text="{Binding Quantity}" 
                    Grid.Column="1" 
                    FontSize="16" 
                    VerticalAlignment="Center" 
                    HorizontalAlignment="Left"/>
-                <TextBlock Text="{Binding Address}"
+                <TextBlock Text="{Binding StorageName}"
                    Grid.Column="2"
                    FontSize="16"
                    VerticalAlignment="Center"
@@ -48,7 +48,7 @@
                              TextWrapping="Wrap"
                              AcceptsReturn="True"
                              Foreground="Gray"
-                             Text="{Binding Quantity}"
+                             Text="{Binding SelectQuantity}"
                              FontFamily="Gilroy"
                              FontWeight="Normal"
                              Margin="3" LostFocus="QuantityBox_LostFocus" 
@@ -64,7 +64,9 @@
                 Foreground="White"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
-                        Margin="5"/>
+                Margin="5"
+                Command="{Binding DataContext.OrderCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                CommandParameter="{Binding}"/>
             </Grid>
         </Border>
     </Grid>

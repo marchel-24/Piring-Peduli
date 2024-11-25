@@ -91,19 +91,19 @@ public class TemporaryContainerViewModel : INotifyPropertyChanged
         // When toggling from editing to non-editing, print the values of Type and Weight
         if (!IsEditing)
         {
-            Debug.WriteLine($"Exiting Edit Mode: Type = {Type}, Weight = {Weight}");
             DatabaseService.wasteService.UpdateWaste(UserSessionService.Account.AccountId, Type, Convert.ToDouble(Weight));
-            Debug.WriteLine($"Done");
+            MessageBox.Show($"Edit Waste Success", "Edit Waste Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
+
         }
         else
         {
-            Debug.WriteLine($"Entering Edit Mode: Type = {Type}, Weight = {Weight}");
         }
     }
 
     private void Delete(object obj)
     {
         DatabaseService.wasteService.DeleteWaste(UserSessionService.Account.AccountId, Type);
+        MessageBox.Show($"Delete Waste Success", "Delete Waste Succeed", MessageBoxButton.OK, MessageBoxImage.Information);
         _viewModel.LoadWaste();
     }
 }
