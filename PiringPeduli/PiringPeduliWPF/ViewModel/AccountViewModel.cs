@@ -22,6 +22,7 @@ namespace PiringPeduliWPF.ViewModel
         private string _address;
         private string _accounttype;
         private ObservableCollection<Order> _orders;
+        private ObservableCollection<Order> _filteredOrders;
 
         public string Username
         {
@@ -64,24 +65,83 @@ namespace PiringPeduliWPF.ViewModel
             }
         }
 
+        public ObservableCollection<Order> FilteredOrders
+        {
+            get => _filteredOrders;
+            set
+            {
+                _filteredOrders = value;
+                OnPropertyChanged(nameof(FilteredOrders));
+            }
+        }
+
         public AccountViewModel()
         {
             _orders = new ObservableCollection<Order>();
+            _filteredOrders = new ObservableCollection<Order>();
             Username = UserSessionService.Account.Username;
             accountType = UserSessionService.Account.Type.ToString();
             LoadOrder();
+            FilterOrder();
         }
 
 
         private void LoadOrder()
         {
-            var orders = DatabaseService.orderService.GetOrderById(UserSessionService.Account.AccountId);
+            var orders = DatabaseService.orderService.GetOrder();
 
             Orders.Clear();
 
             foreach (var order in orders)
             {
                 Orders.Add(order);
+            }
+        }
+
+        public void FilterOrder()
+        {
+            // Clear the filtered collection
+            FilteredOrders.Clear();
+
+            if(UserSessionService.Account.Type == AccountType.Customer)
+            {
+                // Filter based on the selected waste type
+                var filtered = Orders.Where(order => order.Source == UserSessionService.Account.AccountId);
+
+                foreach (var order in filtered)
+                {
+                    FilteredOrders.Add(order);
+                }
+            }
+            else if (UserSessionService.Account.Type == AccountType.Recycler)
+            {
+                // Filter based on the selected waste type
+                var filtered = Orders.Where(order => order.Destination == UserSessionService.Account.AccountId);
+
+                foreach (var order in filtered)
+                {
+                    FilteredOrders.Add(order);
+                }
+            }
+            else if (UserSessionService.Account.Type == AccountType.TemporaryStorage)
+            {
+                // Filter based on the selected waste type
+                var filtered = Orders.Where(order => order.Destination == UserSessionService.Account.AccountId || order.Source == UserSessionService.Account.AccountId);
+
+                foreach (var order in filtered)
+                {
+                    FilteredOrders.Add(order);
+                }
+            }
+            else if (UserSessionService.Account.Type == AccountType.Courier)
+            {
+                // Filter based on the selected waste type
+                var filtered = Orders.Where(order => order.Courier == UserSessionService.Account.AccountId);
+
+                foreach (var order in filtered)
+                {
+                    FilteredOrders.Add(order);
+                }
             }
         }
     }

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:comp="clr-namespace:PiringPeduliWPF.View.Component"
              xmlns:local="clr-namespace:PiringPeduliWPF.View.UserControls"
              xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
              mc:Ignorable="d" 
@@ -10,11 +11,12 @@
              Background="White">
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.05*"/>
             <RowDefinition Height="0.4*"/>
+            <RowDefinition Height="0.12*"/>
             <RowDefinition Height="0.4*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Available Order"
+        <TextBlock Text="{Binding HeaderTitle}"
                    FontFamily="Gilroy"
                    FontSize="28"
                    FontWeight="SemiBold"
@@ -29,13 +31,71 @@
                Center="-7.771317095452585, 110.37772145337762"
                ZoomLevel="13"
                Margin="2"
-               />
+               >
+                    <m:MapLayer x:Name="PinLayer" />
+                </m:Map>
             </Border>
         </Viewbox>
-        
 
-        <ScrollViewer Grid.Row="2">
-            <StackPanel Grid.Row="2" Name="OrderList" Margin="5"/>
+        <Grid Margin="3" Grid.Row="2" Height="100">
+            <Border BorderBrush="Gray" Background="White" CornerRadius="10" Height="50">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.2*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="From" 
+           Grid.Column="0"
+           HorizontalAlignment="Center"
+           VerticalAlignment="Center"
+           FontFamily="Gilroy"
+           FontSize="14" 
+           FontWeight="Normal"
+           TextAlignment="Center"
+           TextWrapping="Wrap"/>
+                    <TextBlock Text="Ukuran"
+           Grid.Column="1"
+           FontSize="14"
+           FontFamily="Gilroy"
+           FontWeight="Normal"
+           HorizontalAlignment="Center"
+           VerticalAlignment="Center"/>
+                    <ScrollViewer Grid.Column="2">
+                        <TextBlock Text="Deskripsi"
+               FontSize="14"
+               FontFamily="Gilroy"
+               FontWeight="Normal"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               TextAlignment="Center"
+               TextWrapping="Wrap"/>
+                    </ScrollViewer>
+
+                    <TextBlock Text="Tujuan"
+           Grid.Column="3"
+           FontFamily="Gilroy"
+           FontWeight="Normal"
+           FontSize="14"
+           HorizontalAlignment="Center"
+           VerticalAlignment="Center"
+           TextAlignment="Center"
+           TextWrapping="NoWrap"
+           TextTrimming="CharacterEllipsis"/>
+                </Grid>
+            </Border>
+        </Grid>
+        <ScrollViewer Grid.Row="3" VerticalAlignment="Top">
+            <ItemsControl ItemsSource="{Binding Orders}" Margin="5">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <comp:CourierContainer />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
     </Grid>
 </UserControl>

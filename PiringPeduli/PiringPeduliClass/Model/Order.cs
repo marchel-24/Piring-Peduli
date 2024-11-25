@@ -13,7 +13,7 @@ namespace PiringPeduliClass.Model
     /// <summary>
     /// Enumeration for types of accounts
     /// </summary>
-    public enum Size
+    public enum Sizes
     {
         Small,
         Medium,
@@ -27,13 +27,16 @@ namespace PiringPeduliClass.Model
     {
         private int orderId;
         private StatusType status;
-        private Size size;
+        private Sizes size;
         private int sourceAccountId;
         private int destinationAccountId;
         private int? courierAccountId;
         private string description;
         private string sourceAddress;
+        private string sourceName;
         private string destinationAddress;
+        private string destinationName;
+        private double quantity;
 
         /// <summary>
         /// Gets or sets the order's ID.
@@ -86,7 +89,13 @@ namespace PiringPeduliClass.Model
             set { description = value; }
         }
 
-        public Size Size
+        public double Quantity
+        {
+            get { return quantity; }
+            set { quantity = value; }
+        }
+
+        public Sizes Size
         {
             get { return size; }
             set { size = value; }
@@ -101,6 +110,12 @@ namespace PiringPeduliClass.Model
             set { sourceAddress = value; }
         }
 
+        public string SourceName
+        {
+            get { return sourceName; }
+            set { sourceName = value; }
+        }
+
         /// <summary>
         /// Gets or sets the destination location of the order.
         /// </summary>
@@ -108,6 +123,15 @@ namespace PiringPeduliClass.Model
         {
             get { return destinationAddress; }
             set { destinationAddress = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the destination location of the order.
+        /// </summary>
+        public string DestinationName
+        {
+            get { return destinationName; }
+            set { destinationName = value; }
         }
 
         /// <summary>

@@ -13,31 +13,60 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="{Binding TypeSorted}" 
+                <TextBlock Text="{Binding WasteType}" 
                    FontSize="16" 
                    VerticalAlignment="Center" 
                    HorizontalAlignment="Left"/>
-                <TextBlock Text="{Binding Size}" 
+                <TextBlock Text="{Binding Quantity}" 
                    Grid.Column="1" 
                    FontSize="16" 
                    VerticalAlignment="Center" 
                    HorizontalAlignment="Left"/>
-                <TextBlock Text="{Binding Address}"
+                <TextBlock Text="{Binding StorageName}"
                    Grid.Column="2"
                    FontSize="16"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Left"/>
-                <Button Grid.Column="3"
+                <Border BorderThickness="1"
+                        BorderBrush="LightGray"
+                        Background="White"
+                        CornerRadius="5"
+                        Grid.Column="3"
+                        Name="BoxBerat"
+                        Height="30"
+                        Width="auto">
+                    <TextBox x:Name="QuantityBox"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"
+                             VerticalContentAlignment="Top"
+                             HorizontalContentAlignment="Center"
+                             Height="Auto"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             Foreground="Gray"
+                             Text="{Binding SelectQuantity}"
+                             FontFamily="Gilroy"
+                             FontWeight="Normal"
+                             Margin="3" LostFocus="QuantityBox_LostFocus" 
+                             GotFocus="QuantitiyBox_GotFocus"
+                             PreviewTextInput="NumberOnlyTextBox_PreviewTextInput"
+                    />
+                </Border>
+                <Button Grid.Column="4"
                 Width="120"
                 Height="40"
                 Content="Order"
                 Background="Green"
                 Foreground="White"
                 VerticalAlignment="Center"
-                HorizontalAlignment="Center"/>
+                HorizontalAlignment="Center"
+                Margin="5"
+                Command="{Binding DataContext.OrderCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                CommandParameter="{Binding}"/>
             </Grid>
         </Border>
     </Grid>

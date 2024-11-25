@@ -78,7 +78,7 @@ namespace PiringPeduliWPF.ViewModel
             }
             else if (UserSessionService.Account.Type == AccountType.Recycler)
             {
-                CurrentChildView = new RecyclerViewViewModel();
+                CurrentChildView = new RecyclerViewModel();
             }
         }
 

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PiringPeduliWPF.View.UserControls"
+             xmlns:comp="clr-namespace:PiringPeduliWPF.View.Component"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="White">
@@ -23,7 +24,8 @@
                       HorizontalAlignment="Left"
                       Height="30"
                       Width="200"
-                      VerticalContentAlignment="Center">
+                      VerticalContentAlignment="Center"
+                      ItemsSource="{Binding WasteType}" SelectionChanged="QuestionComboBox_SelectionChanged">
                 <ComboBox.Style>
                     <Style TargetType="ComboBox">
                         <Setter Property="Template">
@@ -80,18 +82,19 @@
                         </Setter>
                     </Style>
                 </ComboBox.Style>
-
-                <!-- ComboBox Items -->
-                <ComboBoxItem Content="Liquid"/>
-                <ComboBoxItem Content="Meat"/>
-                <ComboBoxItem Content="Other"/>
-                <ComboBoxItem Content="Leaves"/>
             </ComboBox>
         </Viewbox>
         
 
         <!-- StackPanel -->
-        <StackPanel Margin="10" Grid.Row="1" Name="SortedList">
-        </StackPanel>
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding FilteredSortedWaste}" Margin="5">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <comp:RecyclerContainer />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </UserControl>
